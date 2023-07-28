@@ -4,3 +4,4 @@
 NB : d'abord raisonner en "réel", puis traduire en "POO". Commencer par book, puis faire category, puis faire manager'''
 
 url = "www.books.toscrape.com"
+
