@@ -3,6 +3,8 @@
 import requests
 from bs4 import BeautifulSoup
 
+url = "https://books.toscrape.com/"
+
 class Book:
     """Instancie la classe Livre."""
 
@@ -50,7 +52,6 @@ class Book:
             review_rating,
             image_url,
         ]
-            
-url = "https://books.toscrape.com/"
+
 book = Book()
 """TEST. Crée un objet book dans la classe Book. ATTENTION : c'est dans Category que seront créés automatiquement les objets book"""
