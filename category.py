@@ -2,7 +2,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-from fichiers_projet2.scrape_book import scrape
+from book import Book
 from pathlib import Path
 from csv import writer
 
@@ -11,69 +11,41 @@ class Category:
 
     def __init__(self, url):
         """Initialise les attributs de la catégorie : elle existe et elle contient des livres."""
+        print("Initializing class.")
         self.url = url
         self.books = []
-
-    '''Instituer une boucle for'''
-    for book in self.books:
-        book.universal_product_code
-        book.title
-        book.url
-        book.price_including_tax
-        book.price_excluding_tax
-        book.number_available
-        book.category
-        book.review_rating
-        book.image_url
-
-    '''Appelle la méthode "get URL"'''
-    for url in urls:
-        book = Book(url)
-        book.scrape()
-        self.books.append(book)
+        print("Class initialized successfully.")
 
     def scrape_category(self):
-        """Scrape les données d'une catégorie. REMPLIR SELF.BOOKS AVEC AUTANT D'INSTANCES DE BOOKS QU'IL Y A DANS CETTE CATEGORIE"""
+        """Scrape les données d'une catégorie."""
+        print("Starting scraping category data.")
         '''Declare empty list'''
-        books = []
+        books_url = []
         '''Create Soup object that will be parsed'''
-        response = requests.get(url)
+        response = requests.get(self.url)
         '''Parse the page'''
         soup = BeautifulSoup(response.content, "html.parser")
-        books += soup.find_all("article", {"class": "product_pod"})
+        books_url += soup.find_all("article", {"class": "product_pod"})
         '''Parse the next pages'''
         while soup.find("li", {"class": "next"}):
             next_url = soup.find("li", {"class": "next"}).find("a").get("href")
-            url = "/".join(url.split("/")[:-1]) + "/" + next_url
+            url = "/".join(self.url.split("/")[:-1]) + "/" + next_url
             response = requests.get(url)
             soup = BeautifulSoup(response.content, "html.parser")
-            books += soup.find_all("article", {"class": "product_pod"})
+            books_url += soup.find_all("article", {"class": "product_pod"})
             break
-        values = []
-        for link in books:
+        for link in books_url:
             url = link.find("a").get("href")
             target_url = "https://books.toscrape.com/catalogue/" + url.replace("../../../", "")
-            values.append(scrape(target_url))
-        return values
+            book = Book(target_url)
+            book.scrape()
+            self.books.append(book)
+        print("Category data scraped successfully.")
 
-    def extract_categories_url(url):
-        '''Importe les URLs des livres de la catégorie'''
-        # '''Declare empty list'''
-        # categories_urls = []
-        '''Create Soup object that will be parsed'''
-        response = requests.get(url)
-        '''Parse the page'''
-        soup = BeautifulSoup(response.content, "html.parser")
-        '''Find the sidebar element'''
-        sidebar = soup.find("div", class_="side_categories")
-        '''Find all the category links except the first link ("all books")'''
-        category_links = sidebar.find_all("a")[1:]
-        '''Extract the absolute URLs from the category links'''
-        absolute_links = [urljoin(url, link["href"]) for link in category_links]
-        '''Return the absolute links'''
-        return absolute_links
-
-    HEADER = [
+    """Crée un répertoire de destination, puis génère un fichier CSV et l'y enregistre"""
+    def generate_csv(self, filename="data.csv"):
+        print("generating CSV.")
+        HEADER = [
         "product_page_url",
         "universal_product_code",
         "title",
@@ -84,23 +56,24 @@ class Category:
         "category",
         "review_rating",
         "image_url",
-    ]
-    CATEGORY_INDEX = 7
-
-    """Génère un fichier CSV et l'enregistre dans le répertoire idoine"""
-    def generate_csv(values, filename="data.csv"):
+        ]
         base_directory = Path("output_files")
-        directory = base_directory / values[0][CATEGORY_INDEX]
+        directory = base_directory / self.books[0].category
         directory.mkdir(parents=True, exist_ok=True)
         file_path = directory / filename
         with open(file_path, "w", buffering=-1) as csvfile:
             csv_writer = writer(csvfile)
             csv_writer.writerow(HEADER)
-            csv_writer.writerows(values)
+            '''Créer une boucle pour chaque row (indiquer une liste). 
+            -- DONE. Dans book: avoir une méthode qui retourne toutes les données dans une liste (dans l'ordre exact demandé par HEADER)
+            -- DONE. Créer dans book un def getbookonlist(self), qui va créer une liste'''
+            for book in self.books:
+                csv_writer.writerow(book.return_data_as_list())
         return ()
+    print("csv generated successfully.")
 
     def download(self, upc, url, category):
-        """Crée des répertoires de destination"""
+        """Crée des répertoires de destination pour les images"""
         images_directory = Path("output_files") / category / "images"
         images_directory.mkdir(parents=True, exist_ok=True)
         response = requests.get(url)
@@ -111,8 +84,8 @@ class Category:
                 print(f"Image '{upc}' downloaded successfully.")
         else:
             print("Error")        
-    
-    def download_category_images(values):
+
+    def download_category_images(self, values):
         '''Enregistre les images des couvertures des livres'''
         category_name = values[0][7]
         for book_data in values:
@@ -120,8 +93,12 @@ class Category:
             upc = book_data[1]
             full_image_url = image_url.replace("../../", "https://books.toscrape.com/")
             print(full_image_url)
-            download(upc, full_image_url, category_name)
+            self.download(upc, full_image_url, category_name)
+            
 
 
-category = Category()
+category = Category("https://books.toscrape.com/catalogue/category/books/nonfiction_13/index.html")
 '''Crée un objet category dans la classe Category'''
+
+category.scrape_category()
+category.generate_csv()

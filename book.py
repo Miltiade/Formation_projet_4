@@ -43,7 +43,7 @@ class Book:
         self.image_url = book.find("img").attrs["src"]
         print("Book data scraped successfully.")
 
-    def methode_qui_retourne_toutes_les_donnees_scrapees_dans_une_liste(self):
+    def return_data_as_list(self):
         '''méthode qui retourne toutes les données dans une liste (dans l'ordre exact demandé par HEADER)'''
         scraped_data_list = [
         self.product_page_url,
@@ -59,6 +59,6 @@ class Book:
         return scraped_data_list
     print("Returning scraped data as list.")
 
-book = Book("https://books.toscrape.com/catalogue/worlds-elsewhere-journeys-around-shakespeares-globe_972/index.html")
-book.scrape()
-print(book.methode_qui_retourne_toutes_les_donnees_scrapees_dans_une_liste())
+# book = Book("https://books.toscrape.com/catalogue/worlds-elsewhere-journeys-around-shakespeares-globe_972/index.html")
+# book.scrape()
+# print(book.return_data_as_list())
