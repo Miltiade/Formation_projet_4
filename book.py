@@ -8,6 +8,7 @@ class Book:
 
     def __init__(self, url):
         """Initialise l'état de la classe : son existence, et les caractéristiques à scraper."""
+        print("Initializing class.")
         self.url = url
         self.product_page_url = None
         self.universal_product_code = None
@@ -19,9 +20,11 @@ class Book:
         self.category = None
         self.review_rating = None
         self.image_url = None
+        print("Class initialized successfully.")
         
     def scrape(self):
         """Scrape les données du livre"""
+        print("Scraping book data.")
         response = requests.get(self.url)
         book = BeautifulSoup(response.content, "html.parser")
         self.universal_product_code = (
@@ -38,3 +41,24 @@ class Book:
         self.category = book.find_all("a")[3].text
         self.review_rating = div.find("p", class_="star-rating").attrs["class"][1]
         self.image_url = book.find("img").attrs["src"]
+        print("Book data scraped successfully.")
+
+    def methode_qui_retourne_toutes_les_donnees_scrapees_dans_une_liste(self):
+        '''méthode qui retourne toutes les données dans une liste (dans l'ordre exact demandé par HEADER)'''
+        scraped_data_list = [
+        self.product_page_url,
+        self.universal_product_code,
+        self.title,
+        self.price_including_tax,
+        self.price_excluding_tax,
+        self.number_available,
+        self.product_description,
+        self.category,
+        self.review_rating,
+        self.image_url]
+        return scraped_data_list
+    print("Returning scraped data as list.")
+
+book = Book("https://books.toscrape.com/catalogue/worlds-elsewhere-journeys-around-shakespeares-globe_972/index.html")
+book.scrape()
+print(book.methode_qui_retourne_toutes_les_donnees_scrapees_dans_une_liste())
