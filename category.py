@@ -72,8 +72,8 @@ class Category:
         return ()
     print("csv generated successfully.")
 
-    def download(self, upc, url, category):
-        """Crée des répertoires de destination pour les images"""
+    """Crée des répertoires de destination pour les images"""
+    def create_path(self, upc, url, category):
         images_directory = Path("output_files") / category / "images"
         images_directory.mkdir(parents=True, exist_ok=True)
         response = requests.get(url)
@@ -101,4 +101,5 @@ category = Category("https://books.toscrape.com/catalogue/category/books/nonfict
 '''Crée un objet category dans la classe Category'''
 
 category.scrape_category()
-category.generate_csv()
+# category.generate_csv()
+category.download(())
