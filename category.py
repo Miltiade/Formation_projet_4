@@ -13,6 +13,8 @@ class Category:
         """Initialise les attributs de la catégorie : elle existe et elle contient des livres."""
         print("Initializing class.")
         self.url = url
+        self.name = "Unknown Category"
+        self.images_directory = None
         self.books = []
         print("Class initialized successfully.")
 
@@ -20,21 +22,22 @@ class Category:
         """Scrape les données d'une catégorie."""
         print("Starting scraping category data.")
         '''Declare empty list'''
-        books_url = []
+        self.books_url = []
         '''Create Soup object that will be parsed'''
         response = requests.get(self.url)
         '''Parse the page'''
-        soup = BeautifulSoup(response.content, "html.parser")
-        books_url += soup.find_all("article", {"class": "product_pod"})
+        soup = BeautifulSoup(response.content, "html.parser")       
+        self.name = soup.find("h1").text
+        self.books_url += soup.find_all("article", {"class": "product_pod"})
         '''Parse the next pages'''
         while soup.find("li", {"class": "next"}):
             next_url = soup.find("li", {"class": "next"}).find("a").get("href")
             url = "/".join(self.url.split("/")[:-1]) + "/" + next_url
             response = requests.get(url)
             soup = BeautifulSoup(response.content, "html.parser")
-            books_url += soup.find_all("article", {"class": "product_pod"})
+            self.books_url += soup.find_all("article", {"class": "product_pod"})
             break
-        for link in books_url:
+        for link in self.books_url:
             url = link.find("a").get("href")
             target_url = "https://books.toscrape.com/catalogue/" + url.replace("../../../", "")
             book = Book(target_url)
@@ -73,33 +76,37 @@ class Category:
     print("csv generated successfully.")
 
     """Crée des répertoires de destination pour les images"""
-    def create_path(self, upc, url, category):
-        images_directory = Path("output_files") / category / "images"
-        images_directory.mkdir(parents=True, exist_ok=True)
+    def create_path(self):
+        self.images_directory = Path("output_files") / self.name / "images"
+        self.images_directory.mkdir(parents=True, exist_ok=True)       
+
+    def download(self, upc, url):
+        # Génère une vraie erreur
+        # if self.images_directory == None :            
+        #         raise ValueError("Image directory is not created")
+
         response = requests.get(url)
         if response.ok:
-            file_path = images_directory / upc
+            file_path = self.images_directory / upc
             with open(f"{file_path}.jpg", "wb") as file:
                 file.write(response.content)
                 print(f"Image '{upc}' downloaded successfully.")
         else:
-            print("Error")        
+            print("Error downloading image '{upc}'")
 
-    def download_category_images(self, values):
+    def download_category_images(self):
         '''Enregistre les images des couvertures des livres'''
-        category_name = values[0][7]
-        for book_data in values:
-            image_url = book_data[9]
-            upc = book_data[1]
+        for book_data in self.books:
+            image_url = book_data.image_url
+            upc = book_data.universal_product_code
             full_image_url = image_url.replace("../../", "https://books.toscrape.com/")
             print(full_image_url)
-            self.download(upc, full_image_url, category_name)
-            
+            self.download(upc, full_image_url)
 
-
-category = Category("https://books.toscrape.com/catalogue/category/books/nonfiction_13/index.html")
+category = Category("https://books.toscrape.com/catalogue/category/books/new-adult_20/index.html")
 '''Crée un objet category dans la classe Category'''
 
 category.scrape_category()
-# category.generate_csv()
-category.download(())
+category.generate_csv()
+category.create_path()
+category.download_category_images()
