@@ -103,6 +103,13 @@ class Category:
             print(full_image_url)
             self.download(upc, full_image_url)
 
+    '''MAIN_CATEGORY: a function that combines all tasks above: scraping, generating CSV, downloading image files'''
+    def main_single_category(url):
+        print("Scraping category : " + url)
+        result = category.scrape_category(url)
+        category.generate_csv(result)
+        category.download_category_images(result)
+
 category = Category("https://books.toscrape.com/catalogue/category/books/new-adult_20/index.html")
 '''Crée un objet category dans la classe Category'''
 
