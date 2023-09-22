@@ -1,0 +1,5 @@
+#from controler.tournament_controler import TournamentControler
+tournamentControler = TournamentControler()
+tournamentControler.create_new_tournament()
+tournamentControler.print_player()
+tournamentControler.run_first_round()
