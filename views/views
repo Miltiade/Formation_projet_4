@@ -27,3 +27,14 @@ def print_match_result(match):
 
 def error_message(message):
     print(message)
+
+# POSSIBLE VIEWS:
+#     main_menu_view.py: Contains the Main Menu View.
+#     player_management_view.py: Contains the Player Management View.
+#     tournament_creation_view.py: Contains the Tournament Creation View.
+#     tournament_details_view.py: Contains the Tournament Details View.
+#     round_details_view.py: Contains the Round Details View.
+#     match_details_view.py: Contains the Match Details View.
+#     reports_view.py: Contains the Reports View.
+#     save_load_view.py: Contains the Save/Load Data View.
+#     error_notification_view.py: Contains the Error/Notification View.
