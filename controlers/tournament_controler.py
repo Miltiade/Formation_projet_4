@@ -1,4 +1,7 @@
-#from model.tournament import Tournament
+import Formation_projet_4.models.models #POURQUOI CA NE MARCHE PAS?
+from models.models import Player,Tournament,Round
+import Formation_projet_4.views.views #POURQUOI CA NE MARCHE PAS?
+
 
 players = [Player("Ranga", 34), Player("Grégory", 12), Player("Jean-Marie", 3), Player("toto", 100)]
 
