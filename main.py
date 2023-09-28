@@ -1,4 +1,4 @@
-#from controler.tournament_controler import TournamentControler
+from controlers.tournament_controler import TournamentControler
 tournamentControler = TournamentControler()
 tournamentControler.create_new_tournament()
 tournamentControler.print_player()
