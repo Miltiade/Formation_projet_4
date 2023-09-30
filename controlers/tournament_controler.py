@@ -1,32 +1,34 @@
-import Formation_projet_4.models.models #POURQUOI CA NE MARCHE PAS?
-from models.models import Player,Tournament,Round
-import Formation_projet_4.views.views #POURQUOI CA NE MARCHE PAS?
+import models.models as models
+import views.views as views
 
+########### NB: REVISER __init__.py ET LES IMPORTS EN PYTHON ##############
 
-players = [Player("Ranga", 34), Player("Grégory", 12), Player("Jean-Marie", 3), Player("toto", 100)]
+# players = [Player("Ranga", 34), Player("Grégory", 12), Player("Jean-Marie", 3), Player("toto", 100)]
 
 class TournamentControler:
     def __init__(self):
         self.tournament = None
 
     def create_new_tournament(self):
-        name, time_control = get_tournament_info()
         name = self.get_letters("Enter the tournament name : ")
         time_control = self.get_time_control()
-        self.tournament = Tournament(name, time_control)
+        self.tournament = models.Tournament(name, time_control) 
+        #################### L'UTILISATEUR DOIT SAISIR LES AUTRES DONNEES #######################
         # self.tournament = Tournament("Paris", "Bullet")
-        """for i in range(2):
+        """for i in range(8):
             name, elo = get_player_info()
             player = Player(name, elo)
             self.tournament.add_player(player)"""
-        self.tournament.players = players
+        # self.tournament.players = players
 
     def get_letters(self, message):
-        word = get_user_input(message)
+        word = views.get_user_input(message)
         while not word.isalpha():
-            error_message("Error de saisie : Entrez simplement des lettres")
+            error_message("Erreur de saisie : Entrez uniquement des lettres")
             word = get_user_input(message)
         return word
+
+    def get_numbers ########## L'UTILISATEUR DOIT SAISIR... ###########
 
     def get_time_control(self):
         message = "Enter time control (Bullet/Splitz/Quick) : "
@@ -40,7 +42,7 @@ class TournamentControler:
         print_player(self.tournament.players)
         
     def run_first_round(self):
-        #algorithme pour créer les premier round
+        #algorithme pour créer les premiers rounds
         self.tournament.players.sort(key = lambda x : x.elo)
         round1 = Round("1")
         self.tournament.add_round(round1)
