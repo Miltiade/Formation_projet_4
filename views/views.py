@@ -1,3 +1,5 @@
+##### FAIRE 1 TOURNAMENT VIEW, 1 ROUND VIEW, 1 MATCH VIEW, ET 1 PLAYER VIEW #######
+
 def get_tournament_info():
     name = input("Enter the tournament name : ")
     time_control = input("Enter time control (Bullet/Splitz/Quick) : ")
