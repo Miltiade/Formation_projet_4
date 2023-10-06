@@ -1,5 +1,5 @@
-import models.models as models
-import views.views as views
+from models import model_match,model_player,model_round,model_tournament
+from views import match_view,player_view,round_view,tournament_view
 
 ########### NB: REVISER __init__.py ET LES IMPORTS EN PYTHON ##############
 
@@ -10,11 +10,17 @@ class TournamentControler:
         self.tournament = None
 
     def create_new_tournament(self):
-        name = self.get_letters("Enter the tournament name : ")
+        name = self.get_letters("Enter the tournament's name : ")
         time_control = self.get_time_control()
-        self.tournament = models.Tournament(name, time_control) 
-        #################### L'UTILISATEUR DOIT SAISIR LES AUTRES DONNEES #######################
-        # self.tournament = Tournament("Paris", "Bullet")
+        self.tournament = model_tournament.Tournament(name, time_control)
+        self.ine = self.get_ine()
+        self.start_date = self.get_date("Enter the tournament's start date : ")
+        self.end_date = self.get_date("Enter the tournament's end date : ")
+        self.number_round = self.get_numbers("How many rounds this tournament will have? Enter a number: ")
+        self.description = self.get_letters("Enter a description or comment of this tournament (optional): ")
+        self.time_control = time_control
+        self.players = []
+        self.rounds = []
         """for i in range(8):
             name, elo = get_player_info()
             player = Player(name, elo)
@@ -22,42 +28,62 @@ class TournamentControler:
         # self.tournament.players = players
 
     def get_letters(self, message):
-        word = views.get_user_input(message)
+        word = tournament_view.get_user_input(message)
         while not word.isalpha():
-            error_message("Erreur de saisie : Entrez uniquement des lettres")
-            word = get_user_input(message)
+            tournament_view.error_message("Erreur de saisie : Entrez uniquement des lettres")
+            word = tournament_view.get_user_input(message)
         return word
-
-    def get_numbers ########## L'UTILISATEUR DOIT SAISIR... ###########
 
     def get_time_control(self):
         message = "Enter time control (Bullet/Splitz/Quick) : "
-        time_control = get_user_input(message)
+        time_control = tournament_view.get_user_input(message)
         while not time_control.lower() in ["bullet", "splitz", "quick"]:
-            error_message("Error de saisie : Entrez un time controle valide")
-            time_control = get_user_input(message)
+            tournament_view.error_message("Error de saisie : Entrez un time controle valide")
+            time_control = tournament_view.get_user_input(message)
         return time_control
-            
+
+    def get_ine(self):
+        message = "Enter the club's INE: "
+        ine = tournament_view.get_user_input(message)
+        while ine != "AB12345":
+            tournament_view.error_message("Erreur de saisie : ceci n'est pas l'INE du club. Réessayez.")
+            ine = tournament_view.get_user_input(message)
+        return ine
+
+    def get_date(self,message):
+        date = tournament_view.get_user_input(message)
+        while not date.isdecimal() and not date.__len__(8): # tant que la date saisie n'est pas un nombre et qu'elle n'est pas un string de 8 caractères
+            tournament_view.error_message("Erreur de saisie : Entrez une date au format JJMMAAAA")
+            date = tournament_view.get_user_input(message)
+        return date
+
+    def get_numbers(self,message):
+        number = tournament_view.get_user_input(message)
+        while not number.isnumeric():
+            tournament_view.error_message("Erreur de saisie : Entrez uniquement un nombre")
+            number = tournament_view.get_user_input(message)
+        return number
+
     def print_player(self):
-        print_player(self.tournament.players)
+        player_view.print_player(self.tournament.players)
         
-    def run_first_round(self):
-        #algorithme pour créer les premiers rounds
-        self.tournament.players.sort(key = lambda x : x.elo)
-        round1 = Round("1")
-        self.tournament.add_round(round1)
-        for i in range(2):
-            round1.add_match(self.tournament.players[i], self.tournament.players[2 + i])
+    # def run_first_round(self):
+    #     #algorithme pour créer les premiers rounds
+    #     self.tournament.players.sort(key = lambda x : x.elo)
+    #     round1 = model_round.Round("1")
+    #     self.tournament.add_round(round1)
+    #     for i in range(2):
+    #         round1.add_match(self.tournament.players[i], self.tournament.players[2 + i])
             
-        for match in self.tournament.rounds[0].matchs:
-            """print(match.player1)
-            print(match.player2)"""
-            match.score_player1, match.score_player2 = self.handle_score()
-            print_match_result(match)
+    #     for match in self.tournament.rounds[0].matchs:
+    #         """print(match.player1)
+    #         print(match.player2)"""
+    #         match.score_player1, match.score_player2 = self.handle_score()
+    #         match_view.print_match_result(match)
             
             
     def handle_score(self):
-        score = enter_score()
+        score = match_view.enter_score()
         if(score == "1"):
             return 1,0
         elif(score == "2"):
