@@ -1,9 +1,15 @@
-from models import model_match,model_player,model_round,model_tournament
-from views import match_view,player_view,round_view,tournament_view
+from models import model_tournament,model_round,model_match,model_player
+from views import tournament_view,round_view,match_view,player_view
 
-########### NB: REVISER __init__.py ET LES IMPORTS EN PYTHON ##############
-
-# players = [Player("Ranga", 34), Player("Grégory", 12), Player("Jean-Marie", 3), Player("toto", 100)]
+# players = [
+#     model_player.Player("Ranga", 34),
+#     model_player.Player("Grégory", 12),
+#     model_player.Player("Jean-Marie", 3),
+#     model_player.Player("toto", 100),
+#     model_player.Player("John", 4),
+#     model_player.Player("Rita", 15),
+#     model_player.Player("Severus", 56),
+#     model_player.Player("Padfoot", 50)]
 
 class TournamentControler:
     def __init__(self):
@@ -11,21 +17,19 @@ class TournamentControler:
 
     def create_new_tournament(self):
         name = self.get_letters("Enter the tournament's name : ")
+        place = self.get_letters("Enter the tournament's place :")
+        start_date = self.get_date("Enter the tournament's start date : ")
+        end_date = self.get_date("Enter the tournament's end date : ")
         time_control = self.get_time_control()
-        self.tournament = model_tournament.Tournament(name, time_control)
-        self.ine = self.get_ine()
-        self.start_date = self.get_date("Enter the tournament's start date : ")
-        self.end_date = self.get_date("Enter the tournament's end date : ")
-        self.number_round = self.get_numbers("How many rounds this tournament will have? Enter a number: ")
-        self.description = self.get_letters("Enter a description or comment of this tournament (optional): ")
-        self.time_control = time_control
-        self.players = []
-        self.rounds = []
-        """for i in range(8):
-            name, elo = get_player_info()
-            player = Player(name, elo)
-            self.tournament.add_player(player)"""
-        # self.tournament.players = players
+        description = self.get_letters("Enter a description or comment of this tournament (optional): ")
+        number_round = self.get_numbers("How many rounds this tournament will have? Enter a number: ")
+        print("Before initializing the tournament")  # Debugging print
+        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, number_round)
+        print(self.tournament)  # Debugging print
+        for i in range(8):
+            name, elo = player_view.get_player_info()
+            player = model_player.Player(name, elo)
+            self.tournament.add_player(player)
 
     def get_letters(self, message):
         word = tournament_view.get_user_input(message)
@@ -41,14 +45,6 @@ class TournamentControler:
             tournament_view.error_message("Error de saisie : Entrez un time controle valide")
             time_control = tournament_view.get_user_input(message)
         return time_control
-
-    def get_ine(self):
-        message = "Enter the club's INE: "
-        ine = tournament_view.get_user_input(message)
-        while ine != "AB12345":
-            tournament_view.error_message("Erreur de saisie : ceci n'est pas l'INE du club. Réessayez.")
-            ine = tournament_view.get_user_input(message)
-        return ine
 
     def get_date(self,message):
         date = tournament_view.get_user_input(message)
@@ -90,3 +86,12 @@ class TournamentControler:
             return 0,1
         else:
             return 0.5,0.5
+        
+    # def get_ine(self):
+    #     message = "Enter the club's INE: "
+    #     ine = tournament_view.get_user_input(message)
+    #     while ine != "AB12345":
+    #         tournament_view.error_message("Erreur de saisie : ceci n'est pas l'INE du club. Réessayez.")
+    #         ine = tournament_view.get_user_input(message)
+    #     return ine
+
