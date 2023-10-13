@@ -75,14 +75,15 @@ class TournamentControler:
         self.tournament.players.sort(key = lambda x : x.elo)
         round1 = model_round.Round("1")
         self.tournament.add_round(round1)
-        for i in range(2):
-            round1.add_match(self.tournament.players[i], self.tournament.players[2 + i])
+        for i in range(4):
+            match = model_match.Match(self.tournament.players[i], self.tournament.players[4 + i])
+            round1.add_match(match)
             
-    #     for match in self.tournament.rounds[0].matchs:
-    #         """print(match.player1)
-    #         print(match.player2)"""
-    #         match.score_player1, match.score_player2 = self.handle_score()
-    #         match_view.print_match_result(match)
+        for match in self.tournament.rounds[0].matchs:
+            """print(match.player1)
+            print(match.player2)"""
+            match.score_player1, match.score_player2 = self.handle_score()
+            match_view.print_match_result(match)
 
     # def handle_score(self):
     #     score = match_view.enter_score()
