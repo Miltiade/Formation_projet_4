@@ -1,6 +1,6 @@
+
 from models import model_tournament,model_round,model_match,model_player
 from views import tournament_view,round_view,match_view,player_view
-
 
 class TournamentControler:
     def __init__(self):
@@ -20,15 +20,6 @@ class TournamentControler:
         end_date = "02-01-2023"
         time_control = "Bullet"
         description = "random"
-        players = [
-        model_player.Player("Ranga", 34),
-        model_player.Player("Grégory", 12),
-        model_player.Player("Jean-Marie", 3),
-        model_player.Player("toto", 100),
-        model_player.Player("John", 4),
-        model_player.Player("Rita", 15),
-        model_player.Player("Severus", 56),
-        model_player.Player("Padfoot", 50)]
         number_round = 4
         print("Before initializing the tournament")  # Debugging print
         self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, number_round)
@@ -37,6 +28,15 @@ class TournamentControler:
         #     name, elo = player_view.get_player_info()
         #     player = model_player.Player(name, elo)
         #     self.tournament.add_player(player)
+        self.tournament.players = [
+            model_player.Player("Ranga", 34),
+            model_player.Player("Grégory", 12),
+            model_player.Player("Jean-Marie", 3),
+            model_player.Player("toto", 100),
+            model_player.Player("John", 4),
+            model_player.Player("Rita", 15),
+            model_player.Player("Severus", 56),
+            model_player.Player("Padfoot", 50)]
 
     def get_letters(self, message):
         word = tournament_view.get_user_input(message)

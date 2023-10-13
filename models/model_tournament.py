@@ -1,5 +1,5 @@
 class Tournament:
-    def __init__(self, name, place, start_date, end_date, time_control, description, players, number_round=4, current_round=0):
+    def __init__(self, name, place, start_date, end_date, time_control, description, number_round=4, current_round=0):
         print("Start of Tournament initialization")  # Debugging print
         self.name = name
         self.place = place
@@ -7,7 +7,7 @@ class Tournament:
         self.end_date = end_date
         self.number_round = number_round
         self.description = description
-        self.players = players
+        self.players = []
         self.time_control = time_control
         self.current_round = current_round
         self.rounds = []
