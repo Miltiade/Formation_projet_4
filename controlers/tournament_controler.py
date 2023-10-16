@@ -1,6 +1,6 @@
+
 from models import model_tournament,model_round,model_match,model_player
 from views import tournament_view,round_view,match_view,player_view
-
 
 class TournamentControler:
     def __init__(self):
@@ -20,15 +20,6 @@ class TournamentControler:
         end_date = "02-01-2023"
         time_control = "Bullet"
         description = "random"
-        players = [
-        model_player.Player("Ranga", 34),
-        model_player.Player("Grégory", 12),
-        model_player.Player("Jean-Marie", 3),
-        model_player.Player("toto", 100),
-        model_player.Player("John", 4),
-        model_player.Player("Rita", 15),
-        model_player.Player("Severus", 56),
-        model_player.Player("Padfoot", 50)]
         number_round = 4
         current_round = 0
         self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players, number_round, current_round)
@@ -36,6 +27,15 @@ class TournamentControler:
         #     name, elo = player_view.get_player_info()
         #     player = model_player.Player(name, elo)
         #     self.tournament.add_player(player)
+        self.tournament.players = [
+            model_player.Player("Ranga", 34),
+            model_player.Player("Grégory", 12),
+            model_player.Player("Jean-Marie", 3),
+            model_player.Player("toto", 100),
+            model_player.Player("John", 4),
+            model_player.Player("Rita", 15),
+            model_player.Player("Severus", 56),
+            model_player.Player("Padfoot", 50)]
 
     def get_letters(self, message):
         word = tournament_view.get_user_input(message)
@@ -74,15 +74,21 @@ class TournamentControler:
         self.tournament.players.sort(key = lambda x : x.elo)
         round1 = model_round.Round("1")
         self.tournament.add_round(round1)
+<<<<<<< HEAD
         for i in range(2):
             new_match = model_match.Match(self.tournament.players[i], self.tournament.players[2 + i])
             round1.add_match(new_match)
+=======
+        for i in range(4):
+            match = model_match.Match(self.tournament.players[i], self.tournament.players[4 + i])
+            round1.add_match(match)
+>>>>>>> refs/remotes/origin/main
             
-    #     for match in self.tournament.rounds[0].matchs:
-    #         """print(match.player1)
-    #         print(match.player2)"""
-    #         match.score_player1, match.score_player2 = self.handle_score()
-    #         match_view.print_match_result(match)
+        for match in self.tournament.rounds[0].matchs:
+            """print(match.player1)
+            print(match.player2)"""
+            match.score_player1, match.score_player2 = self.handle_score()
+            match_view.print_match_result(match)
 
     # def handle_score(self):
     #     score = match_view.enter_score()
