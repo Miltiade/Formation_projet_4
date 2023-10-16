@@ -30,9 +30,8 @@ class TournamentControler:
         model_player.Player("Severus", 56),
         model_player.Player("Padfoot", 50)]
         number_round = 4
-        print("Before initializing the tournament")  # Debugging print
-        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, number_round)
-        print(self.tournament)  # Debugging print
+        current_round = 0
+        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players, number_round, current_round)
         # for i in range(8):
         #     name, elo = player_view.get_player_info()
         #     player = model_player.Player(name, elo)
@@ -76,7 +75,8 @@ class TournamentControler:
         round1 = model_round.Round("1")
         self.tournament.add_round(round1)
         for i in range(2):
-            round1.add_match(self.tournament.players[i], self.tournament.players[2 + i])
+            new_match = model_match.Match(self.tournament.players[i], self.tournament.players[2 + i])
+            round1.add_match(new_match)
             
     #     for match in self.tournament.rounds[0].matchs:
     #         """print(match.player1)
