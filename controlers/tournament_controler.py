@@ -120,8 +120,6 @@ class TournamentControler:
                         break  # Break out of the inner loop once we've found a match for the current player.
 
         return matches
-        print(matches) # pourquoi il ne veut pas printer les matches alors qu'il est mentionné une ligne avant ?
-    # print("matches created!") # debugging print
 
 
     def has_played_against(player1, player2):
