@@ -83,6 +83,8 @@ class TournamentControler:
             """print(match.player1)
             print(match.player2)"""
             match.score_player1, match.score_player2 = self.handle_score()
+            # match.player1.score += 
+            # match.player2.score +=
             match_view.print_match_result(match)
 
     def handle_score(self):
@@ -94,7 +96,7 @@ class TournamentControler:
         else:
             return 0.5,0.5
     
-    def generate_pairs(self): # POURQUOI quand l'argument est self.tournament l'IDE y voit une erreur ?
+    def generate_pairs(self):
         """
         Generates pairs of players for the next round of the tournament.
         :param self.tournament: The tournament object containing the list of players and their scores.

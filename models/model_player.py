@@ -5,3 +5,5 @@ class Player:
         
     def __str__(self):
         return f"{self.name} | {self.elo}"
+    
+# AJOUTER UN ATTRIBUT SCORE A LA CLASSE PLAYER
