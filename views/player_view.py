@@ -4,6 +4,7 @@ def get_player_info():
     return name, elo
     
 def print_player(players):
+    print("preparing to print players")
     for player in players:
         print(f"name : {player.name}")
         print(f"elo : {player.elo}")

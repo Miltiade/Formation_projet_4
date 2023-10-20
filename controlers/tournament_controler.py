@@ -69,15 +69,17 @@ class TournamentControler:
         player_view.print_player(self.tournament.players)
 
     def run_first_round(self):
-        #algorithme pour créer les premiers rounds
-        self.tournament.players.sort(key = lambda x : x.elo)
-        round1 = model_round.Round("1")
-        self.tournament.add_round(round1)
-        for i in range(2):
+        # algorithm running the first round
+        print("Starting to run first round.")
+        self.tournament.players.sort(key = lambda x : x.elo) # sorting players by elo
+        round1 = model_round.Round("1") # creating object "first round" and declaring it as variable
+        self.tournament.add_round(round1) # adding the variable in the tournament
+        for i in range(2): # adding matches in the round
             new_match = model_match.Match(self.tournament.players[i], self.tournament.players[2 + i])
             round1.add_match(new_match)
+        print("matches added!",round1) # debugging print; POURQUOI IL NE PRINTE PAS LA LISTE DES MATCHES DU ROUND?
             
-        for match in self.tournament.rounds[0].matchs:
+        for match in self.tournament.rounds[0].matchs: # for all matches: add scores & print results
             """print(match.player1)
             print(match.player2)"""
             match.score_player1, match.score_player2 = self.handle_score()
@@ -91,13 +93,48 @@ class TournamentControler:
             return 0,1
         else:
             return 0.5,0.5
-        
+    
+    def generate_pairs(self): # POURQUOI quand l'argument est self.tournament l'IDE y voit une erreur ?
+        """
+        Generates pairs of players for the next round of the tournament.
+        :param self.tournament: The tournament object containing the list of players and their scores.
+        :return: List of pairs (matches) for the next round.
+        """
+        # Sort players based on their scores
+        sorted_players = sorted(self.tournament.players, key=lambda x: (-x.score, x.initial_ranking))
+        print(sorted_players,"players sorted")
 
-    # def get_ine(self):
-    #     message = "Enter the club's INE: "
-    #     ine = tournament_view.get_user_input(message)
-    #     while ine != "AB12345":
-    #         tournament_view.error_message("Erreur de saisie : ceci n'est pas l'INE du club. Réessayez.")
-    #         ine = tournament_view.get_user_input(message)
-    #     return ine
+        matches = []  # List to hold the matches for the next round.
+        used_players = set()  # Set of players already paired for this round.
+
+        for i in range(len(sorted_players)):
+            if sorted_players[i] not in used_players:
+                for j in range(i+1, len(sorted_players)):
+                    # Look for a player the current player hasn't played against and is not yet used in this round.
+                    if (sorted_players[j] not in used_players and
+                            not self.has_played_against(sorted_players[i], sorted_players[j])):
+                        
+                        matches.append((sorted_players[i], sorted_players[j]))
+                        used_players.add(sorted_players[i])
+                        used_players.add(sorted_players[j])
+                        break  # Break out of the inner loop once we've found a match for the current player.
+
+        return matches
+        print(matches) # pourquoi il ne veut pas printer les matches alors qu'il est mentionné une ligne avant ?
+    # print("matches created!") # debugging print
+
+
+    def has_played_against(player1, player2):
+        """
+        Checks if two players have played against each other in the tournament.
+        
+        :param player1: First player object.
+        :param player2: Second player object.
+        :return: True if they've played against each other, False otherwise.
+        """
+        for match in player1.matches_played:
+            if match.opponent == player2:
+                return True
+        return False
+        print("verified has_played_against") #debugging print
 
