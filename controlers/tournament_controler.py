@@ -71,24 +71,28 @@ class TournamentControler:
     def run_first_round(self):
         # algorithm running the first round
         print("Starting to run first round.")
-        self.tournament.players.sort(key = lambda x : x.elo) # sorting players by elo
+        self.tournament.players.sort(key = lambda x : -x.elo) # sorting players by elo, from highest elo to lowest elo
+        for rank, player in enumerate(self.tournament.players, start=1):
+            player.initial_ranking = rank
         round1 = model_round.Round("1") # creating object "first round" and declaring it as variable
         self.tournament.add_round(round1) # adding the variable in the tournament
         for i in range(2): # adding matches in the round
             new_match = model_match.Match(self.tournament.players[i], self.tournament.players[2 + i])
             round1.add_match(new_match)
-        print("matches added!",round1) # debugging print; POURQUOI IL NE PRINTE PAS LA LISTE DES MATCHES DU ROUND?
             
+
         for match in self.tournament.rounds[0].matchs: # for all matches: add scores & print results
-            """print(match.player1)
-            print(match.player2)"""
-            match.score_player1, match.score_player2 = self.handle_score()
-            # match.player1.score += 
-            # match.player2.score +=
+            print(match.player1)
+            print(match.player2)
+            self.tournament.matches_played.append((match.player1, match.player2)) # update the tournament's matches_played list with the players of the current match
+            match.score_player1,match.score_player2 = self.handle_score()
+            match.player1.total_score += match.score_player1
+            match.player2.total_score += match.score_player2
             match_view.print_match_result(match)
 
+
     def handle_score(self):
-        score = match_view.enter_score()
+        score = match_view.enter_match_result()
         if(score == "1"):
             return 1,0
         elif(score == "2"):
@@ -103,7 +107,7 @@ class TournamentControler:
         :return: List of pairs (matches) for the next round.
         """
         # Sort players based on their scores
-        sorted_players = sorted(self.tournament.players, key=lambda x: (-x.score, x.initial_ranking))
+        sorted_players = sorted(self.tournament.players, key=lambda x: (-x.total_score, x.initial_ranking))
         print(sorted_players,"players sorted")
 
         matches = []  # List to hold the matches for the next round.
@@ -124,7 +128,7 @@ class TournamentControler:
         return matches
 
 
-    def has_played_against(player1, player2):
+    def has_played_against(self,player1, player2):
         """
         Checks if two players have played against each other in the tournament.
         
@@ -132,9 +136,9 @@ class TournamentControler:
         :param player2: Second player object.
         :return: True if they've played against each other, False otherwise.
         """
-        for match in player1.matches_played:
-            if match.opponent == player2:
+        for match in self.tournament.matches_played:
+            if (match[0] == player1 and match[1] == player2) or (match[0] == player2 and match[1] == player1):
                 return True
         return False
-        print("verified has_played_against") #debugging print
+
 

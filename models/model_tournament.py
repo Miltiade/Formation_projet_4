@@ -11,6 +11,7 @@ class Tournament:
         self.time_control = time_control
         self.current_round = current_round
         self.rounds = []
+        self.matches_played = []
 
     def add_player(self, player):
         self.players.append(player)
