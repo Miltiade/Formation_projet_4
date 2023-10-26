@@ -175,3 +175,16 @@ class TournamentControler:
             print(f"Round {round_number} completed.")
 
         print("Tournament completed.")
+
+    def display_final_ranking(self):
+        """
+        Displays the final ranking of all players at the end of the tournament.
+        """
+        print("Final Ranking of Players:")
+
+        # Sort players based on total scores (descending) and initial rankings (ascending in case of tie)
+        sorted_players = sorted(self.tournament.players, key=lambda x: (-x.total_score, x.initial_ranking))
+
+        for rank, player in enumerate(sorted_players, start=1):
+            print(f"{rank}. {player.name} - Total Score: {player.total_score}, Initial Ranking: {player.initial_ranking}")
+            

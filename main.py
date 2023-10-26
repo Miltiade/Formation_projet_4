@@ -8,3 +8,4 @@ tournamentControler.run_first_round() # pourquoi l'utilisateur n'est-il invité 
                                         # alors que pour les rounds suivants, c'est 4 matches?
 print("FIRST ROUND RUN SUCCESSFULLY!")
 tournamentControler.run_subsequent_rounds()
+tournamentControler.display_final_ranking()
