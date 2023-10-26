@@ -12,7 +12,7 @@ class TournamentControler:
         # end_date = self.get_date("Enter the tournament's end date : ")
         # time_control = self.get_time_control()
         # description = self.get_letters("Enter a description or comment of this tournament (optional): ")
-        # number_round = self.get_numbers("How many rounds this tournament will have? Enter a number: ")
+        # number_of_rounds = self.get_numbers("How many rounds this tournament will have? Enter a number: ")
         name = "tournoi"
         place = "paris"
         start_date = "01-01-2023"
@@ -28,9 +28,9 @@ class TournamentControler:
             model_player.Player("Rita", 15),
             model_player.Player("Severus", 56),
             model_player.Player("Padfoot", 50)]
-        number_round = 4
+        number_of_rounds = 4
         current_round = 0
-        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players, number_round, current_round)
+        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players, number_of_rounds, current_round)
         # for i in range(8):
         #     name, elo = player_view.get_player_info()
         #     player = model_player.Player(name, elo)
@@ -70,7 +70,7 @@ class TournamentControler:
 
     def run_first_round(self):
         # algorithm running the first round
-        print("Starting to run first round.")
+        print("Starting to run round 1.")
         self.tournament.players.sort(key = lambda x : -x.elo) # sorting players by elo, from highest elo to lowest elo
         for rank, player in enumerate(self.tournament.players, start=1):
             player.initial_ranking = rank
@@ -141,4 +141,37 @@ class TournamentControler:
                 return True
         return False
 
+    def run_subsequent_rounds(self):
+        """
+        Runs each round after the first one until the tournament is completed.
+        """
+        number_of_rounds = self.tournament.number_of_rounds
 
+        for round_number in range(2, number_of_rounds + 1):
+            print(f"Starting to run round {round_number}.")
+
+            # Create a new round object
+            current_round = model_round.Round(str(round_number))
+            self.tournament.add_round(current_round)
+
+            # Generate pairs for the current round
+            pairs = self.generate_pairs()
+            
+            # Add matches to the current round
+            for player1, player2 in pairs:
+                new_match = model_match.Match(player1, player2)
+                current_round.add_match(new_match)
+                self.tournament.matches_played.append((player1, player2))  # Update the tournament's matches_played list
+
+            # Run the matches for the current round
+            for match in current_round.matchs:
+                print(match.player1)
+                print(match.player2)
+                match.score_player1, match.score_player2 = self.handle_score()
+                match.player1.total_score += match.score_player1
+                match.player2.total_score += match.score_player2
+                match_view.print_match_result(match)
+
+            print(f"Round {round_number} completed.")
+
+        print("Tournament completed.")

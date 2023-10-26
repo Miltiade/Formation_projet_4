@@ -1,11 +1,11 @@
 class Tournament:
-    def __init__(self, name, place, start_date, end_date, time_control, description, players, number_round=4, current_round=0):
+    def __init__(self, name, place, start_date, end_date, time_control, description, players, number_of_rounds=4, current_round=0):
 
         self.name = name
         self.place = place
         self.start_date = start_date
         self.end_date = end_date
-        self.number_round = number_round
+        self.number_of_rounds = number_of_rounds
         self.description = description
         self.players = players
         self.time_control = time_control
