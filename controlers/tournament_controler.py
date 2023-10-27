@@ -186,5 +186,5 @@ class TournamentControler:
         sorted_players = sorted(self.tournament.players, key=lambda x: (-x.total_score, x.initial_ranking))
 
         for rank, player in enumerate(sorted_players, start=1):
-            print(f"{rank}. {player.name} - Total Score: {player.total_score}, Initial Ranking: {player.initial_ranking}")
+            print(f"{rank}. {player.name} - Total Score: {player.total_score}, Initial Ranking (by elo): {player.initial_ranking}")
             
