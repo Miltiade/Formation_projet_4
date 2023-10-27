@@ -21,10 +21,10 @@ class TournamentControler:
         description = "random"
         players = [
             model_player.Player("Ranga", 34),
-            model_player.Player("Grégory", 12),
-            model_player.Player("Jean-Marie", 3),
-            model_player.Player("toto", 100),
-            model_player.Player("John", 4),
+            model_player.Player("Albus", 12),
+            model_player.Player("Nymphadora", 3),
+            model_player.Player("Minerva", 100),
+            model_player.Player("Charlie", 4),
             model_player.Player("Rita", 15),
             model_player.Player("Severus", 56),
             model_player.Player("Padfoot", 50)]
@@ -76,8 +76,8 @@ class TournamentControler:
             player.initial_ranking = rank
         round1 = model_round.Round("1") # creating object "first round" and declaring it as variable
         self.tournament.add_round(round1) # adding the variable in the tournament
-        for i in range(2): # adding matches in the round
-            new_match = model_match.Match(self.tournament.players[i], self.tournament.players[2 + i])
+        for i in range(0, len(self.tournament.players), 2): # adding matches in the round
+            new_match = model_match.Match(self.tournament.players[i], self.tournament.players[i + 1])
             round1.add_match(new_match)
             
 
@@ -186,5 +186,5 @@ class TournamentControler:
         sorted_players = sorted(self.tournament.players, key=lambda x: (-x.total_score, x.initial_ranking))
 
         for rank, player in enumerate(sorted_players, start=1):
-            print(f"{rank}. {player.name} - Total Score: {player.total_score}, Initial Ranking (by elo): {player.initial_ranking}")
-            
+            print(f"{rank}. {player.name} - Total Score: {player.total_score} points")
+
