@@ -1,3 +1,5 @@
+import json
+
 class Tournament:
     def __init__(self, name, place, start_date, end_date, time_control, description, players, number_of_rounds=4, current_round=0):
 
@@ -18,6 +20,15 @@ class Tournament:
         
     def add_round(self, round):
         self.rounds.append(round)
+
+    def serialize(self):
+        """Converts the Player object to a JSON string."""
+        return json.dumps(self.__dict__)
+
+    def deserialize(cls, json_string):
+        """Converts a JSON string back into a Player object."""
+        attributes = json.loads(json_string)
+        return cls(**attributes)
 
 # tournament1 = Tournament( # Testing: instantiating the class
 #     name="Sample Tournament",

@@ -1,4 +1,7 @@
+from serialization import save_tournament_state, load_tournament_state
+
 from controlers.tournament_controler import TournamentControler
+
 tournamentControler = TournamentControler()
 tournamentControler.create_new_tournament()
 print("TOURNAMENT CREATED!")
@@ -9,3 +12,9 @@ tournamentControler.run_first_round() # pourquoi l'utilisateur n'est-il invité 
 print("FIRST ROUND RUN SUCCESSFULLY!")
 tournamentControler.run_subsequent_rounds()
 tournamentControler.display_final_ranking()
+
+# Save tournament state
+save_tournament_state()
+
+# Load tournament state
+loaded_tournament = load_tournament_state()
