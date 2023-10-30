@@ -25,8 +25,8 @@ class Tournament:
         return {
             'name': self.name,
             'place': self.place,
-            'start_date': self.start_date,
-            'end_date': self.end_date,
+            'start_date': str(self.start_date),
+            'end_date': str(self.end_date),
             'number_of_rounds': self.number_of_rounds,
             'description': self.description,
             'players': [player.serialize() for player in self.players],

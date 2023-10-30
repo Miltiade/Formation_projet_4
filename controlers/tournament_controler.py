@@ -1,5 +1,6 @@
 from models import model_tournament,model_round,model_match,model_player
 from views import tournament_view,round_view,match_view,player_view
+from db_operations import save_tournament
 
 class TournamentControler:
     def __init__(self):
@@ -65,10 +66,6 @@ class TournamentControler:
             number = tournament_view.get_user_input(message)
         return number
 
-    def print_and_save_tournament_state(self):
-        serialized_tournament = self.tournament.serialize()
-        print("Current tournament state:")
-        print(serialized_tournament)
 
     def print_player(self):
         player_view.print_player(self.tournament.players)
@@ -95,7 +92,9 @@ class TournamentControler:
             match.player2.total_score += match.score_player2
             match_view.print_match_result(match)
         
-        self.print_and_save_tournament_state()
+        save_tournament(self.tournament)
+        print(f"Round finished. Tournament state has been saved.")
+
 
 
     def handle_score(self):
@@ -182,7 +181,9 @@ class TournamentControler:
 
             print(f"Round {round_number} completed.")
             
-            self.print_and_save_tournament_state()
+            save_tournament(self.tournament)
+            print(f"Round {round_number} has finished. Tournament state has been saved.")
+
 
         print("Tournament completed.")
 
