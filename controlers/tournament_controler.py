@@ -65,6 +65,11 @@ class TournamentControler:
             number = tournament_view.get_user_input(message)
         return number
 
+    def print_and_save_tournament_state(self):
+        serialized_tournament = self.tournament.serialize()
+        print("Current tournament state:")
+        print(serialized_tournament)
+
     def print_player(self):
         player_view.print_player(self.tournament.players)
 
@@ -89,6 +94,8 @@ class TournamentControler:
             match.player1.total_score += match.score_player1
             match.player2.total_score += match.score_player2
             match_view.print_match_result(match)
+        
+        self.print_and_save_tournament_state()
 
 
     def handle_score(self):
@@ -99,11 +106,7 @@ class TournamentControler:
             return 0,1
         else:
             return 0.5,0.5
-    
-    def serialize_tournament(tournament):
-        '''Serializes tournament data'''
-        return tournament.serialize()
-    print(serialize_tournament)
+
 
     def generate_pairs(self):
         """
@@ -179,10 +182,7 @@ class TournamentControler:
 
             print(f"Round {round_number} completed.")
             
-            def serialize_tournament(tournament):
-                '''Serializes tournament data'''
-                return tournament.serialize()
-            print(serialize_tournament)
+            self.print_and_save_tournament_state()
 
         print("Tournament completed.")
 
