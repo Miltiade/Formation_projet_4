@@ -21,3 +21,18 @@ class Tournament:
     def add_round(self, round):
         self.rounds.append(round)
 
+    def serialize(self):
+        return {
+            'name': self.name,
+            'place': self.place,
+            'start_date': self.start_date,
+            'end_date': self.end_date,
+            'number_of_rounds': self.number_of_rounds,
+            'description': self.description,
+            'players': [player.serialize() for player in self.players],
+            'time_control': self.time_control,
+            'current_round': self.current_round,
+            'rounds': [round_.serialize() for round_ in self.rounds],
+            'matches_played': [(player1.serialize(), player2.serialize()) for player1, player2 in self.matches_played]
+        }
+
