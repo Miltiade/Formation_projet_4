@@ -22,13 +22,13 @@ class Round:
 
 
     def serialize(self):
-            """Converts the Player object to a JSON string."""
-            return json.dumps(self.__dict__)
-
-    def deserialize(cls, json_string):
-        """Converts a JSON string back into a Player object."""
-        attributes = json.loads(json_string)
-        return cls(**attributes)
+        return {
+            'matchs': self.matchs,
+            'number':self.number,
+            'name': self.name,
+            'start_time': self.start_time,
+            'end_time': self.end_time
+            }
 
     # def set_start_time(self, start_time):
     #     # Set the start time explicitly
