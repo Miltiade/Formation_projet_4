@@ -13,7 +13,6 @@ tournamentControler.run_subsequent_rounds()
 # tournamentControler.display_final_ranking()
 
 # Save tournament state
-save_tournament_state(tournamentControler.self.tournament)
-
+# save_tournament_state(tournamentControler.self.tournament)
 # Load tournament state
 # loaded_tournament = load_tournament_state()

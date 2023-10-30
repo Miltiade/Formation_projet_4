@@ -21,20 +21,3 @@ class Tournament:
     def add_round(self, round):
         self.rounds.append(round)
 
-    def serialize(self):
-        """Converts the Player object to a JSON string."""
-        return json.dumps(self.__dict__)
-
-    def deserialize(cls, json_string):
-        """Converts a JSON string back into a Player object."""
-        attributes = json.loads(json_string)
-        return cls(**attributes)
-
-# tournament1 = Tournament( # Testing: instantiating the class
-#     name="Sample Tournament",
-#     place="Some Place",
-#     start_date="2023-10-13",
-#     end_date="2023-10-14",
-#     time_control="Bullet",
-#     description="Sample Description"
-# )

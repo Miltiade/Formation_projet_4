@@ -100,6 +100,11 @@ class TournamentControler:
         else:
             return 0.5,0.5
     
+    def serialize_tournament(tournament):
+        '''Serializes tournament data'''
+        return tournament.serialize()
+    print(serialize_tournament)
+
     def generate_pairs(self):
         """
         Generates pairs of players for the next round of the tournament.
@@ -173,6 +178,11 @@ class TournamentControler:
                 match_view.print_match_result(match)
 
             print(f"Round {round_number} completed.")
+            
+            def serialize_tournament(tournament):
+                '''Serializes tournament data'''
+                return tournament.serialize()
+            print(serialize_tournament)
 
         print("Tournament completed.")
 
