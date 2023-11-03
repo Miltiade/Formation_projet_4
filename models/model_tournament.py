@@ -1,7 +1,7 @@
 import json
 
 class Tournament:
-    def __init__(self, name, place, start_date, end_date, time_control, description, players, number_of_rounds=4, current_round=0):
+    def __init__(self, name, place, start_date, end_date, time_control, description, players=[], number_of_rounds=4, current_round=0):
 
         self.name = name
         self.place = place

@@ -1,6 +1,6 @@
 from models import model_tournament,model_round,model_match,model_player
 from views import tournament_view,round_view,match_view,player_view
-from db_operations import save_tournament
+from db_operations import save_tournament,update_tournament
 
 class TournamentControler:
     def __init__(self):
@@ -32,7 +32,7 @@ class TournamentControler:
             model_player.Player("Padfoot", 50)]
         number_of_rounds = 4
         current_round = 0
-        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players, number_of_rounds, current_round)
+        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players)
         # for i in range(8):
         #     name, elo = player_view.get_player_info()
         #     player = model_player.Player(name, elo)
@@ -117,7 +117,7 @@ class TournamentControler:
         print("Generating pairs. Please wait...")
         # Sort players based on their scores
         sorted_players = sorted(self.tournament.players, key=lambda x: (-x.total_score, x.initial_ranking))
-        print(sorted_players,"players sorted")
+        print("players sorted")
 
         matches = []  # List to hold the matches for the next round.
         used_players = set()  # Set of players already paired for this round.
@@ -154,6 +154,9 @@ class TournamentControler:
         """
         Runs each round after the first one until the tournament is completed.
         """
+        # tournament_data = tournament.serialize()
+        # self.tournament = None
+        # self.deserializer(tournament_data)
         number_of_rounds = self.tournament.number_of_rounds
 
         for round_number in range(2, number_of_rounds + 1):
@@ -183,7 +186,7 @@ class TournamentControler:
 
             print(f"Round {round_number} completed.")
             
-            save_tournament(self.tournament)
+            update_tournament(self.tournament)
             print(f"Round {round_number} has finished. Tournament state has been saved.")
 
 
@@ -201,3 +204,5 @@ class TournamentControler:
         for rank, player in enumerate(sorted_players, start=1):
             print(f"{rank}. {player.name} - Total Score: {player.total_score} points")
 
+
+    def deserializer(self,tournament_data): # self.json = tournament_data

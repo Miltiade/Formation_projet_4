@@ -23,7 +23,7 @@ class Round:
 
     def serialize(self):
         return {
-            'matchs': self.matchs,
+            'matchs': [match.serialize() for match in self.matchs],
             'number':self.number,
             'name': self.name,
             'start_time': self.start_time,

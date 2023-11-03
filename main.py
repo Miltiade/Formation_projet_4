@@ -1,5 +1,4 @@
-from serialization import save_tournament_state, load_tournament_state
-
+# from serialization import save_tournament_state, load_tournament_state
 from controlers.tournament_controler import TournamentControler
 
 tournamentControler = TournamentControler()
