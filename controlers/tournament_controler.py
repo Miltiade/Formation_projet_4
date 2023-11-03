@@ -7,6 +7,7 @@ class TournamentControler:
         self.tournament = None
 
     def create_new_tournament(self):
+        print("Creating new tournament. Please wait...")
         # name = self.get_letters("Enter the tournament's name : ")
         # place = self.get_letters("Enter the tournament's place :")
         # start_date = self.get_date("Enter the tournament's start date : ")
@@ -40,7 +41,7 @@ class TournamentControler:
     def get_letters(self, message):
         word = tournament_view.get_user_input(message)
         while not word.isalpha():
-            tournament_view.error_message("Erreur de saisie : Entrez uniquement des lettres")
+            tournament_view.error_message("Error: type letters only")
             word = tournament_view.get_user_input(message)
         return word
 
@@ -48,21 +49,21 @@ class TournamentControler:
         message = "Enter time control (Bullet/Splitz/Quick) : "
         time_control = tournament_view.get_user_input(message)
         while not time_control.lower() in ["bullet", "splitz", "quick"]:
-            tournament_view.error_message("Error de saisie : Entrez un time controle valide")
+            tournament_view.error_message("Error: type a valid time control")
             time_control = tournament_view.get_user_input(message)
         return time_control
 
     def get_date(self,message):
         date = tournament_view.get_user_input(message)
         while not date.isdecimal() and not date.__len__(8): # tant que la date saisie n'est pas un nombre et qu'elle n'est pas un string de 8 caractères
-            tournament_view.error_message("Erreur de saisie : Entrez une date au format JJMMAAAA")
+            tournament_view.error_message("Error : type a date as DDMMYYYY")
             date = tournament_view.get_user_input(message)
         return date
 
     def get_numbers(self,message):
         number = tournament_view.get_user_input(message)
         while not number.isnumeric():
-            tournament_view.error_message("Erreur de saisie : Entrez uniquement un nombre")
+            tournament_view.error_message("Error: type a number only")
             number = tournament_view.get_user_input(message)
         return number
 
@@ -93,7 +94,7 @@ class TournamentControler:
             match_view.print_match_result(match)
         
         save_tournament(self.tournament)
-        print(f"Round finished. Tournament state has been saved.")
+        print(f"Round finished; tournament state has been saved.")
 
 
 
@@ -113,6 +114,7 @@ class TournamentControler:
         :param self.tournament: The tournament object containing the list of players and their scores.
         :return: List of pairs (matches) for the next round.
         """
+        print("Generating pairs. Please wait...")
         # Sort players based on their scores
         sorted_players = sorted(self.tournament.players, key=lambda x: (-x.total_score, x.initial_ranking))
         print(sorted_players,"players sorted")
