@@ -1,4 +1,4 @@
-import json
+from models import model_round,model_match,model_player
 
 class Tournament:
     def __init__(self, name, place, start_date, end_date, time_control, description, players=[], number_of_rounds=4, current_round=0):
@@ -36,3 +36,26 @@ class Tournament:
             'matches_played': [(player1.serialize(), player2.serialize()) for player1, player2 in self.matches_played]
         }
 
+    def deserialize(self,tournament_data,start_date,end_date,time_control,description):
+        self.tournament = Tournament(tournament_data["name"], tournament_data["place"])
+        self.tournament.players = []
+        self.tournament.start_date = start_date
+        self.tournament.end_date = end_date
+        self.tournament.time_control = time_control
+        self.tournament.description = description
+        
+        for player in tournament_data["players"]:
+            reload_player = model_player.Player(player["name"], player["elo"], player["score"])
+            self.tournament.add_player(reload_player)
+            
+        for round in tournament_data["rounds"]:
+            reload_round = model_round.Round(round["number"])
+            for match in round["matchs"]:
+                player1 = model_player.Player(match["player1"]["name"], match["player1"]["elo"], match["player1"]["score"])
+                player2 = model_player.Player(match["player2"]["name"], match["player1"]["elo"], match["player1"]["score"])
+                
+                reload_match = model_match.Match(player1, player2, match["score_player1"], match["score_player2"])   
+                reload_round.add_reload_match(reload_match)
+
+            self.tournament.add_round(reload_round)
+        print(self.tournament.serializer())

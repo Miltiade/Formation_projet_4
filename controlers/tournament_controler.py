@@ -97,7 +97,6 @@ class TournamentControler:
         print(f"Round finished; tournament state has been saved.")
 
 
-
     def handle_score(self):
         score = match_view.enter_match_result()
         if(score == "1"):
@@ -204,32 +203,12 @@ class TournamentControler:
         for rank, player in enumerate(sorted_players, start=1):
             print(f"{rank}. {player.name} - Total Score: {player.total_score} points")
 
-
-    def deserializer(self,tournament_data):
-        self.tournament = model_tournament.Tournament(tournament_data["name"], tournament_data["place"])
-        self.tournament.players = []
-        
-        for player in tournament_data["players"]:
-            reload_player = model_player.Player(player["name"], player["elo"], player["score"])
-            self.tournament.add_player(reload_player)
-            
-        for round in tournament_data["rounds"]:
-            reload_round = model_round.Round(round["number"])
-            for match in round["matchs"]:
-                player1 = model_player.Player(match["player1"]["name"], match["player1"]["elo"], match["player1"]["score"])
-                player2 = model_player.Player(match["player2"]["name"], match["player1"]["elo"], match["player1"]["score"])
-                
-                reload_match = model_match.Match(player1, player2, match["score_player1"], match["score_player2"])   
-                reload_round.add_reload_match(reload_match)
-
-            self.tournament.add_round(reload_round)
-        print(self.tournament.serializer())
     
     def load_tournament(self):
         tournament_data = choose_tournament()
         if tournament_data:
             # Deserialize the tournament data back into a Tournament object
-            tournament = model_tournament.Tournament.deserialize(tournament_data)
+            tournament = model_tournament.Tournament.deserialize(self,tournament_data)
             print(f"Tournament '{tournament.name}' loaded successfully.")
             return tournament
         else:

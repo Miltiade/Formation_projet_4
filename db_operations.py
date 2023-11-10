@@ -1,16 +1,17 @@
 from tinydb import TinyDB, Query
 
-db = TinyDB('db.json')
-tournaments_table = db.table('tournaments')
-# DISPATCHER CES DEUX LIGNES DANS CHAQUE METHODE CI-DESSOUS.
 
 def save_tournament(tournament):
+    db = TinyDB('db.json')
+    tournaments_table = db.table('tournaments')
     tournament_data = tournament.serialize()
     print(tournament_data)
     tournaments_table.insert(tournament_data)
 
 
 def update_tournament(tournament):
+    db = TinyDB('db.json')
+    tournaments_table = db.table('tournaments')
     tournament_data = tournament.serialize()
     print(tournament_data)
     Tournament = Query()
@@ -18,6 +19,8 @@ def update_tournament(tournament):
 
 
 def choose_tournament():
+    db = TinyDB('db.json')
+    tournaments_table = db.table('tournaments')
     # Fetch all saved tournaments
     saved_tournaments = tournaments_table.all()
     # Check if there are saved tournaments
