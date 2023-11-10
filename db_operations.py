@@ -2,11 +2,13 @@ from tinydb import TinyDB, Query
 
 db = TinyDB('db.json')
 tournaments_table = db.table('tournaments')
+# DISPATCHER CES DEUX LIGNES DANS CHAQUE METHODE CI-DESSOUS.
 
 def save_tournament(tournament):
     tournament_data = tournament.serialize()
     print(tournament_data)
     tournaments_table.insert(tournament_data)
+
 
 def update_tournament(tournament):
     tournament_data = tournament.serialize()
@@ -39,4 +41,3 @@ def choose_tournament():
     except ValueError:
         print("Invalid input. Please enter a number.")
         return None
-    

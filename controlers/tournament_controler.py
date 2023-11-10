@@ -206,20 +206,20 @@ class TournamentControler:
 
 
     def deserializer(self,tournament_data):
-        self.tournament = Tournament(tournament_data["name"], tournament_data["place"])
+        self.tournament = model_tournament.Tournament(tournament_data["name"], tournament_data["place"])
         self.tournament.players = []
         
         for player in tournament_data["players"]:
-            reload_player = Player(player["name"], player["elo"], player["score"])
+            reload_player = model_player.Player(player["name"], player["elo"], player["score"])
             self.tournament.add_player(reload_player)
             
         for round in tournament_data["rounds"]:
-            reload_round = Round(round["number"])
+            reload_round = model_round.Round(round["number"])
             for match in round["matchs"]:
-                player1 = Player(match["player1"]["name"], match["player1"]["elo"], match["player1"]["score"])
-                player2 = Player(match["player2"]["name"], match["player1"]["elo"], match["player1"]["score"])
+                player1 = model_player.Player(match["player1"]["name"], match["player1"]["elo"], match["player1"]["score"])
+                player2 = model_player.Player(match["player2"]["name"], match["player1"]["elo"], match["player1"]["score"])
                 
-                reload_match = Match(player1, player2, match["score_player1"], match["score_player2"])   
+                reload_match = model_match.Match(player1, player2, match["score_player1"], match["score_player2"])   
                 reload_round.add_reload_match(reload_match)
 
             self.tournament.add_round(reload_round)
@@ -229,7 +229,7 @@ class TournamentControler:
         tournament_data = choose_tournament()
         if tournament_data:
             # Deserialize the tournament data back into a Tournament object
-            tournament = Tournament.deserialize(tournament_data)
+            tournament = model_tournament.Tournament.deserialize(tournament_data)
             print(f"Tournament '{tournament.name}' loaded successfully.")
             return tournament
         else:
