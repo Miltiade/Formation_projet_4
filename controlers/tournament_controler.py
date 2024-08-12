@@ -14,15 +14,15 @@ class TournamentControler:
         # end_date = self.get_date("Enter the tournament's end date : ")
         # time_control = self.get_time_control()
         # description = self.get_letters("Enter a description or comment of this tournament (optional): ")
-        # number_of_rounds = self.get_numbers("How many rounds this tournament will have? Enter a number: ")
+        # number_of_rounds = self.get_numbers("How many rounds shall this tournament have? Enter a number: ")
         name = "tournoi"
         place = "paris"
-        start_date = "01-01-2023"
-        end_date = "02-01-2023"
+        start_date = "01-01-2025"
+        end_date = "02-01-2025"
         time_control = "Bullet"
         description = "random"
         players = [
-            model_player.Player("Ranga", 34),
+            model_player.Player("Luna", 34),
             model_player.Player("Albus", 12),
             model_player.Player("Nymphadora", 3),
             model_player.Player("Minerva", 100),
