@@ -1,6 +1,7 @@
 import json
 from models.model_tournament import Tournament
 
+
 def save_tournament_state(tournament, filename="tournament_data.json"):
     serialized_data = tournament.serialize()
     with open(filename, 'w') as f:
