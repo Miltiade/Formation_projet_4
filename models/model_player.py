@@ -1,8 +1,11 @@
 import json
 
 class Player:
-    def __init__(self, name, elo, initial_ranking=0, match_score=0, total_score=0):
-        self.name = name
+    # nom de famille; prénom; date de naissance; 
+    def __init__(self, family_name, first_name, date_of_birth, elo, initial_ranking=0, match_score=0, total_score=0):
+        self.family_name = family_name
+        self.first_name = first_name
+        self.date_of_birth = date_of_birth
         self.elo = elo
         self.initial_ranking = initial_ranking
         self.match_score = match_score # player's score in the current match
@@ -10,11 +13,13 @@ class Player:
         self.initial_ranking = initial_ranking
         
     def __str__(self):
-        return f"{self.name} | {self.elo} |{self.initial_ranking} | {self.match_score} | {self.total_score}"
+        return f"{self.family_name} | {self.first_name} | {self.date_of_birth} | {self.elo} |{self.initial_ranking} | {self.match_score} | {self.total_score}"
     
     def serialize(self):
         return {
-            'name': self.name,
+            'family name': self.family_name,
+            'first name': self.first_name,
+            'date of birth': self.date_of_birth,
             'elo': self.elo,
             'initial_ranking': self.initial_ranking,
             'match_score': self.match_score,
@@ -42,7 +47,9 @@ class Player:
                 # Use json library to load file data
                 player_data = json.load(file)
             # Get player info from dictionary
-            self.name = player_data['name']
+            self.first_name = player_data['first name']
+            self.family_name = player_data['family name']
+            self.date_of_birth = player_data['date of birth']
             self.elo = player_data['elo']
             self.initial_ranking = player_data['initial_ranking']
             self.match_score = player_data['match_score']
@@ -53,7 +60,9 @@ class Player:
             print("Error while decoding JSON: cannot read file.")
 
     def display_player_info(self):
-        print(f"Nom : {self.name}")
+        print(f"Prénom : {self.first_name}")
+        print(f"Nom de famille : {self.family_name}")
+        print(f"Date de naissance : {self.date_of_birth}")
         print(f"Elo : {self.elo}")
         print(f"Classement initial : {self.initial_ranking}")
         print(f"Score du match en cours : {self.match_score}")
