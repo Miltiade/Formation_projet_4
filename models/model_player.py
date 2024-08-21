@@ -1,7 +1,7 @@
 import json
 
 class Player:
-    # nom de famille; prénom; date de naissance; 
+    
     def __init__(self, family_name, first_name, date_of_birth, elo, initial_ranking=0, match_score=0, total_score=0):
         self.family_name = family_name
         self.first_name = first_name
@@ -25,6 +25,16 @@ class Player:
             'match_score': self.match_score,
             'total_score': self.total_score,
         }
+
+    @staticmethod
+    def deserialize(player_data):
+        return Player(
+            player_data['elo'],
+            player_data['name'],
+            player_data['initial_ranking'],
+            player_data.get('match_score', 0),
+            player_data.get('total_score', 0)
+        )
 
     def save_to_database(self, file_path):
         # A method that converts player info into a dictionary, using "serialize" method
