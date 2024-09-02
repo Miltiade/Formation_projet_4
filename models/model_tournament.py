@@ -16,9 +16,6 @@ class Tournament:
         self.current_round = current_round
         self.rounds = []
         self.matches_played = []
-        
-        # Initialize player_elos with serialized data from players
-        self.player_elos = [player.serialize() for player in self.players]
 
 
     def add_player(self, player):

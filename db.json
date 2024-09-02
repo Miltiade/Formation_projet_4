@@ -1,1 +1,46 @@
-{"tournaments": {"1": {"name": "tournoi", "place": "paris", "start_date": "01-01-2025", "end_date": "02-01-2025", "number_of_rounds": 4, "description": "random", "player_elos": [], "time_control": "Bullet", "current_round": 0, "rounds": [{"matchs": [], "number": "1", "name": "Round 1", "start_time": null, "end_time": null}, {"matchs": [], "number": "2", "name": "Round 2", "start_time": null, "end_time": null}, {"matchs": [], "number": "3", "name": "Round 3", "start_time": null, "end_time": null}, {"matchs": [], "number": "4", "name": "Round 4", "start_time": null, "end_time": null}], "matches_played": []}, "2": {"name": "tournoi", "place": "paris", "start_date": "01-01-2025", "end_date": "02-01-2025", "number_of_rounds": 4, "description": "random", "player_elos": [], "time_control": "Bullet", "current_round": 0, "rounds": [{"matchs": [], "number": "1", "name": "Round 1", "start_time": null, "end_time": null}, {"matchs": [], "number": "2", "name": "Round 2", "start_time": null, "end_time": null}, {"matchs": [], "number": "3", "name": "Round 3", "start_time": null, "end_time": null}, {"matchs": [], "number": "4", "name": "Round 4", "start_time": null, "end_time": null}], "matches_played": []}}}
+{
+    "tournaments": {
+        "1": {
+            "name": "tournoi",
+            "place": "paris",
+            "start_date": "01-01-2025",
+            "end_date": "02-01-2025",
+            "number_of_rounds": 4,
+            "description": "random",
+            "player_elos": [],
+            "time_control": "Bullet",
+            "current_round": 0,
+            "rounds": [
+                {
+                    "matchs": [],
+                    "number": "1",
+                    "name": "Round 1",
+                    "start_time": null,
+                    "end_time": null
+                },
+                {
+                    "matchs": [],
+                    "number": "2",
+                    "name": "Round 2",
+                    "start_time": null,
+                    "end_time": null
+                },
+                {
+                    "matchs": [],
+                    "number": "3",
+                    "name": "Round 3",
+                    "start_time": null,
+                    "end_time": null
+                },
+                {
+                    "matchs": [],
+                    "number": "4",
+                    "name": "Round 4",
+                    "start_time": null,
+                    "end_time": null
+                }
+            ],
+            "matches_played": []
+        }
+    }
+}
