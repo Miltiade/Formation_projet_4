@@ -10,10 +10,12 @@ class Player:
         self.initial_ranking = initial_ranking
         self.match_score = match_score # player's score in the current match
         self.total_score = total_score # player's total score at a given time
-        self.initial_ranking = initial_ranking
         
     def __str__(self):
         return f"{self.family_name} | {self.first_name} | {self.date_of_birth} | {self.elo} |{self.initial_ranking} | {self.match_score} | {self.total_score}"
+    
+    def __repr__(self):
+        return f"Player('{self.family_name}', '{self.first_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})" 
     
     def serialize(self):
         return {
@@ -29,9 +31,11 @@ class Player:
     @staticmethod
     def deserialize(player_data):
         return Player(
+            player_data['family name'],
+            player_data['first name'],
+            player_data['date of birth'],
             player_data['elo'],
-            player_data['name'],
-            player_data['initial_ranking'],
+            player_data['initial_ranking', 0],
             player_data.get('match_score', 0),
             player_data.get('total_score', 0)
         )

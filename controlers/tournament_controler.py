@@ -22,14 +22,14 @@ class TournamentControler:
         time_control = "Bullet"
         description = "random"
         players = [
-            model_player.Player("Luna", 34),
-            model_player.Player("Albus", 12),
-            model_player.Player("Nymphadora", 3),
-            model_player.Player("Minerva", 100),
-            model_player.Player("Charlie", 4),
-            model_player.Player("Rita", 15),
-            model_player.Player("Severus", 56),
-            model_player.Player("Padfoot", 50)]
+            model_player.Player("Luna", "18-09-1991", "AB12345", 34),
+            model_player.Player("Albus", "18-09-1991", "AB12346", 12),
+            model_player.Player("Nymphadora", "18-09-1991", "AB12347", 3),
+            model_player.Player("Minerva", "18-09-1991", "AB12348", 100),
+            model_player.Player("Charlie", "18-09-1991", "AB12349", 4),
+            model_player.Player("Rita", "18-09-1991", "AB12340", 15),
+            model_player.Player("Severus", "18-09-1991", "AB12341", 56),
+            model_player.Player("Padfoot", "18-09-1991", "AB12342", 50)]
         number_of_rounds = 4
         current_round = 0
         self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players)
@@ -69,18 +69,18 @@ class TournamentControler:
 
 
     def print_player(self):
-        player_view.print_player(self.tournament.players)
+        player_view.print_player(self.tournament.player_elos)
 
     def run_first_round(self):
         # algorithm running the first round
         print("Starting to run round 1.")
-        self.tournament.players.sort(key = lambda x : -x.elo) # sorting players by elo, from highest elo to lowest elo
-        for rank, player in enumerate(self.tournament.players, start=1):
+        self.tournament.player_elos.sort(key = lambda x : -x.elo) # sorting players by elo, from highest elo to lowest elo
+        for rank, player in enumerate(self.tournament.player_elos, start=1):
             player.initial_ranking = rank
         round1 = model_round.Round("1") # creating object "first round" and declaring it as variable
         self.tournament.add_round(round1) # adding the variable in the tournament
-        for i in range(0, len(self.tournament.players), 2): # adding matches in the round
-            new_match = model_match.Match(self.tournament.players[i], self.tournament.players[i + 1])
+        for i in range(0, len(self.tournament.player_elos), 2): # adding matches in the round
+            new_match = model_match.Match(self.tournament.player_elos[i], self.tournament.player_elos[i + 1])
             round1.add_match(new_match)
             
 
@@ -115,7 +115,7 @@ class TournamentControler:
         """
         print("Generating pairs. Please wait...")
         # Sort players based on their scores
-        sorted_players = sorted(self.tournament.players, key=lambda x: (-x.total_score, x.initial_ranking))
+        sorted_players = sorted(self.tournament.player_elos, key=lambda x: (-x.total_score, x.initial_ranking))
         print("players sorted")
 
         matches = []  # List to hold the matches for the next round.
@@ -198,7 +198,7 @@ class TournamentControler:
         print("Final Ranking of Players:")
 
         # Sort players based on total scores (descending) and initial rankings (ascending; in case of tie)
-        sorted_players = sorted(self.tournament.players, key=lambda x: (-x.total_score, x.initial_ranking))
+        sorted_players = sorted(self.tournament.player_elos, key=lambda x: (-x.total_score, x.initial_ranking))
 
         for rank, player in enumerate(sorted_players, start=1):
             print(f"{rank}. {player.name} - Total Score: {player.total_score} points")
@@ -216,9 +216,9 @@ class TournamentControler:
             return None
 
     # Load the tournament with player references
-    loaded_tournament_data = choose_tournament()
-    player_objects = {p['elo']: load_player(p['elo']) for p in loaded_tournament_data['player_elos']}
-    tournament = Tournament.deserialize(loaded_tournament_data, player_objects)
-    # Save each player individually when saving a tournament
-    for player in tournament.players:
-        save_player(player)
+    # loaded_tournament_data = choose_tournament()
+    # player_objects = {p['elo']: load_player(p['elo']) for p in loaded_tournament_data['player_elos']}
+    # tournament = Tournament.deserialize(loaded_tournament_data, player_objects)
+    # # Save each player individually when saving a tournament
+    # for player in tournament.player_elos:
+    #     save_player(player)

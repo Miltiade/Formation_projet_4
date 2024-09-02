@@ -3,4 +3,4 @@ def enter_match_result():
     return match_score
 
 def print_match_result(match):
-    print(f"{match.player1.name} : {match.score_player1}", f"\n{match.player2.name} : {match.score_player2}")
+    print(f"{match.player1.family_name} : {match.score_player1}", f"\n{match.player2.family_name} : {match.score_player2}")

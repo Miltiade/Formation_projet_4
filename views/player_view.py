@@ -6,6 +6,8 @@ def get_player_info():
 def print_player(players):
     print("Preparing to print players. Please wait...")
     for player in players:
-        print(f"name : {player.name}")
+        print(f"family name : {player.family_name}")
+        print(f"first name :  {player.first_name}")
+        print(f"date of birth : {player.first_name}")
         print(f"elo : {player.elo}")
         print("--------------------")

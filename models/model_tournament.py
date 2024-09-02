@@ -8,15 +8,25 @@ class Tournament:
         self.end_date = end_date
         self.number_of_rounds = number_of_rounds
         self.description = description
-        self.player_elos = player_elos # what is stored is: player's elos, not player themselves
+        # Initialize players before using it
+        self.players = []
+        # Initialize player_elos with serialized data from players
+        self.player_elos = [player.serialize() for player in self.players]
         self.time_control = time_control
         self.current_round = current_round
         self.rounds = []
         self.matches_played = []
+        
+        # Initialize player_elos with serialized data from players
+        self.player_elos = [player.serialize() for player in self.players]
+
 
     def add_player(self, player):
         self.players.append(player)
-        
+        # Update player_elos whenever a player is added
+        self.player_elos.append(player.serialize())
+
+
     def add_round(self, round):
         self.rounds.append(round)
 
