@@ -1,12 +1,12 @@
 from tinydb import TinyDB, Query
 from models.model_tournament import Tournament
+from models.model_player import Player
 
 # Save a single player
 def save_player(player):
     db = TinyDB('db.json')
     players_table = db.table('players')
     player_data = player.serialize()
-    print(player_data)
     players_table.insert(player_data)
 
 # Save the tournament
@@ -81,3 +81,13 @@ def choose_player():
     except ValueError:
         print("Invalid input. Please enter a number.")
         return None
+
+# Function to add a new player
+def add_player():
+    family_name = input("Enter the player's family name: ")
+    first_name = input("Enter the player's first name: ")
+    date_of_birth = input("Enter the player's date of birth (DD-MM-YYYY): ")
+    elo = input("Enter the player's ELO: ")
+    player = Player(family_name, first_name, date_of_birth, elo)
+    save_player(player)
+    print(f"Player {first_name} {family_name} added successfully.")

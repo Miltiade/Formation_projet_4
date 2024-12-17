@@ -5,6 +5,15 @@ from db_operations import save_tournament,update_tournament,choose_tournament
 class TournamentControler:
     def __init__(self):
         self.tournament = None
+        self.players = [
+            model_player.Player("Luna", "18-09-1991", "AB12345", 34),
+            model_player.Player("Albus", "18-09-1991", "AB12346", 12),
+            model_player.Player("Nymphadora", "18-09-1991", "AB12347", 3),
+            model_player.Player("Minerva", "18-09-1991", "AB12348", 100),
+            model_player.Player("Charlie", "18-09-1991", "AB12349", 4),
+            model_player.Player("Rita", "18-09-1991", "AB12340", 15),
+            model_player.Player("Severus", "18-09-1991", "AB12341", 56),
+            model_player.Player("Padfoot", "18-09-1991", "AB12342", 50)]
 
     def create_new_tournament(self):
         print("Creating new tournament. Please wait...")
@@ -21,15 +30,7 @@ class TournamentControler:
         end_date = "02-01-2025"
         time_control = "Bullet"
         description = "random"
-        players = [
-            model_player.Player("Luna", "18-09-1991", "AB12345", 34),
-            model_player.Player("Albus", "18-09-1991", "AB12346", 12),
-            model_player.Player("Nymphadora", "18-09-1991", "AB12347", 3),
-            model_player.Player("Minerva", "18-09-1991", "AB12348", 100),
-            model_player.Player("Charlie", "18-09-1991", "AB12349", 4),
-            model_player.Player("Rita", "18-09-1991", "AB12340", 15),
-            model_player.Player("Severus", "18-09-1991", "AB12341", 56),
-            model_player.Player("Padfoot", "18-09-1991", "AB12342", 50)]
+        players = []
         number_of_rounds = 4
         current_round = 0
         self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players)
@@ -219,3 +220,32 @@ class TournamentControler:
     # # Save each player individually when saving a tournament
     # for player in tournament.player_elos:
     #     save_player(player)
+
+def get_all_players():
+    # Fetch all players from the database
+    return [
+        {'name': 'Alice'},
+        {'name': 'Bob'},
+        {'name': 'Charlie'}
+    ]
+
+def get_all_tournaments():
+    # Fetch all tournaments from the database
+    return [
+        {'name': 'Tournament 1'},
+        {'name': 'Tournament 2'}
+    ]
+
+def get_tournament_players(tournament_id):
+    # Fetch players for a specific tournament from the database
+    return [
+        {'name': 'Alice'},
+        {'name': 'Bob'}
+    ]
+
+def get_tournament_rounds(tournament_id):
+    # Fetch rounds for a specific tournament from the database
+    return [
+        {'number': 1, 'name': 'Round 1'},
+        {'number': 2, 'name': 'Round 2'}
+    ]
