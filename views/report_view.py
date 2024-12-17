@@ -1,3 +1,5 @@
+from controlers.tournament_controler import get_all_players, get_all_tournaments, get_tournament_players, get_tournament_rounds
+
 def list_players_alphabetically():
     players = get_all_players()  # Assuming this function fetches all players from the database
     sorted_players = sorted(players, key=lambda player: player['name'])
