@@ -14,8 +14,23 @@ The software works offline. It is used through the Terminal of the computer wher
 
 ---------------------------------------
 
-How to install
+## Installation
 
----------------------------------------
+1. Clone the repository.
+2. Install dependencies:
+    ```sh
+    pip install -r requirements.txt
+    ```
 
-How to use
+## Usage
+
+1. Run the main program:
+    ```sh
+    python main.py
+    ```
+
+## Code Quality
+
+1. Generate flake8 report:
+    ```sh
+    flake8 --max-line-length=119 --format=html --htmldir=flake8_rapport
