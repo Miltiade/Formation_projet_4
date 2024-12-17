@@ -2,3 +2,8 @@
 *__pycache__/*
 *.pyc
 test*
+flake8_rapport
+__init__.py
+db.json
+players_database.json
+
