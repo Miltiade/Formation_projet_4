@@ -1,6 +1,7 @@
 from controlers.tournament_controler import TournamentControler
 from db_operations import add_player, choose_player, choose_tournament
 from views.report_view import list_players_alphabetically, list_tournaments, list_tournament_players, list_tournament_rounds
+from views.player_view import print_player
 
 def main_menu():
     while True:
@@ -18,15 +19,6 @@ def main_menu():
         elif choice == '2':
             tournamentControler = TournamentControler()
             tournamentControler.create_new_tournament()
-            print("TOURNAMENT CREATED!")
-            tournamentControler.print_player()
-            print("PLAYERS' LIST PRINTED!")
-            tournamentControler.run_first_round()
-            print("ROUND 1 RUN SUCCESSFULLY!")
-            tournamentControler.run_subsequent_rounds()
-            print("ALL ROUNDS RUN SUCCESSFULLY!")
-            tournamentControler.display_final_ranking()
-            print("FINAL RANKING DISPLAYED SUCCESSFULLY!")
         elif choice == '3':
             tournamentControler = TournamentControler()
             tournamentControler.load_tournament()

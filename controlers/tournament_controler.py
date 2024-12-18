@@ -1,19 +1,13 @@
-from models import model_tournament,model_round,model_match,model_player
+from models import model_tournament,model_round,model_match
 from views import tournament_view,round_view,match_view,player_view
 from db_operations import save_tournament,update_tournament,choose_tournament
+from test_data import test_players,test_tournament_data
+from models.model_player import Player
 
 class TournamentControler:
     def __init__(self):
         self.tournament = None
-        self.players = [
-            model_player.Player("Luna", "18-09-1991", "AB12345", 34),
-            model_player.Player("Albus", "18-09-1991", "AB12346", 12),
-            model_player.Player("Nymphadora", "18-09-1991", "AB12347", 3),
-            model_player.Player("Minerva", "18-09-1991", "AB12348", 100),
-            model_player.Player("Charlie", "18-09-1991", "AB12349", 4),
-            model_player.Player("Rita", "18-09-1991", "AB12340", 15),
-            model_player.Player("Severus", "18-09-1991", "AB12341", 56),
-            model_player.Player("Padfoot", "18-09-1991", "AB12342", 50)]
+        self.players = test_players
 
     def create_new_tournament(self):
         print("Creating new tournament. Please wait...")
@@ -24,20 +18,23 @@ class TournamentControler:
         # time_control = self.get_time_control()
         # description = self.get_letters("Enter a description or comment of this tournament (optional): ")
         # number_of_rounds = self.get_numbers("How many rounds shall this tournament have? Enter a number: ")
-        name = "tournoi"
-        place = "paris"
-        start_date = "01-01-2025"
-        end_date = "02-01-2025"
-        time_control = "Bullet"
-        description = "random"
+        print("Creating new tournament. Please wait...")
+        name = test_tournament_data["name"]
+        place = test_tournament_data["place"]
+        start_date = test_tournament_data["start_date"]
+        end_date = test_tournament_data["end_date"]
+        time_control = test_tournament_data["time_control"]
+        description = test_tournament_data["description"]
         players = []
-        number_of_rounds = 4
-        current_round = 0
+        number_of_rounds = test_tournament_data["number_of_rounds"]
+        current_round = test_tournament_data["current_round"]
         self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players)
+        print("Tournament created.")
         # for i in range(8):
         #     name, elo = player_view.get_player_info()
         #     player = model_player.Player(name, elo)
         #     self.tournament.add_player(player)
+        print("Tournament created.")
 
     def get_letters(self, message):
         word = tournament_view.get_user_input(message)
@@ -70,7 +67,8 @@ class TournamentControler:
 
 
     def print_player(self):
-        player_view.print_player(self.tournament.player_elos)
+        players = [Player.from_dict(data) for data in self.tournament.player_elos]
+        player_view.print_player(players)
 
     def run_first_round(self):
         # algorithm running the first round

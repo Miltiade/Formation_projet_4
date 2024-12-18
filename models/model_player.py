@@ -19,25 +19,25 @@ class Player:
     
     def serialize(self):
         return {
-            'family name': self.family_name,
-            'first name': self.first_name,
-            'date of birth': self.date_of_birth,
+            'family_name': self.family_name,
+            'first_name': self.first_name,
+            'date_of_birth': self.date_of_birth,
             'elo': self.elo,
             'initial_ranking': self.initial_ranking,
             'match_score': self.match_score,
-            'total_score': self.total_score,
+            'total_score': self.total_score
         }
 
-    @staticmethod
-    def deserialize(player_data):
-        return Player(
-            player_data['family name'],
-            player_data['first name'],
-            player_data['date of birth'],
-            player_data['elo'],
-            player_data['initial_ranking', 0],
-            player_data.get('match_score', 0),
-            player_data.get('total_score', 0)
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            family_name=data['family_name'],
+            first_name=data['first_name'],
+            date_of_birth=data['date_of_birth'],
+            elo=data['elo'],
+            initial_ranking=data.get('initial_ranking', 0),
+            match_score=data.get('match_score', 0),
+            total_score=data.get('total_score', 0)
         )
 
     def save_to_database(self, file_path):
@@ -61,9 +61,9 @@ class Player:
                 # Use json library to load file data
                 player_data = json.load(file)
             # Get player info from dictionary
-            self.first_name = player_data['first name']
-            self.family_name = player_data['family name']
-            self.date_of_birth = player_data['date of birth']
+            self.first_name = player_data['first_name']
+            self.family_name = player_data['family_name']
+            self.date_of_birth = player_data['date_of_birth']
             self.elo = player_data['elo']
             self.initial_ranking = player_data['initial_ranking']
             self.match_score = player_data['match_score']

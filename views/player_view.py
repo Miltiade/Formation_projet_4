@@ -8,6 +8,6 @@ def print_player(players):
     for player in players:
         print(f"family name : {player.family_name}")
         print(f"first name :  {player.first_name}")
-        print(f"date of birth : {player.first_name}")
+        print(f"date of birth : {player.date_of_birth}")
         print(f"elo : {player.elo}")
         print("--------------------")
