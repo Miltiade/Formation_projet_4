@@ -2,9 +2,9 @@ import json
 
 class Player:
     
-    def __init__(self, family_name, first_name, date_of_birth, elo, initial_ranking=0, match_score=0, total_score=0):
-        self.family_name = family_name
+    def __init__(self, first_name, family_name, date_of_birth, elo, initial_ranking, match_score, total_score):
         self.first_name = first_name
+        self.family_name = family_name
         self.date_of_birth = date_of_birth
         self.elo = elo
         self.initial_ranking = initial_ranking
@@ -18,9 +18,10 @@ class Player:
         return f"Player('{self.family_name}', '{self.first_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})" 
     
     def serialize(self):
+        # Serializes the player object to a dictionary.
         return {
-            'family_name': self.family_name,
             'first_name': self.first_name,
+            'family_name': self.family_name,
             'date_of_birth': self.date_of_birth,
             'elo': self.elo,
             'initial_ranking': self.initial_ranking,
@@ -29,15 +30,16 @@ class Player:
         }
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, player_data):
+        # Creates a player object from a dictionary.
         return cls(
-            family_name=data['family_name'],
-            first_name=data['first_name'],
-            date_of_birth=data['date_of_birth'],
-            elo=data['elo'],
-            initial_ranking=data.get('initial_ranking', 0),
-            match_score=data.get('match_score', 0),
-            total_score=data.get('total_score', 0)
+            player_data['first_name'],
+            player_data['family_name'],
+            player_data['date_of_birth'],
+            player_data['elo'],
+            player_data['initial_ranking'],
+            player_data['match_score'],
+            player_data['total_score']
         )
 
     def save_to_database(self, file_path):

@@ -211,14 +211,6 @@ class TournamentControler:
             print("Tournament loading cancelled.")
             return None
 
-    # Load the tournament with player references
-    # loaded_tournament_data = choose_tournament()
-    # player_objects = {p['elo']: load_player(p['elo']) for p in loaded_tournament_data['player_elos']}
-    # tournament = Tournament.deserialize(loaded_tournament_data, player_objects)
-    # # Save each player individually when saving a tournament
-    # for player in tournament.player_elos:
-    #     save_player(player)
-
 def get_all_players():
     # Fetch all players from the database
     return [

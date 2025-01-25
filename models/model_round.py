@@ -1,5 +1,4 @@
 import datetime
-import json
 
 class Round:
     def __init__(self, number, start_time= None, end_time=None):
@@ -29,12 +28,3 @@ class Round:
             'start_time': self.start_time,
             'end_time': self.end_time
             }
-
-    # def set_start_time(self, start_time):
-    #     # Set the start time explicitly
-    #     if start_time is None:
-    #         start_time = datetime.datetime.now()
-    # def set_end_time(self, end_time):
-    #     # Set the end time explicitly
-    #      if end_time is None:
-    #         end_time = datetime.datetime.now()

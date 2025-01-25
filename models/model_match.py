@@ -1,5 +1,3 @@
-import json
-
 class Match:
     def __init__(self, player1, player2, score_player1=0, score_player2=0):
         self.player1 = player1

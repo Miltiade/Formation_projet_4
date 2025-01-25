@@ -1,0 +1,12 @@
+[
+    {
+        "name": "tournoi 1",
+        "place": "Oulu",
+        "player_elos": [1100,1200]
+    },
+    {
+        "name": "tournoi 2",
+        "place": "Paris",
+        "player_elos": [1500,1800]
+    }
+]
