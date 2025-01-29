@@ -47,10 +47,6 @@ class PlayersList:
         # Adds a player to the players list.
         self.players.append(player)
         
-    def delete_player(self, player):
-        # Removes a player from the players list.
-        self.players.remove(player)
-        
     def modify_player(self, player, new_data):
         # Modifies the attributes of a player with new data.
         player.family_name = new_data.get('family_name', player.family_name)
