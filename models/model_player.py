@@ -1,4 +1,5 @@
 import json
+import re # for method def_validate_elo()
 
 class Player:
     
@@ -16,7 +17,11 @@ class Player:
     
     def __repr__(self):
         return f"Player('{self.family_name}', '{self.first_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})" 
-    
+
+    def validate_elo(self):
+        if not re.match(r'^[A-Z]{2}\d{5}$', self.elo):
+            raise ValueError("ELO must be in the format of two letters followed by five digits (e.g., AB12345)")
+
     def serialize(self):
         # Serializes the player object to a dictionary.
         return {
