@@ -17,8 +17,9 @@ et chaque joueur devrait contenir au moins les données suivantes :
 ● Nom de famille
 ● Prénom
 ● Date de naissance
+
 IDENTIFIANT NATIONAL D’ÉCHECS
-Les clubs d'échecs utilisent tous l'identifiant national d’échecs, géré par la Fédération des
+Les clubs d'échecs utilisent tous l'identifiant national d’échecs (appelé "elo"), géré par la Fédération des
 échecs. Ces identifiants sont uniques et comportent deux lettres suivies de cinq chiffres
 (par exemple, AB12345). Vous n'avez pas besoin de générer ces identifiants – les membres
 du club les connaissent !
