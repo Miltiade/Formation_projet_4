@@ -44,7 +44,6 @@ class Tournament:
 
     @staticmethod
     def deserialize(tournament_data, player_objects):
-        # This assumes player_objects is a dict mapping player elos to player objects
         tournament = Tournament(
             tournament_data['name'], tournament_data['place'],
             tournament_data['start_date'], tournament_data['end_date'],
