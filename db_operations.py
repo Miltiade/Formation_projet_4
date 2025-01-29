@@ -4,22 +4,21 @@ from models.model_player import Player
 
 # Save a single player
 def save_player(player):
-    db = TinyDB('db.json')
+    db = TinyDB('data/tournaments/db.json')
     players_table = db.table('players')
     player_data = player.serialize()
     players_table.insert(player_data)
 
 # Save the tournament
 def save_tournament(tournament):
-    db = TinyDB('db.json')
+    db = TinyDB('data/tournaments/db.json')
     tournaments_table = db.table('tournaments')
     tournament_data = tournament.serialize()
-    print(tournament_data)
     tournaments_table.insert(tournament_data)
 
 # Update the tournament (n.b.: use the tournament's name to find the specific tournament)
 def update_tournament(tournament):
-    db = TinyDB('db.json')
+    db = TinyDB('data/tournaments/db.json')
     tournaments_table = db.table('tournaments')
     tournament_data = tournament.serialize()
     print(tournament_data)
@@ -28,7 +27,7 @@ def update_tournament(tournament):
 
 # Function to choose and load a tournament
 def choose_tournament():
-    db = TinyDB('db.json')
+    db = TinyDB('data/tournaments/db.json')
     tournaments_table = db.table('tournaments')
     # Fetch all saved tournaments
     saved_tournaments = tournaments_table.all()
@@ -56,7 +55,7 @@ def choose_tournament():
 
 # Function to choose and load a player
 def choose_player():
-    db = TinyDB('db.json')
+    db = TinyDB('data/tournaments/db.json')
     players_table = db.table('players')
     # Fetch all saved players
     saved_players = players_table.all()
