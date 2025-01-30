@@ -4,6 +4,6 @@
 test*
 flake8_rapport
 __init__.py
-db.json
+*.json
 players_database.json
 
