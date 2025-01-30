@@ -1,34 +1,34 @@
 from models import model_tournament,model_round,model_match
 from views import tournament_view,round_view,match_view,player_view
 from db_operations import save_tournament,update_tournament,choose_tournament
-from test_data import test_players,test_tournament_data
+from test_data import test_players,test_tournament
 from models.model_player import Player
 
 class TournamentControler:
     def __init__(self):
-        self.tournament = None
+        self.tournament = test_tournament
         self.players = test_players
 
     def create_new_tournament(self):
         print("Creating new tournament. Please wait...")
-        # name = self.get_letters("Enter the tournament's name : ")
-        # place = self.get_letters("Enter the tournament's place :")
-        # start_date = self.get_date("Enter the tournament's start date : ")
-        # end_date = self.get_date("Enter the tournament's end date : ")
-        # time_control = self.get_time_control()
-        # description = self.get_letters("Enter a description or comment of this tournament (optional): ")
-        # number_of_rounds = self.get_numbers("How many rounds shall this tournament have? Enter a number: ")
+        name = self.get_letters("Enter the tournament's name : ")
+        place = self.get_letters("Enter the tournament's place :")
+        start_date = self.get_date("Enter the tournament's start date : ")
+        end_date = self.get_date("Enter the tournament's end date : ")
+        time_control = self.get_time_control()
+        description = self.get_letters("Enter a description or comment of this tournament (optional): ")
+        number_of_rounds = self.get_numbers("How many rounds shall this tournament have? Enter a number: ")
         print("Creating new tournament. Please wait...")
-        name = test_tournament_data["name"]
-        place = test_tournament_data["place"]
-        start_date = test_tournament_data["start_date"]
-        end_date = test_tournament_data["end_date"]
-        time_control = test_tournament_data["time_control"]
-        description = test_tournament_data["description"]
-        players = []
-        number_of_rounds = test_tournament_data["number_of_rounds"]
-        current_round = test_tournament_data["current_round"]
-        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, players)
+        # name = test_tournament_data["name"]
+        # place = test_tournament_data["place"]
+        # start_date = test_tournament_data["start_date"]
+        # end_date = test_tournament_data["end_date"]
+        # time_control = test_tournament_data["time_control"]
+        # description = test_tournament_data["description"]
+        # players = []
+        # number_of_rounds = test_tournament_data["number_of_rounds"]
+        # current_round = test_tournament_data["current_round"]
+        # self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, test_players)
         print("Tournament created.")
         # for i in range(8):
         #     name, elo = player_view.get_player_info()

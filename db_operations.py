@@ -87,6 +87,6 @@ def add_player():
     first_name = input("Enter the player's first name: ")
     date_of_birth = input("Enter the player's date of birth (DD-MM-YYYY): ")
     elo = input("Enter the player's ELO: ")
-    player = Player(family_name, first_name, date_of_birth, elo)
+    player = Player(family_name, first_name, date_of_birth, elo,initial_ranking=0, match_score=0, total_score=0)
     save_player(player)
     print(f"Player {first_name} {family_name} added successfully.")
