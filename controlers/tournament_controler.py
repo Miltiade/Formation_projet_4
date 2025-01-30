@@ -1,7 +1,7 @@
 from models import model_tournament,model_round,model_match
 from views import tournament_view,round_view,match_view,player_view
 from db_operations import save_tournament,update_tournament,choose_tournament
-from test_data import test_players,test_tournament
+from tests.test_data import test_players,test_tournament
 from models.model_player import Player
 
 class TournamentControler:
@@ -53,7 +53,7 @@ class TournamentControler:
 
     def get_date(self,message):
         date = tournament_view.get_user_input(message)
-        while not date.isdecimal() and not date.__len__(8): # tant que la date saisie n'est pas un nombre et qu'elle n'est pas un string de 8 caractères
+        while not date.isdecimal() and not date.__len__(8):
             tournament_view.error_message("Error : type a date as DDMMYYYY")
             date = tournament_view.get_user_input(message)
         return date
