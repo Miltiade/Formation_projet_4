@@ -1,13 +1,12 @@
 from models import model_tournament,model_round,model_match
 from views import tournament_view,round_view,match_view,player_view
 from db_operations import save_tournament,update_tournament,choose_tournament
-from tests.test_data import test_players,test_tournament
 from models.model_player import Player
 
 class TournamentControler:
     def __init__(self):
-        self.tournament = test_tournament
-        self.players = test_players
+        self.tournament = None
+        self.players = []
 
     def create_new_tournament(self):
         print("Creating new tournament. Please wait...")
@@ -19,28 +18,22 @@ class TournamentControler:
         description = self.get_letters("Enter a description or comment of this tournament (optional): ")
         number_of_rounds = self.get_numbers("How many rounds shall this tournament have? Enter a number: ")
         print("Creating new tournament. Please wait...")
-        # name = test_tournament_data["name"]
-        # place = test_tournament_data["place"]
-        # start_date = test_tournament_data["start_date"]
-        # end_date = test_tournament_data["end_date"]
-        # time_control = test_tournament_data["time_control"]
-        # description = test_tournament_data["description"]
-        # players = []
-        # number_of_rounds = test_tournament_data["number_of_rounds"]
-        # current_round = test_tournament_data["current_round"]
-        # self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, test_players)
+        # Create a new tournament instance
+        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, self.players, number_of_rounds,0,[],[])
         print("Tournament created.")
-        # for i in range(8):
+        # Save tournament to database
+        save_tournament(self.tournament)
+    
+        # for i in range(2):
         #     name, elo = player_view.get_player_info()
         #     player = model_player.Player(name, elo)
         #     self.tournament.add_player(player)
-        print("Tournament created.")
 
     def get_letters(self, message):
         word = tournament_view.get_user_input(message)
-        while not word.isalpha():
-            tournament_view.error_message("Error: type letters only")
-            word = tournament_view.get_user_input(message)
+        # while not word.isalpha():
+        #     tournament_view.error_message("Error: type letters only")
+        #     word = tournament_view.get_user_input(message)
         return word
 
     def get_time_control(self):
@@ -53,7 +46,7 @@ class TournamentControler:
 
     def get_date(self,message):
         date = tournament_view.get_user_input(message)
-        while not date.isdecimal() and not date.__len__(8):
+        while not date.isdecimal() or len(date) != 8:
             tournament_view.error_message("Error : type a date as DDMMYYYY")
             date = tournament_view.get_user_input(message)
         return date
@@ -210,6 +203,28 @@ class TournamentControler:
         else:
             print("Tournament loading cancelled.")
             return None
+
+    def add_player_to_tournament(self, tournament, player):
+        """
+        Add an existing player to a tournament.
+        
+        Args:
+        tournament (dict): The tournament to which the player will be added.
+        player (dict): The player to be added to the tournament.
+        
+        Returns:
+        bool: True if the player was added successfully, False otherwise.
+        """
+        if 'players' not in tournament:
+            tournament['players'] = []
+        
+        if player not in tournament['players']:
+            tournament['players'].append(player)
+            print(f"Player {player['family_name']} added to tournament {tournament['name']}.")
+            return True
+        else:
+            print(f"Player {player['family_name']} is already in tournament {tournament['name']}.")
+            return False
 
 def get_all_players():
     # Fetch all players from the database

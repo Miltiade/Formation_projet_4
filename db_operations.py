@@ -25,7 +25,7 @@ def update_tournament(tournament):
     Tournament = Query()
     tournaments_table.update(tournament_data,Tournament.name==tournament_data["name"])
 
-# Function to choose and load a tournament
+# Choose and load a tournament
 def choose_tournament():
     db = TinyDB('data/tournaments/db.json')
     tournaments_table = db.table('tournaments')
@@ -53,7 +53,7 @@ def choose_tournament():
         print("Invalid input. Please enter a number.")
         return None
 
-# Function to choose and load a player
+# Choose and load a player
 def choose_player():
     db = TinyDB('data/tournaments/db.json')
     players_table = db.table('players')
@@ -66,13 +66,13 @@ def choose_player():
     # Display the list of players' names
     print("Please choose a player to load:")
     for index, player in enumerate(saved_players):
-        print(f"{index + 1}. {player['elo']} - {player['name']}")
+        print(f"{index + 1}. {player['elo']} - {player['family_name']}")
     # Ask the user to choose a player
     try:
         choice = int(input("Enter the number of the player you want to load: ")) - 1
         if 0 <= choice < len(saved_players):
             selected_player = saved_players[choice]
-            print(f"You have selected the player: {selected_player['name']} (Elo: {selected_player['elo']})")
+            print(f"You have selected the player: {selected_player['family_name']} (Elo: {selected_player['elo']})")
             return selected_player
         else:
             print("Invalid selection. Please enter a valid number.")
@@ -81,8 +81,8 @@ def choose_player():
         print("Invalid input. Please enter a number.")
         return None
 
-# Function to add a new player
-def add_player():
+# Function to create a new player
+def create_player():
     family_name = input("Enter the player's family name: ")
     first_name = input("Enter the player's first name: ")
     date_of_birth = input("Enter the player's date of birth (DD-MM-YYYY): ")
