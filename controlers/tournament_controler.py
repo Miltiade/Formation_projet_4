@@ -197,7 +197,7 @@ class TournamentControler:
         tournament_data = choose_tournament()
         if tournament_data:
             # Deserialize the tournament data back into a Tournament object
-            tournament = model_tournament.Tournament.deserialize(self,tournament_data)
+            tournament = model_tournament.Tournament.deserialize(tournament_data)
             print(f"Tournament '{tournament.name}' loaded successfully.")
             return tournament
         else:
