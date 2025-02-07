@@ -39,7 +39,6 @@ def main_menu():
             break
         elif choice == '9': # Function to load a specific player from JSON to add to a tournament
             tournament = choose_tournament()
-            # players = load_players()  # Load players from JSON
             player = choose_player()
             tournamentControler = TournamentControler()
             tournamentControler.add_player_to_tournament(tournament,player)
