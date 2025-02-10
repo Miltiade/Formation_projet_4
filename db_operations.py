@@ -45,14 +45,16 @@ def choose_tournament():
         if 0 <= choice < len(saved_tournaments):
             selected_tournament = saved_tournaments[choice]
             print(f"You have selected the tournament: {selected_tournament['name']}")
-            return selected_tournament
+            # Deserialize the tournament data into a Tournament object
+            tournament = Tournament.deserialize(selected_tournament)
+            return tournament
         else:
             print("Invalid selection. Please enter a valid number.")
             return None
     except ValueError:
         print("Invalid input. Please enter a number.")
         return None
-
+    
 # Choose and load a player
 def choose_player():
     db = TinyDB('data/tournaments/db.json')

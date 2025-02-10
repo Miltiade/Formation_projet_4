@@ -1,22 +1,21 @@
 import json
-import re # for method def_validate_elo()
+import re  # for method def_validate_elo()
 
 class Player:
-    
     def __init__(self, first_name, family_name, date_of_birth, elo, initial_ranking, match_score, total_score):
         self.first_name = first_name
         self.family_name = family_name
         self.date_of_birth = date_of_birth
         self.elo = elo
         self.initial_ranking = initial_ranking
-        self.match_score = match_score # player's score in the current match
-        self.total_score = total_score # player's total score at a given time
-        
+        self.match_score = match_score  # player's score in the current match
+        self.total_score = total_score  # player's total score at a given time
+
     def __str__(self):
         return f"{self.family_name} | {self.first_name} | {self.date_of_birth} | {self.elo} |{self.initial_ranking} | {self.match_score} | {self.total_score}"
-    
+
     def __repr__(self):
-        return f"Player('{self.family_name}', '{self.first_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})" 
+        return f"Player('{self.family_name}', '{self.first_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})"
 
     def validate_elo(self):
         if not re.match(r'^[A-Z]{2}\d{5}$', self.elo):
@@ -47,6 +46,19 @@ class Player:
             player_data['total_score']
         )
 
+    @classmethod
+    def deserialize(cls, data):
+        # Creates a player object from a dictionary.
+        return cls(
+            first_name=data['first_name'],
+            family_name=data['family_name'],
+            date_of_birth=data['date_of_birth'],
+            elo=data['elo'],
+            initial_ranking=data['initial_ranking'],
+            match_score=data['match_score'],
+            total_score=data['total_score']
+        )
+
     def save_to_database(self, file_path):
         # A method that converts player info into a dictionary, using "serialize" method
         # Argument is: filepath of the JSON file in which to save the players
@@ -59,7 +71,7 @@ class Player:
         except IOError:
             # Raise errors if they happen
             print("Error while saving player in database.")
-    
+
     def load_from_database(self, file_path):
         # Argument is: filepath of the JSON file containing player info
         try:

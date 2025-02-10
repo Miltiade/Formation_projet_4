@@ -209,21 +209,29 @@ class TournamentControler:
         Add an existing player to a tournament.
         
         Args:
-        tournament (dict): The tournament to which the player will be added.
-        player (dict): The player to be added to the tournament.
+        tournament (Tournament): The tournament to which the player will be added.
+        player (dict or Player): The player to be added to the tournament.
         
         Returns:
         bool: True if the player was added successfully, False otherwise.
         """
-        if 'players' not in tournament:
-            tournament['players'] = []
+        if not isinstance(tournament, model_tournament.Tournament):
+            # Deserialize the tournament if it's not already a Tournament object
+            tournament = model_tournament.Tournament.deserialize(tournament)
         
-        if player not in tournament['players']:
-            tournament['players'].append(player)
-            print(f"Player {player['family_name']} added to tournament {tournament['name']}.")
+        # Ensure player is an instance of Player
+        if isinstance(player, dict):
+            player = Player.from_dict(player)
+        
+        # Check if the player is already in the tournament
+        if player.serialize() not in [p.serialize() for p in tournament.players]:
+            tournament.add_player(player)  # Use the add_player method
+            # Save the updated tournament data to the database
+            update_tournament(tournament)
+            print(f"Player {player.family_name} added to tournament {tournament.name}.")
             return True
         else:
-            print(f"Player {player['family_name']} is already in tournament {tournament['name']}.")
+            print(f"Player {player.family_name} is already in tournament {tournament.name}.")
             return False
 
 def get_all_players():
