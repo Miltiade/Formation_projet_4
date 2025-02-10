@@ -13,7 +13,7 @@ def main_menu():
         print("7. List Tournament Rounds")
         print("8. Exit")
         print("9. Add player to tournament")
-        # print("10. Run currently selected tournament")
+        print("10. Select and run a tournament")
         choice = input("Enter your choice: ")
         if choice == '1':
             create_player()
@@ -42,8 +42,10 @@ def main_menu():
             player = choose_player()
             tournamentControler = TournamentControler()
             tournamentControler.add_player_to_tournament(tournament,player)
-        # elif choice == '10': # Function to run the currently selected tournament
-        #     tournamentControler = TournamentControler()
+        elif choice == '10': # Function to select and run selected tournament
+            tournament = choose_tournament()
+            tournamentControler = TournamentControler()
+            tournamentControler.run_tournament(tournament)
         else:
             print("Invalid choice. Please try again.")
 

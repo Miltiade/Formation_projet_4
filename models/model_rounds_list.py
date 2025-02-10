@@ -24,6 +24,7 @@ Methods:
 
 import json
 import os
+from models.model_match import Match
 
 class RoundsList:
     def __init__(self, file_path):
@@ -64,3 +65,16 @@ class RoundsList:
             del self.rounds[index]
             # Save the updated list to the file
             self.save_rounds()
+
+class Round:
+    def __init__(self, name, matchs):
+        self.name = name
+        self.matchs = matchs
+
+    @classmethod
+    def deserialize(cls, data):
+        matchs = [Match.deserialize(match_data) for match_data in data.get('matchs', [])]
+        return cls(
+            name=data['name'],
+            matchs=matchs
+        )

@@ -66,6 +66,7 @@ class TournamentControler:
     def run_first_round(self):
         # algorithm running the first round
         print("Starting to run round 1.")
+        print("Sorting players by elo.")
         self.tournament.player_elos.sort(key = lambda x : -x.elo) # sorting players by elo, from highest elo to lowest elo
         for rank, player in enumerate(self.tournament.player_elos, start=1):
             player.initial_ranking = rank
@@ -105,10 +106,10 @@ class TournamentControler:
         :param self.tournament: The tournament object containing the list of players and their scores.
         :return: List of pairs (matches) for the next round.
         """
-        print("Generating pairs. Please wait...")
+        print("Generating pairs of players based on their score.")
         # Sort players based on their scores
         sorted_players = sorted(self.tournament.player_elos, key=lambda x: (-x.total_score, x.initial_ranking))
-        print("players sorted")
+        print("Players sorted.")
 
         matches = []  # List to hold the matches for the next round.
         used_players = set()  # Set of players already paired for this round.
@@ -167,6 +168,7 @@ class TournamentControler:
                 self.tournament.matches_played.append((player1, player2))  # Update the tournament's matches_played list
 
             # Run the matches for the current round
+            print(f"Running matches for round {round_number}")
             for match in current_round.matchs:
                 print(match.player1)
                 print(match.player2)
@@ -233,6 +235,23 @@ class TournamentControler:
         else:
             print(f"Player {player.family_name} is already in tournament {tournament.name}.")
             return False
+        
+    def run_tournament(self, tournament):
+        """
+        Run a tournament from the first round to the final round.
+        
+        Args:
+        tournament (Tournament): The tournament to be run.
+        """
+        if not isinstance(tournament, model_tournament.Tournament):
+            # Deserialize the tournament if it's not already a Tournament object
+            tournament = model_tournament.Tournament.deserialize(tournament)
+        
+        self.tournament = tournament
+        self.run_first_round()
+        self.run_subsequent_rounds()
+        self.display_final_ranking()
+
 
 def get_all_players():
     # Fetch all players from the database
