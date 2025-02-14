@@ -1,7 +1,9 @@
-from models import model_tournament,model_round,model_match
-from views import tournament_view,round_view,match_view,player_view
-from db_operations import save_tournament,update_tournament,choose_tournament
 from models.model_player import Player
+from views import tournament_view, match_view, player_view
+from db_operations import update_tournament, choose_tournament
+import models.model_tournament as model_tournament  # Import model_tournament module
+import models.model_round as model_round  # Import model_round module
+import models.model_match as model_match  # Import model_match module
 
 class TournamentControler:
     def __init__(self):
@@ -22,7 +24,7 @@ class TournamentControler:
         self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, self.players, number_of_rounds,0,[],[])
         print("Tournament created.")
         # Save tournament to database
-        save_tournament(self.tournament)
+        # save_tournament(self.tournament)
     
         # for i in range(2):
         #     name, elo = player_view.get_player_info()
@@ -66,38 +68,43 @@ class TournamentControler:
     def run_first_round(self):
         # algorithm running the first round
         print("Starting to run round 1.")
+        
         print("Sorting players by elo.")
-        self.tournament.player_elos.sort(key = lambda x : -x.elo) # sorting players by elo, from highest elo to lowest elo
+        self.tournament.player_elos.sort(key=lambda x: -x.elo)  # sorting players by elo, from highest elo to lowest elo
         for rank, player in enumerate(self.tournament.player_elos, start=1):
             player.initial_ranking = rank
-        round1 = model_round.Round("1") # creating object "first round" and declaring it as variable
-        self.tournament.add_round(round1) # adding the variable in the tournament
-        for i in range(0, len(self.tournament.player_elos), 2): # adding matches in the round
+        print("Players sorted.")
+        
+        round1 = model_round.Round("1")  # creating object "first round" and declaring it as variable
+        self.tournament.add_round(round1)  # adding the variable in the tournament
+        for i in range(0, len(self.tournament.player_elos), 2):  # adding matches in the round
             new_match = model_match.Match(self.tournament.player_elos[i], self.tournament.player_elos[i + 1])
+            print(new_match)
             round1.add_match(new_match)
-            
-
-        for match in self.tournament.rounds[0].matchs: # for all matches: add scores & print results
+        
+        print("Running matches for round 1.")
+        for match in self.tournament.rounds[0].matchs:  # for all matches: add scores & print results
             print(match.player1)
             print(match.player2)
-            self.tournament.matches_played.append((match.player1, match.player2)) # update the tournament's matches_played list with the players of the current match
-            match.score_player1,match.score_player2 = self.handle_score()
+            self.tournament.matches_played.append((match.player1, match.player2))  # update the tournament's matches_played list with the players of the current match
+            match.score_player1, match.score_player2 = self.handle_score() # add scores to the match
             match.player1.total_score += match.score_player1
             match.player2.total_score += match.score_player2
             match_view.print_match_result(match)
-        
-        save_tournament(self.tournament)
-        print(f"Round finished; tournament state has been saved.")
-
+        # save_tournament(self.tournament)
+        print(f"Round 1 finished.")
 
     def handle_score(self):
-        score = match_view.enter_match_result()
-        if(score == "1"):
-            return 1,0
-        elif(score == "2"):
-            return 0,1
-        else:
-            return 0.5,0.5
+        while True:
+            score = match_view.enter_match_result()
+            if score == "1":
+                return 1, 0
+            elif score == "2":
+                return 0, 1
+            elif score == "0":
+                return 0.5, 0.5
+            else:
+                print("Invalid input. Please try again.")
 
 
     def generate_pairs(self):
@@ -146,9 +153,6 @@ class TournamentControler:
         """
         Runs each round after the first one until the tournament is completed.
         """
-        # tournament_data = tournament.serialize()
-        # self.tournament = None
-        # self.deserializer(tournament_data)
         number_of_rounds = self.tournament.number_of_rounds
 
         for round_number in range(2, number_of_rounds + 1):
@@ -168,7 +172,7 @@ class TournamentControler:
                 self.tournament.matches_played.append((player1, player2))  # Update the tournament's matches_played list
 
             # Run the matches for the current round
-            print(f"Running matches for round {round_number}")
+            print(f"Running matches for round {round_number}.")
             for match in current_round.matchs:
                 print(match.player1)
                 print(match.player2)
@@ -176,12 +180,9 @@ class TournamentControler:
                 match.player1.total_score += match.score_player1
                 match.player2.total_score += match.score_player2
                 match_view.print_match_result(match)
-
-            print(f"Round {round_number} completed.")
             
-            update_tournament(self.tournament)
-            print(f"Round {round_number} has finished. Tournament state has been saved.")
-
+            # update_tournament(self.tournament)
+            print(f"Round {round_number} has finished.")
 
         print("Tournament completed.")
 
@@ -238,7 +239,7 @@ class TournamentControler:
         
     def run_tournament(self, tournament):
         """
-        Run a tournament from the first round to the final round.
+        Run a tournament from the first round to the final round: generate pairs, run matches, and display the final ranking.
         
         Args:
         tournament (Tournament): The tournament to be run.
@@ -250,7 +251,7 @@ class TournamentControler:
         self.tournament = tournament
         self.run_first_round()
         self.run_subsequent_rounds()
-        self.display_final_ranking()
+        # self.display_final_ranking()
 
 
 def get_all_players():

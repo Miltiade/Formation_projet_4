@@ -12,10 +12,10 @@ class Player:
         self.total_score = total_score  # player's total score at a given time
 
     def __str__(self):
-        return f"{self.family_name} | {self.first_name} | {self.date_of_birth} | {self.elo} |{self.initial_ranking} | {self.match_score} | {self.total_score}"
+        return f"{self.first_name} | {self.family_name} | {self.date_of_birth} | {self.elo} |{self.initial_ranking} | {self.match_score} | {self.total_score}"
 
     def __repr__(self):
-        return f"Player('{self.family_name}', '{self.first_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})"
+        return f"Player('{self.first_name}', '{self.family_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})"
 
     def validate_elo(self):
         if not re.match(r'^[A-Z]{2}\d{5}$', self.elo):
