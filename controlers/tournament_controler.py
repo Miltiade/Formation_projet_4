@@ -1,6 +1,6 @@
 from models.model_player import Player
 from views import tournament_view, match_view, player_view
-from db_operations import update_tournament, choose_tournament
+from db_operations import update_tournament, choose_tournament, save_tournament
 import models.model_tournament as model_tournament  # Import model_tournament module
 import models.model_round as model_round  # Import model_round module
 import models.model_match as model_match  # Import model_match module
@@ -24,7 +24,7 @@ class TournamentControler:
         self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, self.players, number_of_rounds,0,[],[])
         print("Tournament created.")
         # Save tournament to database
-        # save_tournament(self.tournament)
+        save_tournament(self.tournament)
     
         # for i in range(2):
         #     name, elo = player_view.get_player_info()
@@ -70,23 +70,24 @@ class TournamentControler:
         print("Starting to run round 1.")
         
         print("Sorting players by elo.")
-        self.tournament.player_elos.sort(key=lambda x: -x.elo)  # sorting players by elo, from highest elo to lowest elo
-        for rank, player in enumerate(self.tournament.player_elos, start=1):
-            player.initial_ranking = rank
+        print(self.tournament.player_elos)
+        self.tournament.player_elos.sort()  # sorting players by elo
+        # for rank, player in enumerate(self.tournament.player_elos, start=1):
+            # print(player)
+            # print(rank)
+            # player.initial_ranking = rank
         print("Players sorted.")
         
         round1 = model_round.Round("1")  # creating object "first round" and declaring it as variable
         self.tournament.add_round(round1)  # adding the variable in the tournament
         for i in range(0, len(self.tournament.player_elos), 2):  # adding matches in the round
             new_match = model_match.Match(self.tournament.player_elos[i], self.tournament.player_elos[i + 1])
-            print(new_match)
             round1.add_match(new_match)
         
         print("Running matches for round 1.")
         for match in self.tournament.rounds[0].matchs:  # for all matches: add scores & print results
-            print(match.player1)
-            print(match.player2)
             self.tournament.matches_played.append((match.player1, match.player2))  # update the tournament's matches_played list with the players of the current match
+            # print(match.player1.total_score)
             match.score_player1, match.score_player2 = self.handle_score() # add scores to the match
             match.player1.total_score += match.score_player1
             match.player2.total_score += match.score_player2

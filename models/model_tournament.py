@@ -22,7 +22,8 @@ class Tournament:
         # Add player to the players list
         self.players.append(player)
         # Add player's elo (as string) to the player_elos list whenever a player is added
-        self.player_elos.append(str(player.elo)) 
+        self.player_elos.append(str(player.elo))
+        print(self.player_elos)
 
     def add_round(self, round):
         self.rounds.append(round)
