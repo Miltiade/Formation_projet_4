@@ -70,16 +70,29 @@ class TournamentControler:
         print("Starting to run round 1.")
         
         print("Sorting players by elo.")
-        print(self.tournament.player_elos)
-        self.tournament.player_elos.sort()  # sorting players by elo
-        # for rank, player in enumerate(self.tournament.player_elos, start=1):
-            # print(player)
-            # print(rank)
-            # player.initial_ranking = rank
+        
+        # Create a dictionary to map player elos to player objects
+        player_dict = {player.elo: player for player in self.tournament.players}
+        
+        # Check if all player elos in player_elos exist in player_dict
+        missing_players = [elo for elo in self.tournament.player_elos if elo not in player_dict]
+        if missing_players:
+            print(f"Error: The following player elos are missing: {missing_players}")
+            return
+        
+        # Convert player_elos (list of player elos) to Player objects using the dictionary
+        self.tournament.player_elos = [player_dict[elo] for elo in self.tournament.player_elos]
+        
+        # Sort players by the numeric part of their elo, from highest to lowest
+        self.tournament.player_elos.sort(key=lambda x: -int(x.elo[2:]))
+        
+        for rank, player in enumerate(self.tournament.player_elos, start=1):
+            player.initial_ranking = rank
         print("Players sorted.")
         
         round1 = model_round.Round("1")  # creating object "first round" and declaring it as variable
         self.tournament.add_round(round1)  # adding the variable in the tournament
+        
         for i in range(0, len(self.tournament.player_elos), 2):  # adding matches in the round
             new_match = model_match.Match(self.tournament.player_elos[i], self.tournament.player_elos[i + 1])
             round1.add_match(new_match)
@@ -87,7 +100,6 @@ class TournamentControler:
         print("Running matches for round 1.")
         for match in self.tournament.rounds[0].matchs:  # for all matches: add scores & print results
             self.tournament.matches_played.append((match.player1, match.player2))  # update the tournament's matches_played list with the players of the current match
-            # print(match.player1.total_score)
             match.score_player1, match.score_player2 = self.handle_score() # add scores to the match
             match.player1.total_score += match.score_player1
             match.player2.total_score += match.score_player2
@@ -151,41 +163,30 @@ class TournamentControler:
         return False
 
     def run_subsequent_rounds(self):
-        """
-        Runs each round after the first one until the tournament is completed.
-        """
-        number_of_rounds = self.tournament.number_of_rounds
-
+        # Ensure number_of_rounds is an integer
+        number_of_rounds = int(self.tournament.number_of_rounds)
+        
         for round_number in range(2, number_of_rounds + 1):
             print(f"Starting to run round {round_number}.")
-
-            # Create a new round object
-            current_round = model_round.Round(str(round_number))
-            self.tournament.add_round(current_round)
-
-            # Generate pairs for the current round
-            pairs = self.generate_pairs()
             
-            # Add matches to the current round
-            for player1, player2 in pairs:
-                new_match = model_match.Match(player1, player2)
-                current_round.add_match(new_match)
-                self.tournament.matches_played.append((player1, player2))  # Update the tournament's matches_played list
-
-            # Run the matches for the current round
+            # Create a new round object
+            round_ = model_round.Round(str(round_number))
+            self.tournament.add_round(round_)
+            
+            # Add matches to the round
+            for i in range(0, len(self.tournament.player_elos), 2):
+                new_match = model_match.Match(self.tournament.player_elos[i], self.tournament.player_elos[i + 1])
+                round_.add_match(new_match)
+            
             print(f"Running matches for round {round_number}.")
-            for match in current_round.matchs:
-                print(match.player1)
-                print(match.player2)
+            for match in round_.matchs:
+                self.tournament.matches_played.append((match.player1, match.player2))
                 match.score_player1, match.score_player2 = self.handle_score()
                 match.player1.total_score += match.score_player1
                 match.player2.total_score += match.score_player2
                 match_view.print_match_result(match)
             
-            # update_tournament(self.tournament)
-            print(f"Round {round_number} has finished.")
-
-        print("Tournament completed.")
+            print(f"Round {round_number} finished.")
 
     def display_final_ranking(self):
         """
@@ -253,6 +254,8 @@ class TournamentControler:
         self.run_first_round()
         self.run_subsequent_rounds()
         # self.display_final_ranking()
+        update_tournament(self.tournament)
+        print("Tournament finished.")
 
 
 def get_all_players():
