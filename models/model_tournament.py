@@ -2,6 +2,7 @@
 
 from models.model_round import Round
 from models.model_player import Player
+from models.model_match import Match
 
 class Tournament:
     def __init__(self, name, place, start_date, end_date, time_control, description, player_elos, number_of_rounds, current_round, matches_played, rounds=None, players=None):
@@ -26,6 +27,7 @@ class Tournament:
         print(self.player_elos)
 
     def add_round(self, round):
+        # Add round to the rounds list
         self.rounds.append(round)
 
     def serialize(self):
@@ -41,7 +43,7 @@ class Tournament:
             'time_control': self.time_control,
             'current_round': self.current_round,
             'rounds': [round_.serialize() for round_ in self.rounds],  # Serialize rounds
-            'matches_played': self.matches_played,
+            'matches_played': [(match[0].serialize(), match[1].serialize()) for match in self.matches_played],  # Serialize matches played
             'players': [player.serialize() for player in self.players]  # Serialize players
         }
 
@@ -58,6 +60,9 @@ class Tournament:
         # Deserialize players
         players = [Player.deserialize(player_data) for player_data in tournament_data.get('players', [])]
 
+        # Deserialize matches
+        matches_played = [Match.deserialize(match_data) for match_data in tournament_data.get('matches_played', [])]
+
         return cls(
             name=tournament_data['name'],
             place=tournament_data['place'],
@@ -69,6 +74,6 @@ class Tournament:
             number_of_rounds=tournament_data['number_of_rounds'],
             current_round=tournament_data['current_round'],
             rounds=rounds,
-            matches_played=tournament_data['matches_played'],
+            matches_played=matches_played,
             players=players
         )

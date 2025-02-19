@@ -1,7 +1,8 @@
-from models.model_player import Player
+
 
 class Match:
     def __init__(self, player1, player2, score_player1=0, score_player2=0):
+        from models.model_player import Player  # Import here to avoid circular imports
         self.player1 = player1
         self.player2 = player2
         self.score_player1 = score_player1

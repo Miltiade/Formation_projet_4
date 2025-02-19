@@ -241,7 +241,7 @@ class TournamentControler:
         
     def run_tournament(self, tournament):
         """
-        Run a tournament from the first round to the final round: generate pairs, run matches, and display the final ranking.
+        Run a tournament from the first round to the final round: generate pairs, run matches, and update the database (save).
         
         Args:
         tournament (Tournament): The tournament to be run.
@@ -254,7 +254,7 @@ class TournamentControler:
         self.run_first_round()
         self.run_subsequent_rounds()
         # self.display_final_ranking()
-        update_tournament(self.tournament)
+        update_tournament(self.tournament)  # Update the tournament in the database
         print("Tournament finished.")
 
 

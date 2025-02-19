@@ -16,14 +16,13 @@ def save_tournament(tournament):
     tournament_data = tournament.serialize()
     tournaments_table.insert(tournament_data)
 
-# Update (i.e. save) existing tournament (n.b.: use the tournament's name to find the specific tournament)
+# Update (i.e. save) existing tournament in JSON file (n.b.: use the tournament's name to find the specific tournament)
 def update_tournament(tournament):
     db = TinyDB('data/tournaments/db.json')
     tournaments_table = db.table('tournaments')
     tournament_data = tournament.serialize()
-    # print(tournament_data)
-    Tournament = Query()
-    tournaments_table.update(tournament_data,Tournament.name==tournament_data["name"])
+    tournament_query = Query()
+    tournaments_table.update(tournament_data, tournament_query.name == tournament_data["name"])
 
 # Choose and load a tournament
 def choose_tournament():
