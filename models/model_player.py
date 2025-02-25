@@ -1,6 +1,6 @@
 import json
 import re  # for method def_validate_elo()
-from models.model_match import Match
+# from models.model_match import Match
 
 class Player:
     def __init__(self, first_name, family_name, date_of_birth, elo, initial_ranking, match_score, total_score, matches_played=None):
@@ -53,7 +53,6 @@ class Player:
     @classmethod
     def deserialize(cls, player_data):
         # Deserialize the player object from a dictionary
-        matches_played = [Match.deserialize(match_data) for match_data in player_data.get('matches_played', [])]
         return cls(
             first_name=player_data['first_name'],
             family_name=player_data['family_name'],
@@ -62,7 +61,8 @@ class Player:
             initial_ranking=player_data['initial_ranking'],
             match_score=player_data['match_score'],
             total_score=player_data['total_score'],
-            matches_played=matches_played
+            # matches_played=[Match.deserialize(match_data) for match_data in player_data.get('matches_played', [])]
+
         )
 
     def save_to_database(self, file_path):

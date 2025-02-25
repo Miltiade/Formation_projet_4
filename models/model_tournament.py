@@ -32,6 +32,7 @@ class Tournament:
 
     def serialize(self):
         # Serialize the tournament object to a dictionary
+        print(self.player_elos)
         return {
             'name': self.name,
             'place': self.place,
@@ -61,7 +62,15 @@ class Tournament:
         players = [Player.deserialize(player_data) for player_data in tournament_data.get('players', [])]
 
         # Deserialize matches
-        matches_played = [Match.deserialize(match_data) for match_data in tournament_data.get('matches_played', [])]
+        matches_played = []
+        for match_data in tournament_data.get('matches_played', []):
+            player1_data, player2_data = match_data
+            player1 = Player.deserialize(player1_data)
+            player2 = Player.deserialize(player2_data)
+            match = Match(player1, player2)
+            match.score_player1 = match_data.get('score_player1', 0)
+            match.score_player2 = match_data.get('score_player2', 0)
+            matches_played.append(match)
 
         return cls(
             name=tournament_data['name'],
@@ -77,3 +86,11 @@ class Tournament:
             matches_played=matches_played,
             players=players
         )
+    
+    '''A function that prints player_elos as a string'''
+    def get_player_elos(self):
+        return f"{self.player_elos}"
+
+    '''A function that prints a tournament object as a string'''
+    def __str__(self):
+        return f"{self.name} - {self.start_date} to {self.end_date}"
