@@ -185,6 +185,8 @@ class TournamentControler:
                 match_view.print_match_result(match)
             
             print(f"Round {round_number} finished.")
+            update_tournament(self.tournament)  # Update the tournament in the database
+            print("Tournament updated.")
 
     def display_final_ranking(self):
         """
@@ -250,6 +252,7 @@ class TournamentControler:
         self.tournament = tournament
         print(self.tournament.player_elos)
         self.run_first_round()
+        update_tournament(self.tournament)  # Update the tournament in the database
         self.run_subsequent_rounds()
         # self.display_final_ranking()
         update_tournament(self.tournament)  # Update the tournament in the database
