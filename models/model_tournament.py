@@ -15,7 +15,7 @@ class Tournament:
         self.player_elos = player_elos
         self.number_of_rounds = number_of_rounds
         self.current_round = current_round
-        self.matches_played = matches_played
+        # self.matches_played = matches_played # @MENTOR: since Tournament already has "rounds" attribute, which in turn has "matches" attribute... shouldn't we remove "matches_played" attribute from Tournament?
         self.rounds = rounds if rounds is not None else []
         self.players = players if players is not None else []
 
@@ -44,7 +44,7 @@ class Tournament:
             'time_control': self.time_control,
             'current_round': self.current_round,
             'rounds': [round_.serialize() for round_ in self.rounds],  # Serialize rounds
-            'matches_played': [(match[0].serialize(), match[1].serialize()) for match in self.matches_played],  # Serialize matches played
+            # 'matches_played': [(match[0].serialize(), match[1].serialize()) for match in self.matches_played],  # Serialize matches played
             'players': [player.serialize() for player in self.players]  # Serialize players
         }
 
@@ -59,7 +59,13 @@ class Tournament:
         rounds = [Round.deserialize(round_data) for round_data in rounds_data]
 
         # Deserialize players
-        players = [Player.deserialize(player_data) for player_data in tournament_data.get('players', [])]
+        players = []
+        for player_data in tournament_data.get('players', []):
+            # Debug statement to check player_data
+            print(f"Deserializing player_data: {player_data} (type: {type(player_data)})")
+            if not isinstance(player_data, dict):
+                raise TypeError(f"Expected player_data to be a dict, but got {type(player_data).__name__}")
+            players.append(Player.deserialize(player_data))
 
         # Deserialize matches
         matches_played = []

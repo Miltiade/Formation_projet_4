@@ -50,8 +50,23 @@ class Player:
             player_data['total_score']
         )
 
+# DEBUGGER LE CODE :) 
+#  Problème actuel : deserialization fails; le loup est probablement dans la méthode serialize de la classe Player. Corriger cela.
+
+# Attendu: à chaque fin de match, on met à jour le score total des joueurs. Et on sauvegarde le score total de chaque joueur dans la base de données.
+# A la fin du tournoi, le programme calcule, enregistre en JSON, et affiche le score total de chaque joueur.
+
+# OBJECTIF SMART : EXECUTER UN TOURNOI, QUI ENREGISTRE CORRECTEMENT LES SCORES DE SES JOUEURS A MESURE QU'IL S'EXECUTE, QUI LES ENREGISTRE ET LES AFFICHE A LA FIN.
+
     @classmethod
     def deserialize(cls, player_data):
+        # Debug statement to check player_data
+        print(f"Deserializing player_data: {player_data} (type: {type(player_data)})")
+        
+        # Ensure player_data is a dictionary
+        if not isinstance(player_data, dict):
+            raise TypeError(f"Expected player_data to be a dict, but got {type(player_data).__name__}")
+
         # Deserialize the player object from a dictionary
         return cls(
             first_name=player_data['first_name'],
@@ -62,8 +77,15 @@ class Player:
             match_score=player_data['match_score'],
             total_score=player_data['total_score'],
             # matches_played=[Match.deserialize(match_data) for match_data in player_data.get('matches_played', [])]
-
         )
+
+# DEBUGGER LE CODE :) 
+#  Problème actuel : deserialization fails; le loup est probablement dans la méthode serialize de la classe Player. Corriger cela.
+
+# Attendu: à chaque fin de match, on met à jour le score total des joueurs. Et on sauvegarde le score total de chaque joueur dans la base de données.
+# A la fin du tournoi, le programme calcule, enregistre en JSON, et affiche le score total de chaque joueur.
+
+# OBJECTIF SMART : EXECUTER UN TOURNOI, QUI ENREGISTRE CORRECTEMENT LES SCORES DE SES JOUEURS A MESURE QU'IL S'EXECUTE, QUI LES ENREGISTRE ET LES AFFICHE A LA FIN.
 
     def save_to_database(self, file_path):
         # A method that converts player info into a dictionary, using "serialize" method

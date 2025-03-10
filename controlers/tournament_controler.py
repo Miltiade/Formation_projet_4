@@ -92,16 +92,18 @@ class TournamentControler:
             player2 = next(player for player in self.tournament.players if player.elo == self.tournament.player_elos[i + 1])
             new_match = model_match.Match(player1, player2)
             round1.add_match(new_match)
+            
         
         print("Running matches for round 1.")
         for match in self.tournament.rounds[0].matchs:  # For all matches: add scores & print results
-            self.tournament.matches_played.append((match.player1, match.player2))  # Update the tournament's matches_played list with the players of the current match
+            # self.tournament.matches_played.append((match.player1, match.player2))  # Update the tournament's matches_played list with the players of the current match
             match.score_player1, match.score_player2 = self.handle_score()  # Add scores to the match
-            match.player1.total_score += match.score_player1
-            match.player2.total_score += match.score_player2
-            match_view.print_match_result(match)
+            match.player1.total_score += match.score_player1 # Update the total score of player1
+            match.player2.total_score += match.score_player2 # Update the total score of player2
+            match_view.print_match_result(match) # Print the result of the match
         print("Round 1 finished.")
-        print(self.tournament.player_elos)
+        update_tournament(self.tournament) # Update the tournament in the database
+        print("Tournament updated.")
 
     def handle_score(self):
         while True:
@@ -180,9 +182,9 @@ class TournamentControler:
             for match in round_.matchs:  # For all matches: add scores & print results
                 self.tournament.matches_played.append((match.player1, match.player2))  # Update the tournament's matches_played list with the players of the current match
                 match.score_player1, match.score_player2 = self.handle_score()  # Add scores to the match
-                match.player1.total_score += match.score_player1
-                match.player2.total_score += match.score_player2
-                match_view.print_match_result(match)
+                match.player1.total_score += match.score_player1 # Update the total score of player1
+                match.player2.total_score += match.score_player2 # Update the total score of player2
+                match_view.print_match_result(match) # Print the result of the match
             
             print(f"Round {round_number} finished.")
             update_tournament(self.tournament)  # Update the tournament in the database
@@ -194,6 +196,8 @@ class TournamentControler:
         """
         print("printing Final Ranking of Players...")
         # If player_elos contains serialized dictionaries, use dictionary keys
+        print(self.tournament.player_elos)
+        print('total_score')
         sorted_players = sorted(self.tournament.player_elos, key=lambda x: (-x['total_score'], x['initial_ranking']))
         for rank, player in enumerate(sorted_players, start=1):
             print(f"Final Ranking of Players: {rank}. {player['family name']} {player['first name']} - Total Score: {player['total_score']} points")
@@ -252,10 +256,8 @@ class TournamentControler:
         self.tournament = tournament
         print(self.tournament.player_elos)
         self.run_first_round()
-        update_tournament(self.tournament)  # Update the tournament in the database
         self.run_subsequent_rounds()
-        # self.display_final_ranking()
-        update_tournament(self.tournament)  # Update the tournament in the database
+        self.display_final_ranking()
         print("Tournament finished.")
 
 

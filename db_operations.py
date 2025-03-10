@@ -1,3 +1,4 @@
+import json
 from tinydb import TinyDB, Query
 from models.model_tournament import Tournament
 from models.model_player import Player
@@ -27,34 +28,28 @@ def update_tournament(tournament):
 
 # Choose and load a tournament
 def choose_tournament():
-    db = TinyDB('data/tournaments/db.json')
-    tournaments_table = db.table('tournaments')
-    # Fetch all saved tournaments
-    saved_tournaments = tournaments_table.all()
-    # Check if there are saved tournaments
-    if not saved_tournaments:
-        print("No saved tournaments found.")
-        return None
-    # Display the list of tournament names
-    print("Please choose a tournament to load:")
-    for index, tournament in enumerate(saved_tournaments):
-        print(f"{index + 1}. {tournament['name']}")
-    # Ask the user to choose a tournament
-    try:
-        choice = int(input("Enter the number of the tournament you want to load: ")) - 1
-        if 0 <= choice < len(saved_tournaments):
-            selected_tournament = saved_tournaments[choice]
-            print(f"You have selected the tournament: {selected_tournament['name']}")
-            # Deserialize the tournament data into a Tournament object
-            tournament = Tournament.deserialize(selected_tournament)
-            return tournament
-        else:
-            print("Invalid selection. Please enter a valid number.")
-            return None
-    except ValueError:
-        print("Invalid input. Please enter a number.")
-        return None
+    # Load the tournament data from a JSON file
+    with open('data/tournaments/db.json', 'r') as file:
+        tournaments = json.load(file)
     
+    # Display the list of tournaments to the user
+    for index, tournament in enumerate(tournaments, start=1):
+        print(f"{index}. {tournament['name']}")
+    
+    # Get the user's choice
+    choice = int(input("Enter the number of the tournament you want to load: ")) - 1
+    
+    # Get the selected tournament data
+    selected_tournament = tournaments[choice]
+    
+    # Ensure the players are in the correct format (list of dictionaries)
+    if isinstance(selected_tournament.get('players', []), list):
+        for i, player in enumerate(selected_tournament['players']):
+            if isinstance(player, str):
+                selected_tournament['players'][i] = {'id': player}  # Convert string to dict with 'id' key
+    
+    return selected_tournament
+
 # Choose and load a player
 def choose_player():
     db = TinyDB('data/tournaments/db.json')
