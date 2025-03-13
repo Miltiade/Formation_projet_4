@@ -1,3 +1,4 @@
+import os
 import json
 from tinydb import TinyDB, Query
 from models.model_tournament import Tournament
@@ -5,9 +6,15 @@ from models.model_player import Player
 
 # Save a single player
 def save_player(player):
+    # Ensure the directory exists
+    os.makedirs('data/tournaments', exist_ok=True)
+    # Initialize the TinyDB database
     db = TinyDB('data/tournaments/db.json')
+    # Access the 'players' table
     players_table = db.table('players')
+    # Serialize the player object
     player_data = player.serialize()
+    # Insert the player data into the 'players' table
     players_table.insert(player_data)
 
 # Save new tournament
@@ -30,17 +37,27 @@ def update_tournament(tournament):
 def choose_tournament():
     # Load the tournament data from a JSON file
     with open('data/tournaments/db.json', 'r') as file:
-        tournaments = json.load(file)
+        data = json.load(file)
+    
+    # Extract the tournaments dictionary
+    tournaments = data.get('tournaments', {})
+    
+    # Ensure the data is a dictionary of dictionaries
+    if not isinstance(tournaments, dict) or not all(isinstance(t, dict) for t in tournaments.values()):
+        raise ValueError("Invalid data format in tournaments JSON file.")
     
     # Display the list of tournaments to the user
-    for index, tournament in enumerate(tournaments, start=1):
+    for index, (key, tournament) in enumerate(tournaments.items(), start=1):
         print(f"{index}. {tournament['name']}")
     
     # Get the user's choice
     choice = int(input("Enter the number of the tournament you want to load: ")) - 1
     
+    # Get the selected tournament key
+    selected_key = list(tournaments.keys())[choice]
+    
     # Get the selected tournament data
-    selected_tournament = tournaments[choice]
+    selected_tournament = tournaments[selected_key]
     
     # Ensure the players are in the correct format (list of dictionaries)
     if isinstance(selected_tournament.get('players', []), list):

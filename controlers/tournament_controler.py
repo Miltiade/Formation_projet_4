@@ -68,7 +68,7 @@ class TournamentControler:
     def run_first_round(self):
         # Algorithm running the first round
         print("Starting to run round 1.")
-        print(self.tournament.player_elos)
+        # print(self.tournament.player_elos)
         print("Sorting players by elo.")
         
         # Sort player elos by the numeric part of each string, from highest to lowest
@@ -206,9 +206,11 @@ class TournamentControler:
         tournament_data = choose_tournament()
         if tournament_data:
             # Deserialize the tournament data back into a Tournament object
-            tournament = model_tournament.Tournament.deserialize(tournament_data)
-            print(f"Tournament '{tournament.name}' loaded successfully.")
-            return tournament
+            self.tournament = Tournament.deserialize(tournament_data)
+            print(f"Tournament '{self.tournament.name}' loaded successfully.")
+            # Debug statement to check the type of self.tournament
+            print(f"Type of self.tournament: {type(self.tournament)}")
+            return self.tournament
         else:
             print("Tournament loading cancelled.")
             return None
@@ -254,7 +256,7 @@ class TournamentControler:
             # Deserialize the tournament if it's not already a Tournament object
             # tournament = model_tournament.Tournament.deserialize(tournament)
         self.tournament = tournament
-        print(self.tournament.player_elos)
+        # print(self.tournament.player_elos)
         self.run_first_round()
         self.run_subsequent_rounds()
         self.display_final_ranking()
