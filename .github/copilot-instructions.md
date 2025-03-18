@@ -1,4 +1,6 @@
 # Copilot Instructions
 
-1. When suggesting code, always include comments (with #) for clarity.
+1. Our team is learning Python programming.
+2. When suggesting code, always include comments (with #) for clarity.
 2. When providing assistance, always use the current workspace as context.
+
