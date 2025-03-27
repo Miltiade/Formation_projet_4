@@ -5,7 +5,23 @@ from models.model_player import Player
 from models.model_match import Match
 
 class Tournament:
-    def __init__(self, name, place, start_date, end_date, time_control, description, player_elos, number_of_rounds, current_round, matches_played, rounds=None, players=None):
+    def __init__(self, name, place, start_date, end_date, time_control, description, player_elos, number_of_rounds=4, current_round=0, rounds=None, players=None):
+        """
+        Initialize a Tournament instance.
+
+        Args:
+            name (str): Name of the tournament.
+            place (str): Location of the tournament.
+            start_date (str): Start date of the tournament.
+            end_date (str): End date of the tournament.
+            time_control (str): Time control for the tournament.
+            description (str): General remarks about the tournament.
+            player_elos (list): List of player ELOs.
+            number_of_rounds (int): Number of rounds in the tournament (default: 4).
+            current_round (int): Current round number (default: 0).
+            rounds (list): List of rounds (default: None).
+            players (list): List of players (default: None).
+        """
         self.name = name
         self.place = place
         self.start_date = start_date
@@ -15,7 +31,7 @@ class Tournament:
         self.player_elos = player_elos
         self.number_of_rounds = number_of_rounds
         self.current_round = current_round
-        # self.matches_played = matches_played # Since Tournament already has "rounds" attribute, which in turn has "matches" attribute... shouldn't we remove "matches_played" attribute from Tournament?
+        # self.matches_played = matches_played  # Commented out: it is not required by the specifications
         self.rounds = rounds if rounds is not None else []
         self.players = players if players is not None else []
 
@@ -35,8 +51,12 @@ class Tournament:
         self.rounds.append(round)
 
     def serialize(self):
-        # Serialize the tournament object to a dictionary
-        print(self.player_elos)
+        """
+        Serialize the tournament object to a dictionary.
+
+        Returns:
+            dict: Serialized tournament data.
+        """
         return {
             'name': self.name,
             'place': self.place,
@@ -48,39 +68,39 @@ class Tournament:
             'time_control': self.time_control,
             'current_round': self.current_round,
             'rounds': [round_.serialize() for round_ in self.rounds],  # Serialize rounds
-            # 'matches_played': [(match[0].serialize(), match[1].serialize()) for match in self.matches_played],  # Serialize matches played
+            # 'matches_played': [(match[0].serialize(), match[1].serialize()) for match in self.matches_played],  # Commented out: it is not required
             'players': [player.serialize() for player in self.players]  # Serialize players
         }
 
     @classmethod
-    def deserialize(self, tournament_data):
-        # Ensure 'rounds' is a list
-        rounds_data = tournament_data.get('rounds', [])
-        if not isinstance(rounds_data, list):
-            raise TypeError(f"Expected 'rounds' to be a list, but got {type(rounds_data).__name__}")
+    def deserialize(cls, tournament_data):
+        """
+        Deserialize a dictionary into a Tournament object.
+
+        Args:
+            tournament_data (dict): Serialized tournament data.
+
+        Returns:
+            Tournament: Deserialized Tournament object.
+        """
         # Deserialize rounds
-        rounds = [Round.deserialize(round_data) for round_data in rounds_data]
+        rounds = [Round.deserialize(round_data) for round_data in tournament_data.get('rounds', [])]
+
         # Deserialize players
-        players = []
-        for player_data in tournament_data.get('players', []):
-            # Debug statement to check player_data
-            print(f"Deserializing player_data: {player_data} (type: {type(player_data)})")
-            if not isinstance(player_data, dict):
-                raise TypeError(f"Expected player_data to be a dict, but got {type(player_data).__name__}")
-            players.append(Player.deserialize(player_data))
+        players = [Player.deserialize(player_data) for player_data in tournament_data.get('players', [])]
 
-        # Deserialize matches
-        matches_played = []
-        for match_data in tournament_data.get('matches_played', []):
-            player1_data, player2_data = match_data
-            player1 = Player.deserialize(player1_data)
-            player2 = Player.deserialize(player2_data)
-            match = Match(player1, player2)
-            match.score_player1 = match_data.get('score_player1', 0)
-            match.score_player2 = match_data.get('score_player2', 0)
-            matches_played.append(match)
+        # Deserialize matches: commented out: matches_played is not required
+        # matches_played = []
+        # for match_data in tournament_data.get('matches_played', []):
+        #     player1_data, player2_data = match_data
+        #     player1 = Player.deserialize(player1_data)
+        #     player2 = Player.deserialize(player2_data)
+        #     match = Match(player1, player2)
+        #     match.score_player1 = match_data.get('score_player1', 0)
+        #     match.score_player2 = match_data.get('score_player2', 0)
+        #     matches_played.append(match)
 
-        return self(
+        return cls(
             name=tournament_data['name'],
             place=tournament_data['place'],
             start_date=tournament_data['start_date'],
@@ -91,7 +111,7 @@ class Tournament:
             number_of_rounds=tournament_data['number_of_rounds'],
             current_round=tournament_data['current_round'],
             rounds=rounds,
-            matches_played=matches_played,
+            # matches_played=matches_played,  # Commented out as it is not required
             players=players
         )
     
