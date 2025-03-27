@@ -15,7 +15,7 @@ class Tournament:
         self.player_elos = player_elos
         self.number_of_rounds = number_of_rounds
         self.current_round = current_round
-        # self.matches_played = matches_played # @MENTOR: since Tournament already has "rounds" attribute, which in turn has "matches" attribute... shouldn't we remove "matches_played" attribute from Tournament?
+        # self.matches_played = matches_played # Since Tournament already has "rounds" attribute, which in turn has "matches" attribute... shouldn't we remove "matches_played" attribute from Tournament?
         self.rounds = rounds if rounds is not None else []
         self.players = players if players is not None else []
 
@@ -25,6 +25,10 @@ class Tournament:
         # Add player's elo (as string) to the player_elos list whenever a player is added
         self.player_elos.append(str(player.elo))
         print(self.player_elos)
+
+    @classmethod
+    def message(self):
+        print("toto")
 
     def add_round(self, round):
         # Add round to the rounds list
@@ -49,15 +53,13 @@ class Tournament:
         }
 
     @classmethod
-    def deserialize(cls, tournament_data):
+    def deserialize(self, tournament_data):
         # Ensure 'rounds' is a list
         rounds_data = tournament_data.get('rounds', [])
         if not isinstance(rounds_data, list):
             raise TypeError(f"Expected 'rounds' to be a list, but got {type(rounds_data).__name__}")
-
         # Deserialize rounds
         rounds = [Round.deserialize(round_data) for round_data in rounds_data]
-
         # Deserialize players
         players = []
         for player_data in tournament_data.get('players', []):
@@ -78,7 +80,7 @@ class Tournament:
             match.score_player2 = match_data.get('score_player2', 0)
             matches_played.append(match)
 
-        return cls(
+        return self(
             name=tournament_data['name'],
             place=tournament_data['place'],
             start_date=tournament_data['start_date'],

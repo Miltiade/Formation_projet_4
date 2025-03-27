@@ -1,7 +1,7 @@
 from models.model_player import Player
 from views import tournament_view, match_view, player_view
 from db_operations import update_tournament, choose_tournament, save_tournament
-import models.model_tournament as model_tournament  # Import model_tournament module
+import models.model_tournament as Tournament  # Import model_tournament module
 import models.model_round as model_round  # Import model_round module
 import models.model_match as model_match  # Import model_match module
 
@@ -21,7 +21,8 @@ class TournamentControler:
         number_of_rounds = self.get_numbers("How many rounds shall this tournament have? Enter a number: ")
         print("Creating new tournament. Please wait...")
         # Create a new tournament instance
-        self.tournament = model_tournament.Tournament(name, place, start_date, end_date, time_control, description, self.players, number_of_rounds,0,[],[])
+        print(self.players)
+        self.tournament = Tournament(name, place, start_date, end_date, time_control, description, self.players, number_of_rounds,0,[],[])
         print("Tournament created.")
         # Save tournament to database
         save_tournament(self.tournament)
@@ -70,10 +71,9 @@ class TournamentControler:
         print("Starting to run round 1.")
         # print(self.tournament.player_elos)
         print("Sorting players by elo.")
-        
+        print(self.tournament.player_elos)
         # Sort player elos by the numeric part of each string, from highest to lowest
         self.tournament.player_elos.sort(key=lambda x: -int(''.join(filter(str.isdigit, x))))
-        print(self.tournament.player_elos)
         
         # Update the initial_ranking of the corresponding player objects
         for rank, elo in enumerate(self.tournament.player_elos, start=1):
@@ -206,6 +206,8 @@ class TournamentControler:
         tournament_data = choose_tournament()
         if tournament_data:
             # Deserialize the tournament data back into a Tournament object
+            # self.tournament.message()
+            model_tournament.Tournament.deserialize(tournament_data)
             self.tournament = Tournament.deserialize(tournament_data)
             print(f"Tournament '{self.tournament.name}' loaded successfully.")
             # Debug statement to check the type of self.tournament
