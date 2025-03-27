@@ -1,7 +1,7 @@
 from models.model_player import Player
 from views import tournament_view, match_view, player_view
 from db_operations import update_tournament, choose_tournament, save_tournament
-import models.model_tournament as Tournament  # Import model_tournament module
+from models.model_tournament import Tournament  # Import model_tournament module
 import models.model_round as model_round  # Import model_round module
 import models.model_match as model_match  # Import model_match module
 
@@ -207,7 +207,7 @@ class TournamentControler:
         if tournament_data:
             # Deserialize the tournament data back into a Tournament object
             # self.tournament.message()
-            model_tournament.Tournament.deserialize(tournament_data)
+            Tournament.deserialize(tournament_data)
             self.tournament = Tournament.deserialize(tournament_data)
             print(f"Tournament '{self.tournament.name}' loaded successfully.")
             # Debug statement to check the type of self.tournament
