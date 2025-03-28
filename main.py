@@ -1,4 +1,5 @@
 from controlers.tournament_controler import TournamentControler
+from models.model_tournament import Tournament
 from db_operations import create_player, choose_player, choose_tournament
 from views.report_view import list_players_alphabetically, list_tournaments, list_tournament_players, list_tournament_rounds
 
@@ -43,9 +44,10 @@ def main_menu():
             tournamentControler = TournamentControler()
             tournamentControler.add_player_to_tournament(tournament,player)
         elif choice == '10': # Function to select and run selected tournament
-            tournament = choose_tournament()
-            tournamentControler = TournamentControler()
-            tournamentControler.run_tournament(tournament)
+            tournament = choose_tournament() # Load a specific tournament from JSON
+            deserialized_tournament = Tournament.deserialize(tournament) # Deserialize the loaded tournament's data
+            tournamentControler = TournamentControler() # Create a new instance of TournamentControler
+            tournamentControler.run_tournament(deserialized_tournament) # Run the tournament
         else:
             print("Invalid choice. Please try again.")
 
