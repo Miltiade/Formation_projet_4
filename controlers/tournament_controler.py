@@ -228,9 +228,10 @@ class TournamentControler:
         Returns:
         bool: True if the player was added successfully, False otherwise.
         """
-        if not isinstance(tournament, model_tournament.Tournament):
+        # Ensure tournament is an instance of Tournament
+        if not isinstance(tournament, Tournament):
             # Deserialize the tournament if it's not already a Tournament object
-            tournament = model_tournament.Tournament.deserialize(tournament)
+            tournament = Tournament.deserialize(tournament)
         
         # Ensure player is an instance of Player
         if isinstance(player, dict):
