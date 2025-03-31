@@ -180,7 +180,7 @@ class TournamentControler:
             
             print(f"Running matches for round {round_number}.")
             for match in round_.matchs:  # For all matches: add scores & print results
-                self.tournament.matches_played.append((match.player1, match.player2))  # Update the tournament's matches_played list with the players of the current match
+                # self.tournament.matches_played.append((match.player1, match.player2))  # Update the tournament's matches_played list with the players of the current match
                 match.score_player1, match.score_player2 = self.handle_score()  # Add scores to the match
                 match.player1.total_score += match.score_player1 # Update the total score of player1
                 match.player2.total_score += match.score_player2 # Update the total score of player2
