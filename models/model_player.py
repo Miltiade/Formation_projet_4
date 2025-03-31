@@ -2,7 +2,7 @@ import json
 import re  # for method def_validate_elo()
 
 class Player:
-    def __init__(self, first_name, family_name, date_of_birth, elo, initial_ranking, match_score, total_score, matches_played=None):
+    def __init__(self, first_name, family_name, date_of_birth, elo, initial_ranking, match_score, total_score):
         self.first_name = first_name
         self.family_name = family_name
         self.date_of_birth = date_of_birth
@@ -10,7 +10,6 @@ class Player:
         self.initial_ranking = initial_ranking
         self.match_score = match_score  # player's score in the current match
         self.total_score = total_score  # player's total score at a given time
-        self.matches_played = matches_played if matches_played is not None else []
 
     def __str__(self):
         return f"{self.first_name} | {self.family_name} | {self.date_of_birth} | {self.elo} | {self.initial_ranking} | {self.match_score} | {self.total_score}"
@@ -33,12 +32,12 @@ class Player:
             'initial_ranking': self.initial_ranking,
             'match_score': self.match_score,
             'total_score': self.total_score,
-            'matches_played': [match.serialize() for match in self.matches_played]  # Serialize matches played
         }
 
     @classmethod
     def from_dict(cls, player_data):
         # Creates a player object from a dictionary.
+        print(player_data)
         return cls(
             player_data['first_name'],
             player_data['family_name'],
@@ -60,8 +59,9 @@ class Player:
     @classmethod
     def deserialize(cls, player_data):
         # Debug statement to check player_data
+        print(player_data)
         print(f"Deserializing player_data: {player_data} (type: {type(player_data)})")
-        
+
         # Ensure player_data is a dictionary
         if not isinstance(player_data, dict):
             raise TypeError(f"Expected player_data to be a dict, but got {type(player_data).__name__}")
