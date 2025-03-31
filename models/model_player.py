@@ -1,6 +1,5 @@
 import json
 import re  # for method def_validate_elo()
-# from models.model_match import Match
 
 class Player:
     def __init__(self, first_name, family_name, date_of_birth, elo, initial_ranking, match_score, total_score, matches_played=None):
