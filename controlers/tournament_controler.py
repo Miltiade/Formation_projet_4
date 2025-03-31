@@ -261,7 +261,7 @@ class TournamentControler:
         # print(self.tournament.player_elos)
         self.run_first_round()
         self.run_subsequent_rounds()
-        self.display_final_ranking()
+        # self.display_final_ranking()
         print("Tournament finished.")
 
 
