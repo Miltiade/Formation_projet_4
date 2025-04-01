@@ -48,12 +48,6 @@ class Player:
             player_data['total_score']
         )
 
-# DEBUGGER LE CODE :) 
-#  Problème actuel : deserialization fails; le loup est probablement dans la méthode serialize de la classe Player. Corriger cela.
-# Attendu: à chaque fin de match, on met à jour le score total des joueurs. Et on sauvegarde le score total de chaque joueur dans la base de données.
-# A la fin du tournoi, le programme calcule, enregistre en JSON, et affiche le score total de chaque joueur.
-# OBJECTIF SMART : EXECUTER UN TOURNOI, QUI ENREGISTRE CORRECTEMENT LES SCORES DE SES JOUEURS A MESURE QU'IL S'EXECUTE, QUI LES ENREGISTRE ET LES AFFICHE A LA FIN.
-
     @classmethod
     def deserialize(cls, player_data):
         # Debug statement to check player_data
