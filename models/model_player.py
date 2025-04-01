@@ -50,10 +50,8 @@ class Player:
 
 # DEBUGGER LE CODE :) 
 #  Problème actuel : deserialization fails; le loup est probablement dans la méthode serialize de la classe Player. Corriger cela.
-
 # Attendu: à chaque fin de match, on met à jour le score total des joueurs. Et on sauvegarde le score total de chaque joueur dans la base de données.
 # A la fin du tournoi, le programme calcule, enregistre en JSON, et affiche le score total de chaque joueur.
-
 # OBJECTIF SMART : EXECUTER UN TOURNOI, QUI ENREGISTRE CORRECTEMENT LES SCORES DE SES JOUEURS A MESURE QU'IL S'EXECUTE, QUI LES ENREGISTRE ET LES AFFICHE A LA FIN.
 
     @classmethod
@@ -77,14 +75,6 @@ class Player:
             total_score=player_data['total_score'],
             # matches_played=[Match.deserialize(match_data) for match_data in player_data.get('matches_played', [])]
         )
-
-# DEBUGGER LE CODE :) 
-#  Problème actuel : deserialization fails; le loup est probablement dans la méthode serialize de la classe Player. Corriger cela.
-
-# Attendu: à chaque fin de match, on met à jour le score total des joueurs. Et on sauvegarde le score total de chaque joueur dans la base de données.
-# A la fin du tournoi, le programme calcule, enregistre en JSON, et affiche le score total de chaque joueur.
-
-# OBJECTIF SMART : EXECUTER UN TOURNOI, QUI ENREGISTRE CORRECTEMENT LES SCORES DE SES JOUEURS A MESURE QU'IL S'EXECUTE, QUI LES ENREGISTRE ET LES AFFICHE A LA FIN.
 
     def save_to_database(self, file_path):
         # A method that converts player info into a dictionary, using "serialize" method
