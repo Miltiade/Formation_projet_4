@@ -204,14 +204,12 @@ class TournamentControler:
 
     def load_tournament(self):
         tournament_data = choose_tournament()
+        print(tournament_data) # Debug statement to check the loaded tournament data
         if tournament_data:
-            # Deserialize the tournament data back into a Tournament object
-            # self.tournament.message()
-            Tournament.deserialize(tournament_data)
             self.tournament = Tournament.deserialize(tournament_data)
             print(f"Tournament '{self.tournament.name}' loaded successfully.")
-            # Debug statement to check the type of self.tournament
-            print(f"Type of self.tournament: {type(self.tournament)}")
+            print(f"Type of self.tournament: {type(self.tournament)}") # Debug statement to check type of self.tournament
+
             return self.tournament
         else:
             print("Tournament loading cancelled.")
