@@ -38,33 +38,25 @@ def choose_tournament():
     # Load the tournament data from a JSON file
     with open('data/tournaments/db.json', 'r') as file:
         data = json.load(file)
-    
     # Extract the tournaments dictionary
     tournaments = data.get('tournaments', {})
-    
     # Ensure the data is a dictionary of dictionaries
     if not isinstance(tournaments, dict) or not all(isinstance(t, dict) for t in tournaments.values()):
         raise ValueError("Invalid data format in tournaments JSON file.")
-    
     # Display the list of tournaments to the user
     for index, (key, tournament) in enumerate(tournaments.items(), start=1):
         print(f"{index}. {tournament['name']}")
-    
     # Get the user's choice
     choice = int(input("Enter the number of the tournament you want to load: ")) - 1
-    
     # Get the selected tournament key
     selected_key = list(tournaments.keys())[choice]
-    
     # Get the selected tournament data
     selected_tournament = tournaments[selected_key]
-    
     # Ensure the players are in the correct format (list of dictionaries)
     if isinstance(selected_tournament.get('players', []), list):
         for i, player in enumerate(selected_tournament['players']):
             if isinstance(player, str):
                 selected_tournament['players'][i] = {'id': player}  # Convert string to dict with 'id' key
-    
     return selected_tournament
 
 # Choose and load a player

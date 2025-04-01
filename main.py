@@ -25,25 +25,25 @@ def main_menu():
             tournamentControler = TournamentControler()
             tournamentControler.load_tournament()
         elif choice == '4':
-            players = choose_player()  # Implement this function to load a specific player from JSON
+            players = choose_player()  # Load a specific player from JSON
             list_players_alphabetically(players)
         elif choice == '5':
-            tournaments = choose_tournament()  # Implement this function to load a specific tournament from JSON
+            tournaments = choose_tournament()  # Load a specific tournament from JSON
             list_tournaments(tournaments)
         elif choice == '6':
-            tournament = choose_tournament()  # Implement this function to load a specific tournament from JSON
+            tournament = choose_tournament()  # Load a specific tournament from JSON
             list_tournament_players(tournament)
         elif choice == '7':
-            tournament = choose_tournament()  # Implement this function to load a specific tournament from JSON
+            tournament = choose_tournament()  # Load a specific tournament from JSON
             list_tournament_rounds(tournament)
         elif choice == '8':
             break
-        elif choice == '9': # Function to load a specific player from JSON to add to a tournament
+        elif choice == '9': # Load a specific player from JSON to add to a tournament
             tournament = choose_tournament()
             player = choose_player()
             tournamentControler = TournamentControler()
             tournamentControler.add_player_to_tournament(tournament,player)
-        elif choice == '10': # Function to select and run selected tournament
+        elif choice == '10': # Select and run selected tournament
             tournament = choose_tournament() # Load a specific tournament from JSON
             deserialized_tournament = Tournament.deserialize(tournament) # Deserialize the loaded tournament's data
             tournamentControler = TournamentControler() # Create a new instance of TournamentControler
