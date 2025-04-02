@@ -253,11 +253,25 @@ class TournamentControler:
         Args:
         tournament (Tournament): The tournament to be run.
         """
-        # if not isinstance(tournament, model_tournament.Tournament):
-            # Deserialize the tournament if it's not already a Tournament object
-            # tournament = model_tournament.Tournament.deserialize(tournament)
+        # Check if tournament is correctly deserialized object.
+        # if isinstance(tournament, dict):
+        #     print("Tournament needs deserialization. Deserializing now...")
+        #     tournament = Tournament.deserialize(tournament)
+        # else:   
+        #     print("Tournament is already deserialized. Loading tournament...")
+        # # Ensure tournament is an instance of Tournament.
+        # if not isinstance(tournament, Tournament):
+            # print("Error: Invalid tournament data.")
+        # # Ensure players are instances of Player
+        # self.players = [Player.from_dict(data) for data in tournament.players]
+        # # Ensure players_elos is a list of ELO strings
+        # self.tournament.player_elos = [player.elo for player in self.players]
+        # # Ensure rounds are instances of Round
+        # tournament.rounds = [model_round.Round.deserialize(round_data) for round_data in tournament.rounds]
+        # # Ensure matches are instances of Match
+        # for round_ in tournament.rounds:
+        #     round_.matchs = [model_match.Match.deserialize(match_data) for match_data in round_.matchs]
         self.tournament = tournament
-        # print(self.tournament.player_elos)
         self.run_first_round()
         self.run_subsequent_rounds()
         # self.display_final_ranking()
