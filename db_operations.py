@@ -4,7 +4,7 @@ from tinydb import TinyDB, Query
 from models.model_tournament import Tournament
 from models.model_player import Player
 
-# Save a single player
+# Save a single player to the JSON database
 def save_player(player):
     # Ensure the directory exists
     os.makedirs('data/tournaments', exist_ok=True)

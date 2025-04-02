@@ -16,33 +16,58 @@ def main_menu():
         print("9. Add player to tournament")
         print("10. Select and run a tournament")
         choice = input("Enter your choice: ")
-        if choice == '1':
+
+        if choice == '1': # Create a new player and save it to JSON
             create_player()
-        elif choice == '2':
+
+        elif choice == '2': # Create a new tournament and save it to JSON
             tournamentControler = TournamentControler()
             tournamentControler.create_new_tournament()
-        elif choice == '3':
+
+        elif choice == '3': # Load a specific tournament from JSON
+            # tournamentControler = TournamentControler()
+            # tournamentControler.load_tournament()
+            tournament= choose_tournament()  # Load a specific tournament from JSON
+            # Validate and deserialize the tournament if necessary
+            try:
+                if isinstance(tournament, dict):
+                    tournament = Tournament.deserialize(tournament)
+                elif not isinstance(tournament, Tournament):
+                    print("Error: Invalid tournament data. Please try again.")
+                    continue
+            except Exception as e:
+                print(f"Error during deserialization: {e}")
+                continue
+            # Create a new instance of TournamentControler
             tournamentControler = TournamentControler()
-            tournamentControler.load_tournament()
+            # Resume the tournament: executes all rounds, manages matches, and updates the database
+            tournamentControler.run_tournament(tournament)
+
         elif choice == '4':
             players = choose_player()  # Load a specific player from JSON
             list_players_alphabetically(players)
-        elif choice == '5':
-            tournaments = choose_tournament()  # Load a specific tournament from JSON
+
+        elif choice == '5': # List all tournaments
+            tournaments = choose_tournament()
             list_tournaments(tournaments)
-        elif choice == '6':
-            tournament = choose_tournament()  # Load a specific tournament from JSON
+
+        elif choice == '6': # List players in a specific tournament
+            tournament = choose_tournament()
             list_tournament_players(tournament)
-        elif choice == '7':
-            tournament = choose_tournament()  # Load a specific tournament from JSON
+
+        elif choice == '7': # List rounds in a specific tournament
+            tournament = choose_tournament()
             list_tournament_rounds(tournament)
-        elif choice == '8':
+
+        elif choice == '8': # Exit the program
             break
+
         elif choice == '9': # Load a specific player from JSON to add to a tournament
             tournament = choose_tournament()
             player = choose_player()
             tournamentControler = TournamentControler()
             tournamentControler.add_player_to_tournament(tournament,player)
+
         elif choice == '10':  # Select and run selected tournament
             # Prompt the user to choose a saved tournament to resume
             tournament = choose_tournament()  # Load a specific tournament from JSON.
