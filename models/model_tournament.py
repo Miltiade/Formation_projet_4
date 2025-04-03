@@ -88,7 +88,6 @@ class Tournament:
 
         # Deserialize players
         players = [Player.deserialize(player_data) for player_data in tournament_data.get('players', [])]
-
         # Deserialize matches: commented out: matches_played is not required
         # matches_played = []
         # for match_data in tournament_data.get('matches_played', []):
