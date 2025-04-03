@@ -51,12 +51,6 @@ class Tournament:
         self.rounds.append(round)
 
     def serialize(self):
-        """
-        Serialize the tournament object to a dictionary.
-
-        Returns:
-            dict: Serialized tournament data.
-        """
         return {
             'name': self.name,
             'place': self.place,
@@ -67,38 +61,14 @@ class Tournament:
             'player_elos': self.player_elos,
             'time_control': self.time_control,
             'current_round': self.current_round,
-            'rounds': [round_.serialize() for round_ in self.rounds],  # Serialize rounds
-            # 'matches_played': [(match[0].serialize(), match[1].serialize()) for match in self.matches_played],  # Commented out: it is not required
-            'players': [player.serialize() for player in self.players]  # Serialize players
+            'rounds': [round_.serialize() for round_ in self.rounds],
+            'players': [player.serialize() for player in self.players]
         }
 
     @classmethod
     def deserialize(cls, tournament_data):
-        """
-        Deserialize a dictionary into a Tournament object.
-
-        Args:
-            tournament_data (dict): Serialized tournament data.
-
-        Returns:
-            Tournament: Deserialized Tournament object.
-        """
-        # Deserialize rounds
         rounds = [Round.deserialize(round_data) for round_data in tournament_data.get('rounds', [])]
-
-        # Deserialize players
         players = [Player.deserialize(player_data) for player_data in tournament_data.get('players', [])]
-        # Deserialize matches: commented out: matches_played is not required
-        # matches_played = []
-        # for match_data in tournament_data.get('matches_played', []):
-        #     player1_data, player2_data = match_data
-        #     player1 = Player.deserialize(player1_data)
-        #     player2 = Player.deserialize(player2_data)
-        #     match = Match(player1, player2)
-        #     match.score_player1 = match_data.get('score_player1', 0)
-        #     match.score_player2 = match_data.get('score_player2', 0)
-        #     matches_played.append(match)
-
         return cls(
             name=tournament_data['name'],
             place=tournament_data['place'],
@@ -110,7 +80,6 @@ class Tournament:
             number_of_rounds=tournament_data['number_of_rounds'],
             current_round=tournament_data['current_round'],
             rounds=rounds,
-            # matches_played=matches_played,  # Commented out as it is not required
             players=players
         )
     

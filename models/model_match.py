@@ -14,11 +14,12 @@ class Match:
         }
 
     @classmethod
-    def deserialize(cls, data):
-        from models.model_player import Player # Avoid circular imports
+    def deserialize(cls, data, players):
+        player1 = next(player for player in players if player.elo == data['player1'])
+        player2 = next(player for player in players if player.elo == data['player2'])
         return cls(
-            player1=Player.deserialize(data['player1']),
-            player2=Player.deserialize(data['player2']),
+            player1=player1,
+            player2=player2,
             score_player1=data['score_player1'],
             score_player2=data['score_player2']
         )
