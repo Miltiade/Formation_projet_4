@@ -39,5 +39,5 @@ class Round:
             end_time=datetime.datetime.fromisoformat(data['end_time']) if data['end_time'] else None
         )
         # Set the matchs attribute after the object is created
-        round_obj.matchs = [Match.deserialize(match_data) for match_data in data.get('matchs', [])]
+        round_obj.matchs = [Match.deserialize(match_data, players) for match_data in data.get('matchs', [])]
         return round_obj
