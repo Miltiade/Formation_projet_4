@@ -1,6 +1,7 @@
 from controlers.tournament_controler import TournamentControler
 from models.model_tournament import Tournament
-from db_operations import create_player, choose_player, choose_tournament
+from db_operations import create_player, choose_player, choose_tournament, get_all_players, get_all_tournaments
+from views.report_view import export_player_list, export_tournament_list, export_tournament_details, export_tournament_players, export_tournament_rounds
 from views.report_view import list_players_alphabetically, list_tournaments, list_tournament_players, list_tournament_rounds
 
 def main_menu():
@@ -90,6 +91,27 @@ def main_menu():
             tournamentControler = TournamentControler()
             # Resume the tournament: executes all rounds, manages matches, and updates the database
             tournamentControler.run_tournament(tournament)
+
+        elif choice == '11':  # Export player list
+            players = get_all_players()  # Fetch all players
+            export_player_list(players)
+
+        elif choice == '12':  # Export tournament list
+            tournaments = get_all_tournaments()  # Fetch all tournaments
+            export_tournament_list(tournaments)
+
+        elif choice == '13':  # Export tournament details
+            tournament = choose_tournament()  # Select a tournament
+            export_tournament_details(tournament)
+
+        elif choice == '14':  # Export tournament players
+            tournament = choose_tournament()  # Select a tournament
+            export_tournament_players(tournament)
+
+        elif choice == '15':  # Export tournament rounds
+            tournament = choose_tournament()  # Select a tournament
+            export_tournament_rounds(tournament)
+
         else:
             print("Invalid choice. Please try again.")
 
