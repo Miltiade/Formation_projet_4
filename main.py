@@ -15,6 +15,11 @@ def main_menu():
         print("8. Exit")
         print("9. Add player to tournament")
         print("10. Select and start a tournament")
+        print("11. Export Player List")
+        print("12. Export Tournament List")
+        print("13. Export Tournament Details")
+        print("14. Export Tournament Players")
+        print("15. Export Tournament Rounds")
         choice = input("Enter your choice: ")
 
         if choice == '1': # Create a new player and save it to JSON
