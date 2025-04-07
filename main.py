@@ -7,7 +7,7 @@ def main_menu():
     while True:
         print("1. Create New Player")
         print("2. Create New Tournament")
-        print("3. Load Tournament")
+        print("3. Load and resume a tournament")
         print("4. List Players Alphabetically")
         print("5. List Tournaments")
         print("6. List Tournament Players")
@@ -24,10 +24,10 @@ def main_menu():
             tournamentControler = TournamentControler()
             tournamentControler.create_new_tournament()
 
-        elif choice == '3': # Load a specific tournament from JSON
-            # tournamentControler = TournamentControler()
-            # tournamentControler.load_tournament()
-            tournament= choose_tournament()  # Load a specific tournament from JSON
+        elif choice == '3': # Load and resume a tournament
+            
+            # Prompt the user to choose a saved tournament to resume           
+            tournament= choose_tournament() # Load a specific tournament from JSON
             # Validate and deserialize the tournament if necessary
             try:
                 if isinstance(tournament, dict):
@@ -40,8 +40,8 @@ def main_menu():
                 continue
             # Create a new instance of TournamentControler
             tournamentControler = TournamentControler()
-            # Resume the tournament: executes all rounds, manages matches, and updates the database
-            tournamentControler.run_tournament(tournament)
+            # Resume the tournament
+            tournamentControler.resume_tournament(tournament)
 
         elif choice == '4':
             players = choose_player()  # Load a specific player from JSON

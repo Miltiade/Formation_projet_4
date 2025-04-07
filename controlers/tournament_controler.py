@@ -95,14 +95,22 @@ class TournamentControler:
             
         
         print("Running matches for round 1.")
-        for match in self.tournament.rounds[0].matchs:  # For all matches: add scores & print results
+        
+        # For all matches: add scores & print results
+        for match in self.tournament.rounds[0].matchs:  
             # self.tournament.matches_played.append((match.player1, match.player2))  # Update the tournament's matches_played list with the players of the current match
             match.score_player1, match.score_player2 = self.handle_score()  # Add scores to the match
             match.player1.total_score += match.score_player1 # Update the total score of player1
             match.player2.total_score += match.score_player2 # Update the total score of player2
             match_view.print_match_result(match) # Print the result of the match
         print("Round 1 finished.")
-        update_tournament(self.tournament) # Update the tournament in the database
+
+        # Update the current_round attribute
+        self.tournament.current_round = 1
+        print(f"Current round updated to {self.tournament.current_round}.")
+        
+        # Update the tournament in the database
+        update_tournament(self.tournament)
         print("Tournament updated.")
 
     def handle_score(self):
@@ -164,7 +172,8 @@ class TournamentControler:
         # Ensure number_of_rounds is an integer
         number_of_rounds = int(self.tournament.number_of_rounds)
         
-        for round_number in range(2, number_of_rounds + 1):
+        # Start from the next round after the current round
+        for round_number in range(self.tournament.current_round + 1, number_of_rounds + 1):
             print(f"Starting to run round {round_number}.")
             
             # Create a new round object
@@ -180,14 +189,19 @@ class TournamentControler:
             
             print(f"Running matches for round {round_number}.")
             for match in round_.matchs:  # For all matches: add scores & print results
-                # self.tournament.matches_played.append((match.player1, match.player2))  # Update the tournament's matches_played list with the players of the current match
                 match.score_player1, match.score_player2 = self.handle_score()  # Add scores to the match
-                match.player1.total_score += match.score_player1 # Update the total score of player1
-                match.player2.total_score += match.score_player2 # Update the total score of player2
-                match_view.print_match_result(match) # Print the result of the match
+                match.player1.total_score += match.score_player1  # Update the total score of player1
+                match.player2.total_score += match.score_player2  # Update the total score of player2
+                match_view.print_match_result(match)  # Print the result of the match
             
             print(f"Round {round_number} finished.")
-            update_tournament(self.tournament)  # Update the tournament in the database
+            
+            # Update the tournament's "current_round" attribute
+            self.tournament.current_round = round_number
+            print(f"Current round updated to {self.tournament.current_round}.")
+        
+            # Update the tournament in the database
+            update_tournament(self.tournament)
             print("Tournament updated.")
 
     def display_final_ranking(self):
@@ -276,6 +290,27 @@ class TournamentControler:
         self.run_subsequent_rounds()
         # self.display_final_ranking()
         print("Tournament finished.")
+
+    def resume_tournament(self, tournament):
+        '''Run a tournament, starting from the last completed round.
+        This method is called when the user selects a tournament to resume, from the main menu.
+        Args:
+        tournament (Tournament): The tournament to be resumed.
+        '''
+        self.tournament = tournament
+        
+        # Check if tournament is correctly deserialized object.
+        if isinstance(tournament, dict):
+            print("Tournament needs deserialization. Deserializing now...")
+            tournament = Tournament.deserialize(tournament)
+        else:
+            print("Tournament is already deserialized. Loading tournament...")
+        
+        # run tournament, starting from the last completed round; use the current_round attribute to determine where to start
+        if self.tournament.current_round == 0:
+            self.run_first_round()
+        else: # If the tournament has already started, run subsequent rounds starting from the current_round
+            self.run_subsequent_rounds()
 
 
 def get_all_players():

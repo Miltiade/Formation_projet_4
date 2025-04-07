@@ -51,23 +51,10 @@ def choose_tournament():
     selected_tournament = tournaments[selected_key]
 
     # Deserialize players into Player objects
-    selected_tournament['players'] = [
-        Player.deserialize(player) for player in selected_tournament.get('players', [])
-    ]
+    players = {player['elo']: Player.deserialize(player) for player in selected_tournament.get('players', [])}
 
-    # Deserialize rounds and matches
-    for round_ in selected_tournament.get('rounds', []):
-        round_['matchs'] = [
-            model_match.Match(
-                player1=next(player for player in selected_tournament['players'] if player.elo == match['player1']),
-                player2=next(player for player in selected_tournament['players'] if player.elo == match['player2']),
-                score_player1=match['score_player1'],
-                score_player2=match['score_player2']
-            )
-            for match in round_['matchs']
-        ]
-
-    return Tournament.deserialize(selected_tournament)
+    # Pass the players dictionary to Tournament.deserialize
+    return Tournament.deserialize(selected_tournament, players)
 
 # Choose and load a player
 def choose_player():

@@ -31,7 +31,7 @@ class Round:
         }
 
     @classmethod
-    def deserialize(cls, data):
+    def deserialize(cls, data, players):
         # Deserialize the round object from a dictionary
         round_obj = cls(
             number=data['number'],
@@ -39,5 +39,6 @@ class Round:
             end_time=datetime.datetime.fromisoformat(data['end_time']) if data['end_time'] else None
         )
         # Set the matchs attribute after the object is created
+        # Deserialize each match using the provided players
         round_obj.matchs = [Match.deserialize(match_data, players) for match_data in data.get('matchs', [])]
         return round_obj

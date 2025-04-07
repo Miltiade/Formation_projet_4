@@ -13,11 +13,23 @@ class Match:
             'score_player2': self.score_player2
         }
 
-    @classmethod
-    def deserialize(cls, data, players):
-        player1 = next(player for player in players if player.elo == data['player1'])
-        player2 = next(player for player in players if player.elo == data['player2'])
-        return cls(
+    @staticmethod
+    def deserialize(data, players):
+        """
+        Deserializes a match from a dictionary.
+
+        :param data: Dictionary containing match data.
+        :param players: Dictionary of all players, keyed by their ELO.
+        :return: A Match object.
+        """
+        # Resolve player1 and player2 using their ELOs
+        player1 = players.get(data['player1'])  # Use the ELO to get the Player object
+        player2 = players.get(data['player2'])  # Use the ELO to get the Player object
+
+        if not player1 or not player2:
+            raise ValueError(f"Player data not found for ELOs: {data['player1']}, {data['player2']}")
+
+        return Match(
             player1=player1,
             player2=player2,
             score_player1=data['score_player1'],

@@ -66,8 +66,8 @@ class Tournament:
         }
 
     @classmethod
-    def deserialize(cls, tournament_data):
-        rounds = [Round.deserialize(round_data) for round_data in tournament_data.get('rounds', [])]
+    def deserialize(cls, tournament_data, players):
+        rounds = [Round.deserialize(round_data, players) for round_data in tournament_data.get('rounds', [])]
         players = [Player.deserialize(player_data) for player_data in tournament_data.get('players', [])]
         return cls(
             name=tournament_data['name'],
