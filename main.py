@@ -1,6 +1,6 @@
 from controlers.tournament_controler import TournamentControler
 from models.model_tournament import Tournament
-from db_operations import create_player, choose_player, choose_tournament, get_all_players, get_all_tournaments
+from db_operations import create_player, choose_player, choose_tournament
 from views.report_view import export_player_list, export_tournament_list, export_tournament_details, export_tournament_players, export_tournament_rounds
 from views.report_view import list_players_alphabetically, list_tournaments, list_tournament_players, list_tournament_rounds
 
@@ -16,11 +16,11 @@ def main_menu():
         print("8. Exit")
         print("9. Add player to tournament")
         print("10. Select and start a tournament")
-        print("11. Export Player List")
-        print("12. Export Tournament List")
-        print("13. Export Tournament Details")
-        print("14. Export Tournament Players")
-        print("15. Export Tournament Rounds")
+        print("11. Export list of all players in database")
+        print("12. Export list of all tournaments in database")
+        print("13. Export details of a Tournament")
+        print("14. Export players of a Tournament")
+        print("15. Export rounds of a tournament -- with matches")
         choice = input("Enter your choice: ")
 
         if choice == '1': # Create a new player and save it to JSON
@@ -92,17 +92,30 @@ def main_menu():
             # Resume the tournament: executes all rounds, manages matches, and updates the database
             tournamentControler.run_tournament(tournament)
 
-        elif choice == '11':  # Export player list
-            players = get_all_players()  # Fetch all players
+        elif choice == '11':  # Export plain text list of all players in "players" section of db.json
+            # Create an instance of TournamentControler
+            tournamentControler = TournamentControler()
+            # Call the get_all_players method
+            players = tournamentControler.get_all_players()
+            # Export the fetched players
             export_player_list(players)
 
-        elif choice == '12':  # Export tournament list
-            tournaments = get_all_tournaments()  # Fetch all tournaments
+        elif choice == '12':  # Export plain text list of all tournaments in "tournaments" section of db.json
+            # Create an instance of TournamentControler
+            tournamentControler = TournamentControler()
+            # Call the get_all_tournaments method
+            tournaments = tournamentControler.get_all_tournaments()
+            # Export the fetched tournaments
             export_tournament_list(tournaments)
 
-        elif choice == '13':  # Export tournament details
+        elif choice == '13':  # Export plain text list of details for a specific tournament
+            # Prompt the user to choose a saved tournament
             tournament = choose_tournament()  # Select a tournament
-            export_tournament_details(tournament)
+            # create an instance of TournamentControler
+            tournamentControler = TournamentControler()
+            # Call the get_tournament_details method
+            tournament_details = tournamentControler.get_tournament_details(tournament)
+            export_tournament_details(tournament_details)
 
         elif choice == '14':  # Export tournament players
             tournament = choose_tournament()  # Select a tournament

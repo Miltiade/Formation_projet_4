@@ -4,6 +4,7 @@ from db_operations import update_tournament, choose_tournament, save_tournament
 from models.model_tournament import Tournament  # Import model_tournament module
 import models.model_round as model_round  # Import model_round module
 import models.model_match as model_match  # Import model_match module
+import json
 
 class TournamentControler:
     def __init__(self):
@@ -312,32 +313,81 @@ class TournamentControler:
         else: # If the tournament has already started, run subsequent rounds starting from the current_round
             self.run_subsequent_rounds()
 
+    def get_all_players(self):
+        """
+        Fetch all players from the "players" section of the db.json file.
 
-def get_all_players():
-    # Fetch all players from the database
-    return [
-        {'name': 'Alice'},
-        {'name': 'Bob'},
-        {'name': 'Charlie'}
-    ]
+        Returns:
+            list: A list of dictionaries representing all players.
+        """
+        try:
+            # Open the db.json file
+            with open('data/tournaments/db.json', 'r') as file:
+                data = json.load(file)  # Load the JSON data
 
-def get_all_tournaments():
-    # Fetch all tournaments from the database
-    return [
-        {'name': 'Tournament 1'},
-        {'name': 'Tournament 2'}
-    ]
+            # Extract the "players" section
+            players = data.get("players", {})
+            if not players:
+                print("No players found in the database.")
+                return []
 
-def get_tournament_players(tournament_id):
-    # Fetch players for a specific tournament from the database
-    return [
-        {'name': 'Alice'},
-        {'name': 'Bob'}
-    ]
+            # Convert the players dictionary to a list of dictionaries
+            return [player for player in players.values()]
 
-def get_tournament_rounds(tournament_id):
-    # Fetch rounds for a specific tournament from the database
-    return [
-        {'number': 1, 'name': 'Round 1'},
-        {'number': 2, 'name': 'Round 2'}
-    ]
+        except FileNotFoundError:
+            print("Error: db.json file not found.")
+            return []
+        except json.JSONDecodeError:
+            print("Error: Failed to decode JSON from db.json.")
+            return []
+
+    def get_all_tournaments(self):
+        """
+        Fetch all tournaments from the "tournaments" section of the db.json file.
+
+        Returns:
+            list: A list of dictionaries representing all tournaments.
+        """
+        try:
+            # Open the db.json file
+            with open('data/tournaments/db.json', 'r') as file:
+                data = json.load(file)  # Load the JSON data
+
+            # Extract the "tournaments" section
+            tournaments = data.get("tournaments", {})
+            if not tournaments:
+                print("No tournaments found in the database.")
+                return []
+
+            # Convert the tournaments dictionary to a list of dictionaries
+            return [tournament for tournament in tournaments.values()]
+
+        except FileNotFoundError:
+            print("Error: db.json file not found.")
+            return []
+        except json.JSONDecodeError:
+            print("Error: Failed to decode JSON from db.json.")
+            return []
+
+    def get_tournament_details(self, tournament):
+        """
+        Fetch details of a specific tournament.
+
+        Args:
+            tournament (Tournament): The tournament object to fetch details for.
+
+        Returns:
+            dict: A dictionary containing the tournament details.
+        """
+        # Ensure tournament is an instance of Tournament
+        if not isinstance(tournament, Tournament):
+            # Deserialize the tournament if it's not already a Tournament object
+            tournament = Tournament.deserialize(tournament)
+        
+        return {
+            "name": tournament.name,
+            "place": tournament.place,
+            "start_date": tournament.start_date,
+            "end_date": tournament.end_date,
+            "description": tournament.description
+        }

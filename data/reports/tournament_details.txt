@@ -1,0 +1,4 @@
+Tournament: HaPo
+Location: oijuhg
+Dates: 20200101 to 20200102
+Description: 
