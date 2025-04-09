@@ -125,7 +125,7 @@ def main_menu():
             # Call the get_tournament_players method
             tournament_players = tournamentControler.get_tournament_players(selected_tournament)
             # Export the fetched players into a text file
-            export_tournament_players(tournament_players)
+            export_tournament_players(tournament_players, tournament_name=selected_tournament.name)
 
         elif choice == '15':  # Export plain text list of all rounds of a specific tournament
             selected_tournament = choose_tournament()  # Select a tournament
