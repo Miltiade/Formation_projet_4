@@ -9,18 +9,23 @@ def main_menu():
         print("1. Create New Player")
         print("2. Create New Tournament")
         print("3. Load and resume a tournament")
+
         print("4. List Players Alphabetically")
         print("5. List Tournaments")
         print("6. List Tournament Players")
         print("7. List Tournament Rounds")
+
         print("8. Exit")
+
         print("9. Add player to tournament")
         print("10. Select and start a tournament")
+
         print("11. Export list of all players in database")
         print("12. Export list of all tournaments in database")
         print("13. Export details of a Tournament")
         print("14. Export players of a Tournament")
         print("15. Export rounds of a tournament -- with matches")
+        
         choice = input("Enter your choice: ")
 
         if choice == '1': # Create a new player and save it to JSON
@@ -50,19 +55,19 @@ def main_menu():
             tournamentControler.resume_tournament(tournament)
 
         elif choice == '4':
-            players = choose_player()  # Load a specific player from JSON
+            # players = choose_player()  # Load a specific player from JSON
             list_players_alphabetically(players)
 
         elif choice == '5': # List all tournaments
-            tournaments = choose_tournament()
+            # tournaments = choose_tournament()
             list_tournaments(tournaments)
 
         elif choice == '6': # List players in a specific tournament
-            tournament = choose_tournament()
+            # tournament = choose_tournament()
             list_tournament_players(tournament)
 
         elif choice == '7': # List rounds in a specific tournament
-            tournament = choose_tournament()
+            # tournament = choose_tournament()
             list_tournament_rounds(tournament)
 
         elif choice == '8': # Exit the program
