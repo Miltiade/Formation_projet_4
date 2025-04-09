@@ -1,26 +1,4 @@
 import os  # Import os to handle directory creation
-# from controlers.tournament_controler import get_tournament_players, get_tournament_rounds
-
-def list_players_alphabetically():
-    players = get_all_players()  # Assuming this function fetches all players from the database
-    sorted_players = sorted(players, key=lambda player: player['name'])
-    for player in sorted_players:
-        print(player['name'])
-
-def list_tournaments():
-    tournaments = get_all_tournaments()  # Assuming this function fetches all tournaments from the database
-    for tournament in tournaments:
-        print(tournament['name'])
-
-def list_tournament_players(tournament_id):
-    players = get_tournament_players(tournament_id)  # Assuming this function fetches players for a specific tournament
-    for player in players:
-        print(player['name'])
-
-def list_tournament_rounds(tournament_id):
-    rounds = get_tournament_rounds(tournament_id)  # Assuming this function fetches rounds for a specific tournament
-    for round in rounds:
-        print(f"Round {round['number']}: {round['name']}")
 
 def export_player_list(players, filename="player_list.txt"):
     """Export the list of players to a text file."""
@@ -59,16 +37,18 @@ def export_tournament_details(tournament, filename="tournament_details.txt"):
         file.write(f"Description: {tournament['description']}\n")
     print(f"Tournament details exported to {filepath}.")
 
-def export_tournament_players(tournament, filename="tournament_players.txt"):
+def export_tournament_players(tournament_players, tournament_name="Unknown Tournament", filename="tournament_players.txt"):
     """Export the list of players in a tournament to a text file."""
     # Ensure the directory exists
     os.makedirs("data/reports", exist_ok=True)
     filepath = os.path.join("data/reports", filename)
     
     with open(filepath, "w") as file:
-        file.write(f"Players in Tournament: {tournament['name']} (Alphabetical Order):\n")
-        for player in sorted(tournament.players, key=lambda p: p.family_name):
-            file.write(f"{player.family_name}, {player.first_name} (ELO: {player.elo})\n")
+        # Write the tournament name
+        file.write(f"Players in Tournament: {tournament_name} (Alphabetical Order):\n")
+        # Sort players alphabetically by family name
+        for player in sorted(tournament_players, key=lambda p: p['family_name']):
+            file.write(f"{player['family_name']}, {player['first_name']} (ELO: {player['elo']})\n")
     print(f"Tournament players exported to {filepath}.")
 
 def export_tournament_rounds(tournament, filename="tournament_rounds.txt"):

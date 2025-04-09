@@ -371,7 +371,7 @@ class TournamentControler:
 
     def get_tournament_details(self, tournament):
         """
-        Fetch details of a specific tournament.
+        Fetch details of a specific tournament from db.json file.
 
         Args:
             tournament (Tournament): The tournament object to fetch details for.
@@ -391,3 +391,20 @@ class TournamentControler:
             "end_date": tournament.end_date,
             "description": tournament.description
         }
+    
+    def get_tournament_players(self, tournament):
+        """
+        Fetch the list of players in a specific tournament from db.json.
+
+        Args:
+            tournament (Tournament): The tournament object to fetch players for.
+
+        Returns:
+            list: A list of dictionaries representing the players in the tournament.
+        """
+        # Ensure tournament is an instance of Tournament
+        if not isinstance(tournament, Tournament):
+            # Deserialize the tournament if it's not already a Tournament object
+            tournament = Tournament.deserialize(tournament)
+        
+        return [player.serialize() for player in tournament.players]

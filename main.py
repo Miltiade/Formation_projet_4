@@ -2,7 +2,7 @@ from controlers.tournament_controler import TournamentControler
 from models.model_tournament import Tournament
 from db_operations import create_player, choose_player, choose_tournament
 from views.report_view import export_player_list, export_tournament_list, export_tournament_details, export_tournament_players, export_tournament_rounds
-from views.report_view import list_players_alphabetically, list_tournaments, list_tournament_players, list_tournament_rounds
+# from views.report_view import list_players_alphabetically, list_tournaments, list_tournament_players, list_tournament_rounds
 
 def main_menu():
     while True:
@@ -117,9 +117,14 @@ def main_menu():
             tournament_details = tournamentControler.get_tournament_details(tournament)
             export_tournament_details(tournament_details)
 
-        elif choice == '14':  # Export tournament players
-            tournament = choose_tournament()  # Select a tournament
-            export_tournament_players(tournament)
+        elif choice == '14':  # Export plain text list of all players of a specific tournament
+            selected_tournament = choose_tournament()  # Select a tournament
+            # create an instance of TournamentControler
+            tournamentControler = TournamentControler()
+            # Call the get_tournament_players method
+            tournament_players = tournamentControler.get_tournament_players(selected_tournament)
+            # Export the fetched players
+            export_tournament_players(tournament_players)
 
         elif choice == '15':  # Export tournament rounds
             tournament = choose_tournament()  # Select a tournament

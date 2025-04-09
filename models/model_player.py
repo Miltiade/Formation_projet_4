@@ -51,8 +51,8 @@ class Player:
     @classmethod
     def deserialize(cls, player_data):
         # Debug statement to check player_data
-        print(player_data)
-        print(f"Deserializing player_data: {player_data} (type: {type(player_data)})")
+        # print(player_data)
+        # print(f"Deserializing player_data: {player_data} (type: {type(player_data)})")
 
         # Ensure player_data is a dictionary
         if not isinstance(player_data, dict):
