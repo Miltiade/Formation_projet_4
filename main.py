@@ -115,6 +115,7 @@ def main_menu():
             tournamentControler = TournamentControler()
             # Call the get_tournament_details method
             tournament_details = tournamentControler.get_tournament_details(tournament)
+            # Export the fetched tournament details into a text file
             export_tournament_details(tournament_details)
 
         elif choice == '14':  # Export plain text list of all players of a specific tournament
@@ -123,12 +124,33 @@ def main_menu():
             tournamentControler = TournamentControler()
             # Call the get_tournament_players method
             tournament_players = tournamentControler.get_tournament_players(selected_tournament)
-            # Export the fetched players
+            # Export the fetched players into a text file
             export_tournament_players(tournament_players)
 
-        elif choice == '15':  # Export tournament rounds
-            tournament = choose_tournament()  # Select a tournament
-            export_tournament_rounds(tournament)
+        elif choice == '15':  # Export plain text list of all rounds of a specific tournament
+            selected_tournament = choose_tournament()  # Select a tournament
+            if not selected_tournament:
+                print("No tournament selected. Returning to main menu.")
+                return  # Exit this menu option if no tournament is selected
+            # Debugging print to check the type of selected_tournament
+            print(f"Type of selected_tournament: {type(selected_tournament)}")
+            # Create an instance of TournamentControler
+            tournamentControler = TournamentControler()
+
+            # Call the get_tournament_rounds method
+            try:
+                tournament_rounds = tournamentControler.get_tournament_rounds(selected_tournament)  # Fetch all rounds
+                print(f"Fetched {len(tournament_rounds)} rounds for the tournament.")  # Debugging print
+            except Exception as e:
+                print(f"Error fetching tournament rounds: {e}")
+                return  # Exit this menu option if an error occurs
+
+            # Export the fetched rounds into a text file
+            try:
+                export_tournament_rounds(tournament_rounds, tournament_name=selected_tournament.name)
+                print("Tournament rounds exported successfully.")  # Debugging print
+            except Exception as e:
+                print(f"Error exporting tournament rounds: {e}")
 
         else:
             print("Invalid choice. Please try again.")

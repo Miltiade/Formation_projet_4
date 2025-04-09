@@ -51,17 +51,17 @@ def export_tournament_players(tournament_players, tournament_name="Unknown Tourn
             file.write(f"{player['family_name']}, {player['first_name']} (ELO: {player['elo']})\n")
     print(f"Tournament players exported to {filepath}.")
 
-def export_tournament_rounds(tournament, filename="tournament_rounds.txt"):
+def export_tournament_rounds(tournament_rounds, tournament_name="Unknown Tournament", filename="tournament_rounds.txt"):
     """Export the list of rounds and matches in a tournament to a text file."""
     # Ensure the directory exists
     os.makedirs("data/reports", exist_ok=True)
     filepath = os.path.join("data/reports", filename)
     
     with open(filepath, "w") as file:
-        file.write(f"Rounds and Matches in Tournament: {tournament['name']}:\n")
-        for round_ in tournament.rounds:
-            file.write(f"{round_.name}:\n")
-            for match in round_.matchs:
-                file.write(f"  {match.player1.family_name} vs {match.player2.family_name}\n")
-                file.write(f"    Score: {match.score_player1} - {match.score_player2}\n")
+        file.write(f"Rounds and Matches in Tournament: {tournament_name}:\n")
+        for round_ in tournament_rounds:
+            file.write(f"{round_['name']}:\n")
+            for match in round_['matches']:
+                file.write(f"  {match['player1']['family_name']} vs {match['player2']['family_name']}\n")
+                file.write(f"    Score: {match['score_player1']} - {match['score_player2']}\n")
     print(f"Tournament rounds exported to {filepath}.")

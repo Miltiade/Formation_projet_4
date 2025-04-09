@@ -408,3 +408,43 @@ class TournamentControler:
             tournament = Tournament.deserialize(tournament)
         
         return [player.serialize() for player in tournament.players]
+    
+    def get_tournament_rounds(self, tournament):
+        """
+        Fetch the list of rounds and matches in a specific tournament from db.json.
+
+        Args:
+            tournament (Tournament): The tournament object to fetch rounds for.
+
+        Returns:
+            list: A list of dictionaries representing the rounds and matches in the tournament.
+        """
+        # Ensure tournament is an instance of Tournament
+        if not isinstance(tournament, Tournament):
+            tournament = Tournament.deserialize(tournament)
+
+        # Debugging print to confirm the type of tournament
+        print(f"DEBUG: Type of tournament: {type(tournament)}")
+
+        deserialized_rounds = []
+        for round_ in tournament.rounds:
+            deserialized_matches = []
+            for match in round_.matchs:
+                # Serialize Player objects into dictionaries
+                deserialized_matches.append({
+                    'player1': match.player1.serialize(),  # Serialize player1
+                    'player2': match.player2.serialize(),  # Serialize player2
+                    'score_player1': match.score_player1,
+                    'score_player2': match.score_player2
+                })
+            deserialized_rounds.append({
+                'name': round_.name,
+                'start_time': round_.start_time,
+                'end_time': round_.end_time,
+                'matches': deserialized_matches  # Updated key to 'matches'
+            })
+
+        # Debugging print to confirm the deserialized rounds
+        print(f"DEBUG: Deserialized rounds: {deserialized_rounds}")
+
+        return deserialized_rounds
