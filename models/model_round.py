@@ -8,22 +8,20 @@ class Round:
         self.name = "Round " + str(number)  # Default name for the round
         self.start_time = start_time  # Start time of the round
         self.end_time = end_time  # End time of the round
-        
+
     def add_match(self, match):
         # Add a match to the round
         self.matchs.append(match)
 
     def create(self):
         # Automatically set the start time when the round is created
-        if not self.start_time:  # Ensure start_time is only set once
-            self.start_time = datetime.datetime.now()
-            print(f"Round {self.number} started at {self.start_time}")  # Log the start time for debugging
+        self.start_time = datetime.datetime.now()  # Set the current timestamp
+        print(f"DEBUG: Round {self.number} started at {self.start_time}")  # Debugging print
 
     def mark_as_completed(self):
         # Automatically set the end time when the round is marked as completed
-        if not self.end_time:  # Ensure end_time is only set once
-            self.end_time = datetime.datetime.now()
-            print(f"Round {self.number} completed at {self.end_time}")  # Log the end time for debugging
+        self.end_time = datetime.datetime.now()  # Set the current timestamp
+        print(f"DEBUG: Round {self.number} completed at {self.end_time}")  # Debugging print
 
     def serialize(self):
         # Serialize the round object to a dictionary
