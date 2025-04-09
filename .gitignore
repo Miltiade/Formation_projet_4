@@ -1,10 +1,12 @@
-*Propedeutique/*
-*__pycache__/*
-*.pyc
-test*
-flake8_rapport
-__init__.py
-*.json
-data/
-players_database.json
+# ignore all __pycache__ directories
+*__pycache__/* 
+
+# ignore all .pyc files
+*.pyc 
+
+# ignore all __init__.py files
+__init__.py 
+
+# ignore all files in the data directory
+data/ 
 
