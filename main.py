@@ -11,7 +11,6 @@ def main_menu():
         print("3. Load and resume a tournament")
         print("8. Exit")
         print("9. Add player to tournament")
-        print("10. Select and start a tournament")
         print("11. Export list of all players in database")
         print("12. Export list of all tournaments in database")
         print("13. Export details of a Tournament")
@@ -54,24 +53,6 @@ def main_menu():
             player = choose_player()
             tournamentControler = TournamentControler()
             tournamentControler.add_player_to_tournament(tournament,player)
-
-        elif choice == '10':  # Select and run selected tournament
-            # Prompt the user to choose a saved tournament to resume
-            tournament = choose_tournament()  # Load a specific tournament from JSON.
-            # Validate and deserialize the tournament if necessary
-            try:
-                if isinstance(tournament, dict):  # If the tournament is serialized, deserialize it
-                    tournament = Tournament.deserialize(tournament)
-                elif not isinstance(tournament, Tournament):  # If not a valid Tournament object, raise an error
-                    print("Error: Invalid tournament data. Please try again.")
-                    continue
-            except Exception as e:
-                print(f"Error during deserialization: {e}")
-                continue
-            # Create a new instance of TournamentControler
-            tournamentControler = TournamentControler()
-            # Resume the tournament: executes all rounds, manages matches, and updates the database
-            tournamentControler.run_tournament(tournament)
 
         elif choice == '11':  # Export plain text list of all players in "players" section of db.json
             # Create an instance of TournamentControler
