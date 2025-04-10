@@ -10,10 +10,10 @@ def main_menu():
         print("2. Create New Tournament")
         print("3. Load and resume a tournament")
 
-        print("4. List Players Alphabetically")
-        print("5. List Tournaments")
-        print("6. List Tournament Players")
-        print("7. List Tournament Rounds")
+        # print("4. List Players Alphabetically")
+        # print("5. List Tournaments")
+        # print("6. List Tournament Players")
+        # print("7. List Tournament Rounds")
 
         print("8. Exit")
 

@@ -97,9 +97,9 @@ class TournamentControler:
         
         print("Running matches for round 1.")
         
-        # For all matches: add scores & print results
-        for match in self.tournament.rounds[0].matchs:  
-            # self.tournament.matches_played.append((match.player1, match.player2))  # Update the tournament's matches_played list with the players of the current match
+        # For every match: prompt user to type score; add scores; print results
+        print("DEBUG: ", match)
+        for match in self.tournament.rounds[0].matches:
             match.score_player1, match.score_player2 = self.handle_score()  # Add scores to the match
             match.player1.total_score += match.score_player1 # Update the total score of player1
             match.player2.total_score += match.score_player2 # Update the total score of player2
@@ -241,20 +241,17 @@ class TournamentControler:
         Returns:
         bool: True if the player was added successfully, False otherwise.
         """
-        # Ensure tournament is an instance of Tournament
-        if not isinstance(tournament, Tournament):
-            # Deserialize the tournament if it's not already a Tournament object
-            tournament = Tournament.deserialize(tournament)
+        
+        if not isinstance(tournament, Tournament): # Ensure tournament is an instance of Tournament            
+            tournament = Tournament.deserialize(tournament) # Deserialize the tournament if it's not already a Tournament object
         
         # Ensure player is an instance of Player
         if isinstance(player, dict):
             player = Player.from_dict(player)
-        
-        # Check if the player is already in the tournament
-        if player.serialize() not in [p.serialize() for p in tournament.players]:
+                
+        if player.serialize() not in [p.serialize() for p in tournament.players]: # Check if the player is not already in the tournament
             tournament.add_player(player)  # Use the add_player method
-            # Save the updated tournament data to the database
-            update_tournament(tournament)
+            update_tournament(tournament) # Save the updated tournament data to the database
             print(f"Player {player.family_name} added to tournament {tournament.name}.")
             return True
         else:
