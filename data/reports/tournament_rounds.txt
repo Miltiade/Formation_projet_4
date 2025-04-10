@@ -9,13 +9,3 @@ Round 2:
     Score: 1 - 0
   Longbottom vs Lovegood
     Score: 0 - 1
-Round 3:
-  Weasley vs Dursley
-    Score: 1 - 0
-  Longbottom vs Lovegood
-    Score: 0 - 1
-Round 4:
-  Weasley vs Dursley
-    Score: 1 - 0
-  Longbottom vs Lovegood
-    Score: 0 - 1
