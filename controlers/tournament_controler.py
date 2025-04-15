@@ -2,7 +2,8 @@ from models.model_player import Player
 from views import tournament_view, match_view, player_view
 from db_operations import update_tournament, choose_tournament, save_tournament
 from models.model_tournament import Tournament  # Import model_tournament module
-import models.model_round as model_round  # Import model_round module
+# import models.model_round as model_round  # Import model_round module
+from models.model_round import Round  # Import Round class from model_round module
 import models.model_match as model_match  # Import model_match module
 import json
 
@@ -67,10 +68,18 @@ class TournamentControler:
         players = [Player.from_dict(data) for data in self.tournament.player_elos]
         player_view.print_player(players)
 
-    def run_first_round(self):
-        # Algorithm running the first round
+    def run_first_round(self): # Algorithm running the first round
+        
         print("Starting to run round 1.")
-        # print(self.tournament.player_elos)
+
+        round1 = Round("1")  # Creating object "first round" and declaring it as variable
+        self.tournament.add_round(round1)  # Adding the variable in the tournament
+
+        # call auto_set_start_time method of the round object: set the start time of the round
+        round1 = self.tournament.rounds[0]
+        round1.auto_set_start_time()
+        print("Start time set for round 1.")
+
         print("Sorting players by elo.")
         print(self.tournament.player_elos)
         # Sort player elos by the numeric part of each string, from highest to lowest
@@ -83,10 +92,7 @@ class TournamentControler:
                     player.initial_ranking = rank
                     break
         print("Players sorted.")
-        
-        round1 = model_round.Round("1")  # Creating object "first round" and declaring it as variable
-        self.tournament.add_round(round1)  # Adding the variable in the tournament
-        
+                
         for i in range(0, len(self.tournament.player_elos), 2):  # Adding matches in the round
             # Find the player objects corresponding to the elos
             player1 = next(player for player in self.tournament.players if player.elo == self.tournament.player_elos[i])
@@ -98,8 +104,8 @@ class TournamentControler:
         print("Running matches for round 1.")
         
         # For every match: prompt user to type score; add scores; print results
-        print("DEBUG: ", match)
-        for match in self.tournament.rounds[0].matches:
+        # print("DEBUG: ", match)
+        for match in self.tournament.rounds[0].matchs:
             match.score_player1, match.score_player2 = self.handle_score()  # Add scores to the match
             match.player1.total_score += match.score_player1 # Update the total score of player1
             match.player2.total_score += match.score_player2 # Update the total score of player2
@@ -178,7 +184,7 @@ class TournamentControler:
             print(f"Starting to run round {round_number}.")
             
             # Create a new round object
-            round_ = model_round.Round(str(round_number))
+            round_ = Round(str(round_number))
             self.tournament.add_round(round_)
             
             for i in range(0, len(self.tournament.player_elos), 2):  # Adding matches in the round
@@ -291,24 +297,21 @@ class TournamentControler:
 
     def resume_tournament(self, tournament):
         '''Run a tournament, starting from the last completed round.
+        This method only runs the tournament if current_round is not 0.
+        It is used to resume a tournament that was previously saved.
         This method is called when the user selects a tournament to resume, from the main menu.
         Args:
         tournament (Tournament): The tournament to be resumed.
         '''
         self.tournament = tournament
-        
         # Check if tournament is correctly deserialized object.
         if isinstance(tournament, dict):
             print("Tournament needs deserialization. Deserializing now...")
             tournament = Tournament.deserialize(tournament)
         else:
             print("Tournament is already deserialized. Loading tournament...")
-        
-        # run tournament, starting from the last completed round; use the current_round attribute to determine where to start
-        if self.tournament.current_round == 0:
-            self.run_first_round()
-        else: # If the tournament has already started, run subsequent rounds starting from the current_round
-            self.run_subsequent_rounds()
+        # resume tournament
+        self.run_subsequent_rounds()
 
     def get_all_players(self):
         """

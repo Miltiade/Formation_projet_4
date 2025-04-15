@@ -13,15 +13,15 @@ class Round:
         # Add a match to the round
         self.matchs.append(match)
 
-    def create(self):
+    def auto_set_start_time(self):
         # Automatically set the start time when the round is created
         self.start_time = datetime.datetime.now()  # Set the current timestamp
         print(f"DEBUG: Round {self.number} started at {self.start_time}")  # Debugging print
 
-    def mark_as_completed(self):
-        # Automatically set the end time when the round is marked as completed
-        self.end_time = datetime.datetime.now()  # Set the current timestamp
-        print(f"DEBUG: Round {self.number} completed at {self.end_time}")  # Debugging print
+    def auto_set_end_time(self):
+        # Automatically set the end time when the round is completed
+        self.end_time = datetime.datetime.now()
+        print(f"DEBUG: Round {self.number} ended at {self.end_time}") # Debugging print
 
     def serialize(self):
         # Serialize the round object to a dictionary

@@ -8,7 +8,7 @@ def main_menu():
     while True:
         print("1. Create New Player")
         print("2. Create New Tournament")
-        print("3. Load and resume a tournament")
+        print("3. Load a tournament") # Load a specific tournament from JSON and resume it
         print("8. Exit")
         print("9. Add player to tournament")
         print("11. Export list of all players in database")
@@ -42,8 +42,12 @@ def main_menu():
                 continue
             # Create a new instance of TournamentControler
             tournamentControler = TournamentControler()
-            # Resume the tournament
-            tournamentControler.resume_tournament(tournament)
+            # If tournament's current_round is 0, call the run_tournament method
+            if tournament.current_round == 0:
+                tournamentControler.run_tournament(tournament)
+            # If tournament's current_round is not 0, call the resume_tournament method
+            else:
+                tournamentControler.resume_tournament(tournament)
 
         elif choice == '8': # Exit the program
             break
