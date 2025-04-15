@@ -111,6 +111,10 @@ class TournamentControler:
             match.player2.total_score += match.score_player2 # Update the total score of player2
             match_view.print_match_result(match) # Print the result of the match
         print("Round 1 finished.")
+        
+        # call auto_set_end_time method of the round object: set the end time of the round
+        round1.auto_set_end_time()
+        print("End time set for round 1.")
 
         # Update the current_round attribute
         self.tournament.current_round = 1
@@ -186,6 +190,10 @@ class TournamentControler:
             # Create a new round object
             round_ = Round(str(round_number))
             self.tournament.add_round(round_)
+
+            # Set the start time of the round
+            round_.auto_set_start_time()
+            print("Start time set for round {round_number}.")
             
             for i in range(0, len(self.tournament.player_elos), 2):  # Adding matches in the round
                 # Find the player objects corresponding to the elos
@@ -202,6 +210,10 @@ class TournamentControler:
                 match_view.print_match_result(match)  # Print the result of the match
             
             print(f"Round {round_number} finished.")
+
+            # Set the end time of the round
+            round_.auto_set_end_time()
+            print("End time set for round {round_number}.")
             
             # Update the tournament's "current_round" attribute
             self.tournament.current_round = round_number
