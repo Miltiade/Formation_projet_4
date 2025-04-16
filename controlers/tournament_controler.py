@@ -47,9 +47,6 @@ class TournamentControler:
 
     def get_letters(self, message):
         word = tournament_view.get_user_input(message)
-        while not word.isalpha():
-            tournament_view.error_message("Error: type letters only")
-            word = tournament_view.get_user_input(message)
         return word
 
     def get_time_control(self):
