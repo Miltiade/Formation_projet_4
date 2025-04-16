@@ -1,3 +1,5 @@
-tinydb
-flake8
-flake8-html
+tinydb==4.7.1
+flake8==6.1.0
+flake8-html==0.4.4
+requests==2.31.0
+pandas==2.1.1
