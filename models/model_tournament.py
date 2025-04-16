@@ -72,15 +72,19 @@ class Tournament:
             "players": [player.serialize() for player in self.players],
         }
 
+    @classmethod
     def deserialize(cls, tournament_data, players):
+        # Deserialize rounds using the provided players dictionary
         rounds = [
             Round.deserialize(round_data, players)
             for round_data in tournament_data.get("rounds", [])
         ]
+        # Deserialize players from the tournament data
         players = [
             Player.deserialize(player_data)
             for player_data in tournament_data.get("players", [])
         ]
+        # Return a new instance of the Tournament class
         return cls(
             name=tournament_data["name"],
             place=tournament_data["place"],

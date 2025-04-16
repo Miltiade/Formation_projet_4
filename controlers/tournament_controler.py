@@ -90,7 +90,6 @@ class TournamentControler:
         # set the start time of the round
         round1 = self.tournament.rounds[0]
         round1.auto_set_start_time()
-        print("Start time set for round 1.")
 
         print("Sorting players by elo.")
         print(self.tournament.player_elos)
@@ -142,7 +141,6 @@ class TournamentControler:
 
         # set the end time of the round
         round1.auto_set_end_time()
-        print("End time set for round 1.")
 
         # Update the current_round attribute
         self.tournament.current_round = 1
@@ -230,7 +228,6 @@ class TournamentControler:
 
             # Set the start time of the round
             round_.auto_set_start_time()
-            print("Start time set for round {round_number}.")
 
             for i in range(
                 0, len(self.tournament.player_elos), 2
@@ -266,7 +263,6 @@ class TournamentControler:
 
             # Set the end time of the round
             round_.auto_set_end_time()
-            print("End time set for round {round_number}.")
 
             # Update the tournament's "current_round" attribute
             self.tournament.current_round = round_number
