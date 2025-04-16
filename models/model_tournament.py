@@ -57,7 +57,6 @@ class Tournament:
         # Add round to the rounds list
         self.rounds.append(round)
 
-    @classmethod
     def serialize(self):
         return {
             "name": self.name,
@@ -73,7 +72,6 @@ class Tournament:
             "players": [player.serialize() for player in self.players],
         }
 
-    @classmethod
     def deserialize(cls, tournament_data, players):
         rounds = [
             Round.deserialize(round_data, players)
