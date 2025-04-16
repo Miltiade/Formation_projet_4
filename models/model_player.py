@@ -7,7 +7,7 @@ class Player:
         self.family_name = family_name
         self.date_of_birth = date_of_birth
         self.elo = elo  # Unique identifier for the player
-        self.initial_ranking = initial_ranking
+        self.initial_ranking = initial_ranking # player's initial ranking
         self.match_score = match_score  # player's score in the current match
         self.total_score = total_score  # player's total score at a given time
 
@@ -49,11 +49,9 @@ class Player:
         )
 
     @classmethod
-    def deserialize(cls, player_data):
-        # Debug statement to check player_data
-        # print(player_data)
-        # print(f"Deserializing player_data: {player_data} (type: {type(player_data)})")
-
+    # Deserialize a dictionary to create a Player object
+    def deserialize(cls, player_data):        
+        
         # Ensure player_data is a dictionary
         if not isinstance(player_data, dict):
             raise TypeError(f"Expected player_data to be a dict, but got {type(player_data).__name__}")
@@ -66,13 +64,12 @@ class Player:
             elo=player_data['elo'],
             initial_ranking=player_data['initial_ranking'],
             match_score=player_data['match_score'],
-            total_score=player_data['total_score'],
-            # matches_played=[Match.deserialize(match_data) for match_data in player_data.get('matches_played', [])]
+            total_score=player_data['total_score'],            
         )
 
     def save_to_database(self, file_path):
-        # A method that converts player info into a dictionary, using "serialize" method
-        # Argument is: filepath of the JSON file in which to save the players
+        # Convert player info into a dictionary, using "serialize" method
+        # Argument: filepath of the JSON file in which to save the players
         player_data = self.serialize()
         try:
             # Open JSON file as write
