@@ -1,7 +1,3 @@
-# model_tournaments_list.py
-# Manager of tournaments' list. Responsible for database manipulations.
-# A class that defines a list of tournaments (and sets up its méthodes + attributs) : create tournament, save tournament to database, load tournament, etc.... In short: modify json file.
-
 """
 model_tournaments_list.py
 
