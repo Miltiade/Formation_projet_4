@@ -3,7 +3,6 @@ import json
 from tinydb import TinyDB, Query
 from models.model_tournament import Tournament
 from models.model_player import Player
-import models.model_match as model_match
 
 # Save a single player to the JSON database
 def save_player(player):
@@ -25,7 +24,7 @@ def save_tournament(tournament):
     tournament_data = tournament.serialize()
     tournaments_table.insert(tournament_data)
 
-# Update (i.e. save) existing tournament in JSON file (n.b.: use the tournament's name to find the specific tournament)
+# Update (i.e. save) existing tournament in JSON file (use the tournament's name to find the specific tournament)
 def update_tournament(tournament):
     db = TinyDB('data/tournaments/db.json')
     tournaments_table = db.table('tournaments')
@@ -84,7 +83,7 @@ def choose_player():
         print("Invalid input. Please enter a number.")
         return None
 
-# Function to create a new player
+# Create a new player
 def create_player():
     family_name = input("Enter the player's family name: ")
     first_name = input("Enter the player's first name: ")
