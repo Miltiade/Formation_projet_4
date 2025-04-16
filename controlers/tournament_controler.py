@@ -1,10 +1,9 @@
 from models.model_player import Player
 from views import tournament_view, match_view, player_view
 from db_operations import update_tournament, choose_tournament, save_tournament
-from models.model_tournament import Tournament  # Import model_tournament module
-# import models.model_round as model_round  # Import model_round module
-from models.model_round import Round  # Import Round class from model_round module
-import models.model_match as model_match  # Import model_match module
+from models.model_tournament import Tournament
+from models.model_round import Round
+import models.model_match as model_match
 import json
 
 class TournamentControler:
@@ -29,19 +28,15 @@ class TournamentControler:
         # Save tournament to database
         save_tournament(self.tournament)
     
-        # for i in range(2):
-        #     name, elo = player_view.get_player_info()
-        #     player = model_player.Player(name, elo)
-        #     self.tournament.add_player(player)
-
     def get_letters(self, message):
         word = tournament_view.get_user_input(message)
-        # while not word.isalpha():
-        #     tournament_view.error_message("Error: type letters only")
-        #     word = tournament_view.get_user_input(message)
+        while not word.isalpha():
+            tournament_view.error_message("Error: type letters only")
+            word = tournament_view.get_user_input(message)
         return word
 
     def get_time_control(self):
+        # Prompt the user to enter a time control
         message = "Enter time control (Bullet/Splitz/Quick) : "
         time_control = tournament_view.get_user_input(message)
         while not time_control.lower() in ["bullet", "splitz", "quick"]:
@@ -50,6 +45,7 @@ class TournamentControler:
         return time_control
 
     def get_date(self,message):
+        # Prompt the user to enter a date in the format DDMMYYYY
         date = tournament_view.get_user_input(message)
         while not date.isdecimal() or len(date) != 8:
             tournament_view.error_message("Error : type a date as DDMMYYYY")
@@ -57,25 +53,25 @@ class TournamentControler:
         return date
 
     def get_numbers(self,message):
+        # Prompt the user to enter a number
         number = tournament_view.get_user_input(message)
         while not number.isnumeric():
             tournament_view.error_message("Error: type a number only")
             number = tournament_view.get_user_input(message)
         return number
 
-
     def print_player(self):
+        # Print the list of players in the tournament
         players = [Player.from_dict(data) for data in self.tournament.player_elos]
         player_view.print_player(players)
 
     def run_first_round(self): # Algorithm running the first round
-        
         print("Starting to run round 1.")
 
         round1 = Round("1")  # Creating object "first round" and declaring it as variable
         self.tournament.add_round(round1)  # Adding the variable in the tournament
 
-        # call auto_set_start_time method of the round object: set the start time of the round
+        # set the start time of the round
         round1 = self.tournament.rounds[0]
         round1.auto_set_start_time()
         print("Start time set for round 1.")
@@ -104,7 +100,6 @@ class TournamentControler:
         print("Running matches for round 1.")
         
         # For every match: prompt user to type score; add scores; print results
-        # print("DEBUG: ", match)
         for match in self.tournament.rounds[0].matchs:
             match.score_player1, match.score_player2 = self.handle_score()  # Add scores to the match
             match.player1.total_score += match.score_player1 # Update the total score of player1
@@ -112,7 +107,7 @@ class TournamentControler:
             match_view.print_match_result(match) # Print the result of the match
         print("Round 1 finished.")
         
-        # call auto_set_end_time method of the round object: set the end time of the round
+        # set the end time of the round
         round1.auto_set_end_time()
         print("End time set for round 1.")
 
@@ -125,6 +120,7 @@ class TournamentControler:
         print("Tournament updated.")
 
     def handle_score(self):
+        # Prompt the user to enter the match result
         while True:
             score = match_view.enter_match_result()
             if score == "1":
@@ -237,13 +233,13 @@ class TournamentControler:
 
     def load_tournament(self):
         tournament_data = choose_tournament()
-        print(tournament_data) # Debug statement to check the loaded tournament data
+
         if tournament_data:
             self.tournament = Tournament.deserialize(tournament_data)
             print(f"Tournament '{self.tournament.name}' loaded successfully.")
-            print(f"Type of self.tournament: {type(self.tournament)}") # Debug statement to check type of self.tournament
 
             return self.tournament
+        
         else:
             print("Tournament loading cancelled.")
             return None
@@ -261,13 +257,13 @@ class TournamentControler:
         """
         
         if not isinstance(tournament, Tournament): # Ensure tournament is an instance of Tournament            
-            tournament = Tournament.deserialize(tournament) # Deserialize the tournament if it's not already a Tournament object
+            tournament = Tournament.deserialize(tournament) # Deserialize tournament if not already a Tournament object
         
         # Ensure player is an instance of Player
         if isinstance(player, dict):
             player = Player.from_dict(player)
                 
-        if player.serialize() not in [p.serialize() for p in tournament.players]: # Check if the player is not already in the tournament
+        if player.serialize() not in [p.serialize() for p in tournament.players]: # Check if player not already in tournament
             tournament.add_player(player)  # Use the add_player method
             update_tournament(tournament) # Save the updated tournament data to the database
             print(f"Player {player.family_name} added to tournament {tournament.name}.")
@@ -283,28 +279,9 @@ class TournamentControler:
         Args:
         tournament (Tournament): The tournament to be run.
         """
-        # Check if tournament is correctly deserialized object.
-        # if isinstance(tournament, dict):
-        #     print("Tournament needs deserialization. Deserializing now...")
-        #     tournament = Tournament.deserialize(tournament)
-        # else:   
-        #     print("Tournament is already deserialized. Loading tournament...")
-        # # Ensure tournament is an instance of Tournament.
-        # if not isinstance(tournament, Tournament):
-            # print("Error: Invalid tournament data.")
-        # # Ensure players are instances of Player
-        # self.players = [Player.from_dict(data) for data in tournament.players]
-        # # Ensure players_elos is a list of ELO strings
-        # self.tournament.player_elos = [player.elo for player in self.players]
-        # # Ensure rounds are instances of Round
-        # tournament.rounds = [model_round.Round.deserialize(round_data) for round_data in tournament.rounds]
-        # # Ensure matches are instances of Match
-        # for round_ in tournament.rounds:
-        #     round_.matchs = [model_match.Match.deserialize(match_data) for match_data in round_.matchs]
         self.tournament = tournament
         self.run_first_round()
         self.run_subsequent_rounds()
-        # self.display_final_ranking()
         print("Tournament finished.")
 
     def resume_tournament(self, tournament):
@@ -435,9 +412,6 @@ class TournamentControler:
         if not isinstance(tournament, Tournament):
             tournament = Tournament.deserialize(tournament)
 
-        # Debugging print to confirm the type of tournament
-        print(f"DEBUG: Type of tournament: {type(tournament)}")
-
         deserialized_rounds = []
         for round_ in tournament.rounds:
             deserialized_matches = []
@@ -455,8 +429,5 @@ class TournamentControler:
                 'end_time': round_.end_time,
                 'matches': deserialized_matches  # Updated key to 'matches'
             })
-
-        # Debugging print to confirm the deserialized rounds
-        print(f"DEBUG: Deserialized rounds: {deserialized_rounds}")
 
         return deserialized_rounds
