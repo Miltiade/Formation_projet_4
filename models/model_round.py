@@ -16,12 +16,10 @@ class Round:
     def auto_set_start_time(self):
         # Automatically set the start time when the round is created
         self.start_time = datetime.datetime.now()  # Set the current timestamp
-        print(f"DEBUG: Round {self.number} started at {self.start_time}")  # Debugging print
 
     def auto_set_end_time(self):
         # Automatically set the end time when the round is completed
-        self.end_time = datetime.datetime.now()
-        print(f"DEBUG: Round {self.number} ended at {self.end_time}") # Debugging print
+        self.end_time = datetime.datetime.now()  # Set the current timestamp
 
     def serialize(self):
         # Serialize the round object to a dictionary
@@ -41,7 +39,7 @@ class Round:
             start_time=datetime.datetime.fromisoformat(data['start_time']) if data['start_time'] else None,  # Parse start time
             end_time=datetime.datetime.fromisoformat(data['end_time']) if data['end_time'] else None  # Parse end time
         )
-        # Set the matchs attribute after the object is created
+        # Set the match's attribute after the object is created
         # Deserialize each match using the provided players
         round_obj.matchs = [Match.deserialize(match_data, players) for match_data in data.get('matchs', [])]
         return round_obj
