@@ -1,6 +1,6 @@
 # model_rounds_list.py
 # Manager of rounds' list. Responsible for database manipulations.
-# A class that defines a list of rounds (and sets up its méthodes + attributs) : create round, save round to database, load round, etc.... In short: modify json file.
+# A class that defines a list of rounds (and sets up its méthodes + attributs) : create round, save round to database, load round, etc.... In short: modify json file.
 
 """
 model_rounds_list.py
@@ -26,6 +26,7 @@ import json
 import os
 from models.model_match import Match
 
+
 class RoundsList:
     def __init__(self, file_path):
         # Initialize with the path to the JSON file
@@ -41,13 +42,13 @@ class RoundsList:
 
     def save_rounds(self):
         # Save the list of rounds to the JSON file
-        with open(self.file_path, 'w') as file:
+        with open(self.file_path, "w") as file:
             json.dump(self.rounds, file, indent=4)
 
     def load_rounds(self):
         # Load the list of rounds from the JSON file if it exists
         if os.path.exists(self.file_path):
-            with open(self.file_path, 'r') as file:
+            with open(self.file_path, "r") as file:
                 return json.load(file)
         # Return an empty list if the file does not exist
         return []
@@ -66,6 +67,7 @@ class RoundsList:
             # Save the updated list to the file
             self.save_rounds()
 
+
 class Round:
     def __init__(self, name, matchs):
         self.name = name
@@ -73,8 +75,7 @@ class Round:
 
     @classmethod
     def deserialize(cls, data):
-        matchs = [Match.deserialize(match_data) for match_data in data.get('matchs', [])]
-        return cls(
-            name=data['name'],
-            matchs=matchs
-        )
+        matchs = [
+            Match.deserialize(match_data) for match_data in data.get("matchs", [])
+        ]
+        return cls(name=data["name"], matchs=matchs)

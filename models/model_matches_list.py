@@ -1,6 +1,6 @@
 # model_matches_list.py
 # Manager of matches' list. Responsible for database manipulations.
-# A class that defines a list of matches (and sets up its méthodes + attributs) : create match, save match to database, load match, etc.... In short: modify json file.
+# A class that defines a list of matches (and sets up its méthodes + attributs) : create match, save match to database, load match, etc.... In short: modify json file.
 
 """
 model_matches_list.py
@@ -22,6 +22,7 @@ Methods:
 import os
 import json
 
+
 class MatchesList:
     def __init__(self, file_path):
         self.file_path = file_path
@@ -34,24 +35,24 @@ class MatchesList:
 
     def save_matches(self):
         # Save the list of matches to a JSON file
-        with open(self.file_path, 'w') as file:
+        with open(self.file_path, "w") as file:
             json.dump(self.matches, file, indent=4)
 
     def load_matches(self):
         # Load the list of matches from a JSON file
         if os.path.exists(self.file_path):
-            with open(self.file_path, 'r') as file:
+            with open(self.file_path, "r") as file:
                 return json.load(file)
         return []
 
     def get_match(self, match_id):
         # Retrieve a match by its ID
         for match in self.matches:
-            if match['id'] == match_id:
+            if match["id"] == match_id:
                 return match
         return None
 
     def delete_match(self, match_id):
         # Delete a match by its ID
-        self.matches = [match for match in self.matches if match['id'] != match_id]
+        self.matches = [match for match in self.matches if match["id"] != match_id]
         self.save_matches()

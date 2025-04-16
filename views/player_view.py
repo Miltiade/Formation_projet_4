@@ -3,7 +3,8 @@ def get_player_info():
     name = input("Enter the player's name : ")
     elo = input("Enter the player's elo : ")
     return name, elo
-    
+
+
 def print_player(players):
     # This function prints the player information.
     print("Preparing to print players. Please wait...")
