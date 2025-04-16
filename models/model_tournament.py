@@ -1,5 +1,3 @@
-# In models/model_tournament.py
-
 from models.model_round import Round
 from models.model_player import Player
 from models.model_match import Match
@@ -31,7 +29,6 @@ class Tournament:
         self.player_elos = player_elos
         self.number_of_rounds = number_of_rounds
         self.current_round = current_round
-        # self.matches_played = matches_played  # Commented out: it is not required by the specifications
         self.rounds = rounds if rounds is not None else []
         self.players = players if players is not None else []
 
@@ -42,14 +39,11 @@ class Tournament:
         self.player_elos.append(str(player.elo))
         print(self.player_elos)
 
-    @classmethod
-    def message(self):
-        print("toto")
-
     def add_round(self, round):
         # Add round to the rounds list
         self.rounds.append(round)
 
+    @classmethod
     def serialize(self):
         return {
             'name': self.name,
