@@ -10,3 +10,7 @@ __init__.py
 # ignore all files in the data directory
 data/ 
 
+# ignore virtual environment directories
+venv/
+.env/
+*.env
