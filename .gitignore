@@ -7,8 +7,8 @@
 # ignore all __init__.py files
 __init__.py 
 
-# ignore all files in the data directory
-data/ 
+# ignore the data directory and all its contents
+data/
 
 # ignore virtual environment directories
 venv/
