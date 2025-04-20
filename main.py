@@ -57,7 +57,7 @@ def main_menu():
 
         elif (
             choice == "4"
-        ):  # Load a specific player from JSON to add to a tournament; update the tournament in JSON
+        ):  # Load a player from JSON to add to a tournament; update tournament in JSON
             tournament = choose_tournament()
             player = choose_player()
             tournamentControler = TournamentControler()
@@ -75,7 +75,7 @@ def main_menu():
 
         elif (
             choice == "6"
-        ):  # Export plain text list of all tournaments in "tournaments" section of db.json
+        ):  # Export list of all tournaments in "tournaments" section of db.json
             # Create an instance of TournamentControler
             tournamentControler = TournamentControler()
             # Call the get_all_tournaments method

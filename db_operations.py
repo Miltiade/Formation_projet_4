@@ -27,7 +27,7 @@ def save_tournament(tournament):
     tournaments_table.insert(tournament_data)
 
 
-# Update (i.e. save) existing tournament in JSON file (use the tournament's name to find the specific tournament)
+# Update (i.e. save) existing tournament in JSON file
 def update_tournament(tournament):
     db = TinyDB("data/tournaments/db.json")
     tournaments_table = db.table("tournaments")
@@ -87,7 +87,7 @@ def choose_player():
         if 0 <= choice < len(saved_players):
             selected_player = saved_players[choice]
             print(
-                f"You have selected the player: {selected_player['family_name']} (Elo: {selected_player['elo']})"
+                f"You selected player: {selected_player['family_name']} (Elo: {selected_player['elo']})"
             )
             return selected_player
         else:

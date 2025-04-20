@@ -166,7 +166,8 @@ class TournamentControler:
     def generate_pairs(self):
         """
         Generates pairs of players for the next round of the tournament.
-        :param self.tournament: The tournament object containing the list of players and their scores.
+        :param self.tournament: The tournament object containing
+        the list of players and their scores.
         :return: List of pairs (matches) for the next round.
         """
         print("Generating pairs of players based on their score.")
@@ -183,7 +184,8 @@ class TournamentControler:
         for i in range(len(sorted_players)):
             if sorted_players[i] not in used_players:
                 for j in range(i + 1, len(sorted_players)):
-                    # Look for a player the current player hasn't played against and is not yet used in this round.
+                    # Look for a player the current player hasn't played against
+                    # and is not yet used in this round.
                     if sorted_players[
                         j
                     ] not in used_players and not self.has_played_against(
@@ -193,7 +195,7 @@ class TournamentControler:
                         matches.append((sorted_players[i], sorted_players[j]))
                         used_players.add(sorted_players[i])
                         used_players.add(sorted_players[j])
-                        break  # Break out of the inner loop once we've found a match for the current player.
+                        break
 
         return matches
 
@@ -286,7 +288,7 @@ class TournamentControler:
         )
         for rank, player in enumerate(sorted_players, start=1):
             print(
-                f"Final Ranking of Players: {rank}. {player['family name']} {player['first name']} - Total Score: {player['total_score']} points"
+                f"Final Ranking: {rank}. {player['family name']} {player['first name']} - Total Score: {player['total_score']} points"
             )
 
     def load_tournament(self):
@@ -336,13 +338,14 @@ class TournamentControler:
             return True
         else:
             print(
-                f"Player {player.family_name} is already in tournament {tournament.name}."
+                f"Player {player.family_name} already in tournament {tournament.name}."
             )
             return False
 
     def run_tournament(self, tournament):
         """
-        Run a tournament from the first round to the final round: generate pairs, run matches, and update the database (save).
+        Run a tournament from the first round to the final round:
+        generate pairs, run matches, and update the database (save).
 
         Args:
         tournament (Tournament): The tournament to be run.
@@ -356,7 +359,7 @@ class TournamentControler:
         """Run a tournament, starting from the last completed round.
         This method only runs the tournament if current_round is not 0.
         It is used to resume a tournament that was previously saved.
-        This method is called when the user selects a tournament to resume, from the main menu.
+        This method is called when user selects a tournament to resume.
         Args:
         tournament (Tournament): The tournament to be resumed.
         """
@@ -474,7 +477,7 @@ class TournamentControler:
             tournament (Tournament): The tournament object to fetch rounds for.
 
         Returns:
-            list: A list of dictionaries representing the rounds and matches in the tournament.
+            list: list of dictionaries representing rounds & matches in the tournament.
         """
         # Ensure tournament is an instance of Tournament
         if not isinstance(tournament, Tournament):
