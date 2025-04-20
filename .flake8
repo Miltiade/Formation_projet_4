@@ -1,0 +1,4 @@
+# Updated .flake8 configuration to exclude unnecessary directories and files
+[flake8]
+exclude = venv, __pycache__, data, *.pyc, *.env
+max-line-length = 88
