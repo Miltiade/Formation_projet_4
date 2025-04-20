@@ -88,7 +88,8 @@ def choose_player():
         if 0 <= choice < len(saved_players):
             selected_player = saved_players[choice]
             print(
-                f"You selected player: {selected_player['family_name']} (Elo: {selected_player['elo']})"
+                f"You selected player: {selected_player['family_name']} "
+                f"(Elo: {selected_player['elo']})"
             )
             return selected_player
         else:

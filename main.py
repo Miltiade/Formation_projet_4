@@ -165,9 +165,10 @@ def list_tournaments(tournaments):
     List tournaments with their names and dates.
     """
     for tournament in tournaments:
-        print(
-            f"{tournament['name']} - {tournament['start_date']} to {tournament['end_date']}"
-        )
+        tournament_name = tournament["name"]
+        start_date = tournament["start_date"]
+        end_date = tournament["end_date"]
+        print(f"{tournament_name} - {start_date} to {end_date}")
 
 
 def list_tournament_players(tournament):

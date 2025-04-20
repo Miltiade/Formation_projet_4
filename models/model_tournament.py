@@ -48,7 +48,7 @@ class Tournament:
     def add_player(self, player):
         # Add player to the players list
         self.players.append(player)
-        # Add player's elo (as string) to the player_elos list whenever a player is added
+        # Add player's elo (as string) to player_elos list whenever a player is added
         self.player_elos.append(str(player.elo))
         print(self.player_elos)
 

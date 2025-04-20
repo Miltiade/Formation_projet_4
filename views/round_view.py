@@ -11,9 +11,8 @@ def print_round_results(round):
             f"{match.player1.name} (ELO: {match.player1.elo}) vs "
             f"{match.player2.name} (ELO: {match.player2.elo})"
         )
-        print(
-            f"Score: {match.player1.name} {match.score_player1} - {match.score_player2} {match.player2.name}"
-        )
+        print(f"Score: {match.player1.name} {match.score_player1} - "
+              f"{match.score_player2} {match.player2.name}")
         print("-----------------------------")
 
     print("End of Round Results")

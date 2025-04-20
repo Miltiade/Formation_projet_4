@@ -11,7 +11,8 @@ def export_player_list(players, filename="player_list.txt"):
         file.write("Player List (Alphabetical Order):\n")
         for player in sorted(players, key=lambda p: p["family_name"]):
             file.write(
-                f"{player['family_name']}, {player['first_name']} (ELO: {player['elo']})\n"
+                f"{player['family_name']}, {player['first_name']} "
+                f"(ELO: {player['elo']})\n"
             )
     print(f"Player list exported to {filepath}.")
 
@@ -26,7 +27,8 @@ def export_tournament_list(tournaments, filename="tournament_list.txt"):
         file.write("Tournament List:\n")
         for tournament in tournaments:
             file.write(
-                f"{tournament['name']} - {tournament['start_date']} to {tournament['end_date']}\n"
+                f"{tournament['name']} - {tournament['start_date']} to "
+                f"{tournament['end_date']}\n"
             )
     print(f"Tournament list exported to {filepath}.")
 
@@ -61,7 +63,8 @@ def export_tournament_players(
         # Sort players alphabetically by family name
         for player in sorted(tournament_players, key=lambda p: p["family_name"]):
             file.write(
-                f"{player['family_name']}, {player['first_name']} (ELO: {player['elo']})\n"
+                f"{player['family_name']}, {player['first_name']} "
+                f"(ELO: {player['elo']})\n"
             )
     print(f"Tournament players exported to {filepath}.")
 
@@ -82,7 +85,8 @@ def export_tournament_rounds(
             file.write(f"{round_['name']}:\n")
             for match in round_["matches"]:
                 file.write(
-                    f"  {match['player1']['family_name']} vs {match['player2']['family_name']}\n"
+                    f"  {match['player1']['family_name']} vs "
+                    f"{match['player2']['family_name']}\n"
                 )
                 file.write(
                     f"    Score: {match['score_player1']} - {match['score_player2']}\n"

@@ -24,17 +24,22 @@ class Player:
     def __str__(self):
         return (
             f"{self.first_name} | {self.family_name} | {self.date_of_birth} | "
-            f"{self.elo} | {self.initial_ranking} | {self.match_score} | {self.total_score}"
+            f"{self.elo} | {self.initial_ranking} | {self.match_score} | "
+            f"{self.total_score}"
         )
 
     def __repr__(self):
-        return f"Player('{self.first_name}', '{self.family_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})"
+        return (
+            f"Player('{self.first_name}', '{self.family_name}', "
+            f"'{self.date_of_birth}', {self.elo}, {self.initial_ranking}, "
+            f"{self.match_score}, {self.total_score})"
+        )
 
     def validate_elo(self):
         # Validate the format of the elo
         if not re.match(r"^[A-Z]{2}\d{5}$", self.elo):
             raise ValueError(
-                "ELO must be in the format of two letters followed by five digits (e.g., AB12345)"
+                "ELO must be: two letters followed by five digits (e.g. AB12345)"
             )
 
     def serialize(self):
@@ -70,7 +75,7 @@ class Player:
         # Ensure player_data is a dictionary
         if not isinstance(player_data, dict):
             raise TypeError(
-                f"Expected player_data to be a dict, but got {type(player_data).__name__}"
+                f"Expected player_data to be dict, but got {type(player_data).__name__}"
             )
 
         # Deserialize the player object from a dictionary

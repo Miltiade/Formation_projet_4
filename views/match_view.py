@@ -1,7 +1,7 @@
 def enter_match_result():
     # This function prompts the user to enter the match result.
     match_score = input(
-        "Which player won? Player 1 or player 2? (Type 1 or 2. In case of draw, type 0) : "
+        "Which player won? Player 1 or player 2? (Type 1 or 2. If draw, type 0) : "
     )
     return match_score
 
