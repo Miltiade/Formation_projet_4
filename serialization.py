@@ -25,6 +25,6 @@ def load_tournament_state(filename="tournament_data.json"):
     """
     with open(filename, "r") as f:
         serialized_data = json.load(f)
-    tournament = Tournament.deserialize(serialized_data)
+    Tournament.deserialize(serialized_data)
     print("Tournament state loaded successfully.")
     return
