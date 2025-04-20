@@ -1,6 +1,5 @@
 from models.model_round import Round
 from models.model_player import Player
-from models.model_match import Match
 
 
 class Tournament:

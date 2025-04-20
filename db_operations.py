@@ -36,7 +36,7 @@ def update_tournament(tournament):
     tournaments_table.update(
         tournament_data, tournament_query.name == tournament_data["name"]
     )
-    print(f"Tournament updated successfully.")
+    print("Tournament updated successfully.")
 
 
 # Choose and load a tournament
