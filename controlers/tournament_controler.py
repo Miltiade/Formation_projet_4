@@ -288,7 +288,8 @@ class TournamentControler:
         )
         for rank, player in enumerate(sorted_players, start=1):
             print(
-                f"Final Ranking: {rank}. {player['family name']} {player['first name']} - Total Score: {player['total_score']} points"
+                f"Final Ranking: {rank}. {player['family name']} {player['first name']} - "
+                f"Total Score: {player['total_score']} points"
             )
 
     def load_tournament(self):

@@ -22,7 +22,10 @@ class Player:
         self.total_score = total_score  # player's total score at a given time
 
     def __str__(self):
-        return f"{self.first_name} | {self.family_name} | {self.date_of_birth} | {self.elo} | {self.initial_ranking} | {self.match_score} | {self.total_score}"
+        return (
+            f"{self.first_name} | {self.family_name} | {self.date_of_birth} | "
+            f"{self.elo} | {self.initial_ranking} | {self.match_score} | {self.total_score}"
+        )
 
     def __repr__(self):
         return f"Player('{self.first_name}', '{self.family_name}', '{self.date_of_birth}', {self.elo}, {self.initial_ranking}, {self.match_score}, {self.total_score})"

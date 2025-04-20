@@ -34,7 +34,8 @@ def update_tournament(tournament):
     tournament_data = tournament.serialize()
     tournament_query = Query()
     tournaments_table.update(
-        tournament_data, tournament_query.name == tournament_data["name"]
+        tournament_data,
+        tournament_query.name == tournament_data["name"]
     )
     print("Tournament updated successfully.")
 
